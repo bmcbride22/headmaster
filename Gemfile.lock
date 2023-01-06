@@ -100,6 +100,7 @@ GEM
     dry-cli (1.0.0)
     erubi (1.12.0)
     ffi (1.15.5)
+    foreman (0.87.2)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -240,6 +241,7 @@ DEPENDENCIES
   capybara
   debug
   devise
+  foreman
   image_processing (~> 1.2)
   jbuilder
   name_of_person

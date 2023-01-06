@@ -67,3 +67,4 @@ gem "image_processing", "~> 1.2"
 gem "annotate", group: :development
 gem "devise"
 gem "name_of_person"
+gem "foreman"
