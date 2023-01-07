@@ -1,26 +1,24 @@
 # == Schema Information
 #
-# Table name: courses
+# Table name: units
 #
 #  id          :bigint           not null, primary key
-#  end_date    :date
-#  start_date  :date
+#  name        :string
+#  weight      :float
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  cohort_id   :bigint           not null
 #  syllabus_id :bigint           not null
 #
 # Indexes
 #
-#  index_courses_on_cohort_id    (cohort_id)
-#  index_courses_on_syllabus_id  (syllabus_id)
+#  index_units_on_syllabus_id  (syllabus_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (cohort_id => cohorts.id)
 #  fk_rails_...  (syllabus_id => syllabuses.id)
 #
-class Course < ApplicationRecord
-  belongs_to :cohort
+class Unit < ApplicationRecord
   belongs_to :syllabus
+  has_many :unit_assessments
+  has_many :assessments, through: :unit_assessments
 end
