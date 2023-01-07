@@ -1,0 +1,26 @@
+# == Schema Information
+#
+# Table name: subjects
+#
+#  id            :bigint           not null, primary key
+#  name          :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  discipline_id :bigint
+#
+# Indexes
+#
+#  index_subjects_on_discipline_id  (discipline_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (discipline_id => subjects.id)
+#
+
+one:
+  name: MyString
+  discipline: one
+
+two:
+  name: MyString
+  discipline: two
