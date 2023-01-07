@@ -34,6 +34,7 @@ class User < ApplicationRecord
   belongs_to :parent, class_name: 'User', optional: true
 
   has_many :syllabuses, foreign_key: 'teacher_id'
+  has_many :grades
 
   has_many :messages
   has_many :participants

@@ -20,7 +20,7 @@
 #  fk_rails_...  (unit_id => units.id)
 #
 class Assessment < ApplicationRecord
-    belongs_to :instrument
-    belongs_to :unit
-            
+  belongs_to :instrument
+  belongs_to :unit
+  has_many :grades
 end
