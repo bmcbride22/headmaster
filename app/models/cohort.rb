@@ -10,5 +10,5 @@
 #  updated_at :datetime         not null
 #
 class Cohort < ApplicationRecord
-            
+  has_many :courses
 end
