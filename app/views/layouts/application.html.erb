@@ -18,13 +18,10 @@
       Visit the guide for more information: https://vite-ruby.netlify.app/guide/rails
     -->
   </head>
-  <body>
-    <div class="flex flex-col h-screen">
-      <%= render "shared/navbar" %>
-      <main class="container flex-1 mx-auto my-12 px-5 flex flex-col">
-        <%= yield %>
-      </main>
-      <%= render "shared/footer" %>
-    </div>
+  <body class="relative bg-gray-50">
+    <%= yield %>
   </body>
+  <footer class="bg-white">
+    <%= render 'shared/footer' %>
+  </footer>
 </html>
