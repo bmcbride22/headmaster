@@ -35,5 +35,9 @@ class User < ApplicationRecord
 
   has_many :syllabuses, foreign_key: 'teacher_id'
 
+  has_many :messages
+  has_many :participants
+  has_many :chatrooms, through: :participants
+
   has_person_name
 end
