@@ -1,6 +1,13 @@
 class ApplicationController < ActionController::Base
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-before_action :configure_permitted_parameters, if: :devise_controller?
+  def after_sign_in_path_for(_user)
+    if current_user
+      pages_home_path
+    else
+      root_path
+    end
+  end
 
   protected
 
@@ -13,6 +20,4 @@ before_action :configure_permitted_parameters, if: :devise_controller?
       u.permit(:first_name, :last_name, :name, :email, :password, :password_confirmation, :current_password)
     end
   end
-
-
 end

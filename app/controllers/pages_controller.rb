@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
-  def home
-  end
+  layout 'pages'
+  def home; end
+  def landing_page; end
 end
