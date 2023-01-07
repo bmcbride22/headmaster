@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_07_064100) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_07_064816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -75,6 +75,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_07_064100) do
     t.datetime "updated_at", null: false
     t.index ["cohort_id"], name: "index_courses_on_cohort_id"
     t.index ["syllabus_id"], name: "index_courses_on_syllabus_id"
+  end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "cohort_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cohort_id"], name: "index_enrollments_on_cohort_id"
+    t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
   create_table "grades", force: :cascade do |t|
@@ -166,6 +175,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_07_064100) do
   add_foreign_key "assessments", "units"
   add_foreign_key "courses", "cohorts"
   add_foreign_key "courses", "syllabuses"
+  add_foreign_key "enrollments", "cohorts"
+  add_foreign_key "enrollments", "users"
   add_foreign_key "grades", "assessments"
   add_foreign_key "grades", "users", column: "student_id"
   add_foreign_key "instruments", "subjects"
