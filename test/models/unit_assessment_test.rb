@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: unit_assessments
+#
+#  id            :bigint           not null, primary key
+#  unit_weight   :float
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  assessment_id :bigint           not null
+#  unit_id       :bigint           not null
+#
+# Indexes
+#
+#  index_unit_assessments_on_assessment_id  (assessment_id)
+#  index_unit_assessments_on_unit_id        (unit_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (assessment_id => assessments.id)
+#  fk_rails_...  (unit_id => units.id)
+#
+require "test_helper"
+
+class UnitAssessmentTest < ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
+end
