@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: assessments
+# Table name: instruments
 #
 #  id         :bigint           not null, primary key
 #  date       :date
@@ -12,14 +12,13 @@
 #
 # Indexes
 #
-#  index_assessments_on_subject_id  (subject_id)
+#  index_instruments_on_subject_id  (subject_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (subject_id => subjects.id)
 #
-class Assessment < ApplicationRecord
-  belongs_to :subject
-  has_many :unit_assessments
-  has_many :units, through: :unit_assessments
+class Instrument < ApplicationRecord
+    belongs_to :subject
+            
 end

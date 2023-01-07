@@ -1,6 +1,6 @@
-class CreateAssessments < ActiveRecord::Migration[7.0]
+class CreateInstruments < ActiveRecord::Migration[7.0]
   def change
-    create_table :assessments do |t|
+    create_table :instruments do |t|
       t.date :date
       t.string :title
       t.references :subject, null: false, foreign_key: true
