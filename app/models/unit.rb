@@ -19,6 +19,6 @@
 #
 class Unit < ApplicationRecord
   belongs_to :syllabus
-  has_many :unit_assessments
-  has_many :assessments, through: :unit_assessments
+  has_many :assessments
+  has_many :instruments, through: :assessments
 end

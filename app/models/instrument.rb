@@ -19,6 +19,7 @@
 #  fk_rails_...  (subject_id => subjects.id)
 #
 class Instrument < ApplicationRecord
-    belongs_to :subject
-            
+  belongs_to :subject
+  has_many :assessments
+  has_many :units, through: :assessments
 end

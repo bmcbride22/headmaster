@@ -19,13 +19,8 @@
 #  fk_rails_...  (instrument_id => instruments.id)
 #  fk_rails_...  (unit_id => units.id)
 #
-
-one:
-  instrument: one
-  unit: one
-  unit_weight: 1.5
-
-two:
-  instrument: two
-  unit: two
-  unit_weight: 1.5
+class Assessment < ApplicationRecord
+    belongs_to :instrument
+    belongs_to :unit
+            
+end
