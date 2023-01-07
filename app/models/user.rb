@@ -32,5 +32,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :children, class_name: 'User', foreign_key: 'parent_id'
   belongs_to :parent, class_name: 'User', optional: true
+
+  has_many :syllabuses, foreign_key: 'teacher_id'
+
   has_person_name
 end
