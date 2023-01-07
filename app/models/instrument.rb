@@ -2,13 +2,13 @@
 #
 # Table name: instruments
 #
-#  id          :bigint           not null, primary key
-#  description :text
-#  title       :string
-#  type        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  subject_id  :bigint           not null
+#  id                :bigint           not null, primary key
+#  description       :text
+#  instrument_format :string
+#  title             :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  subject_id        :bigint           not null
 #
 # Indexes
 #

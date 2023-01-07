@@ -22,5 +22,5 @@
 class Syllabus < ApplicationRecord
   belongs_to :teacher, class_name: 'User'
   has_many :courses
-  has_one :subject
+  belongs_to :subject
 end
