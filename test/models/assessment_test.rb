@@ -3,6 +3,7 @@
 # Table name: assessments
 #
 #  id            :bigint           not null, primary key
+#  date          :date
 #  unit_weight   :float
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
