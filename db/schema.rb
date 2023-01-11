@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_07_075845) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_11_100845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -104,6 +104,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_07_075845) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "instrument_format"
+    t.bigint "creator_id", null: false
+    t.index ["creator_id"], name: "index_instruments_on_creator_id"
     t.index ["subject_id"], name: "index_instruments_on_subject_id"
   end
 
@@ -181,6 +183,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_07_075845) do
   add_foreign_key "grades", "assessments"
   add_foreign_key "grades", "users", column: "student_id"
   add_foreign_key "instruments", "subjects"
+  add_foreign_key "instruments", "users", column: "creator_id"
   add_foreign_key "messages", "chatrooms"
   add_foreign_key "messages", "users"
   add_foreign_key "participants", "chatrooms"
