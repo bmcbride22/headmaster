@@ -1,6 +1,14 @@
-<h3><%=@instrument.title%></h3>
-<p><%=@instrument.description%></p>
-<p><%=@instrument.subject.name%></p>
-<%= link_to "Edit", edit_instrument_path(@instrument) %>
-<%= button_to "Delete", instrument_path(@instrument), method: :delete, class: 'inline' %>
-<%= link_to "Back", instruments_path %>
+<div class="border border-gray-300 rounded-md mt-12 py-4 px-4 max-w-lg mx-auto">
+  <div>
+    <div class="flex">
+      <h3><%=@instrument.title%></h3>
+      <%= button_to "Delete", instrument_path(@instrument), method: :delete, class: 'ml-2 text-red-400 text-xs' %>
+    </div>
+    <p class= "text-gray-500"><%=@instrument.subject.name%></p>
+    <p class="mt-8"><%=@instrument.description%></p>
+  </div>
+  <div class="flex mt-12 space-x-2">
+    <%= link_to "Edit", edit_instrument_path(@instrument), class: 'btn btn-primary'%>
+    <%= link_to "Back", instruments_path, class: 'btn btn-secondary'%>
+  </div>
+</div>

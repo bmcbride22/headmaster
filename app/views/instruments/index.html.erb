@@ -1,13 +1,20 @@
- 
-<h1 >Welcome to Instruments#index</h1>
-<div>
-  <%= link_to 'New Instrument', new_instrument_path, class: "btn btn-primary " %>
-</div>
-<% @instruments.each do |instrument| %>
+<div class="flex flex-col max-w-6xl">
   <div>
-    <p>
-      <%= instrument.title %>
-    </p>
-    <%= link_to 'view', instrument_path(instrument) %>
+    <h1>Instruments</h1>
+    <%= link_to 'New Instrument', new_instrument_path, class: "btn btn-primary inline-block" %>
   </div>
-<% end %>
+  <div class="grid grid-cols-3 gap-6">
+    <% @instruments.each do |instrument| %>
+      <div class="borderborder-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
+        <div>
+          <h3><%=instrument.title%></h3>
+          <p class= "text-gray-500"><%=instrument.subject.name%></p>
+          <p class="mt-8"><%=instrument.description%></p>
+        </div>
+        <div class="flex mt-12">
+          <%= link_to "View", instrument_path(instrument), class: 'btn btn-primary'%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
