@@ -68,3 +68,5 @@ gem "annotate", group: :development
 gem "devise"
 gem "name_of_person"
 gem "foreman"
+gem 'simple_form'
+gem 'simple_form-tailwind'
