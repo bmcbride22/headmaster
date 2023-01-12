@@ -1,5 +1,5 @@
-class InstrumentController < ApplicationController
-  before_action :set_instrument, only: %i[show edit update destroy]
+class InstrumentsController < ApplicationController
+	before_action :set_instrument, only: %i[show edit update destroy]
 
   # GET /instruments
   def index
