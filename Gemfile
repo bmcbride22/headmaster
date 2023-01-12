@@ -70,3 +70,4 @@ gem "name_of_person"
 gem "foreman"
 gem 'simple_form'
 gem 'simple_form-tailwind'
+gem 'inline_svg', '~> 1.7', '>= 1.7.2'
