@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(_user)
     if current_user
-      pages_home_path
+      instruments_path
     else
       root_path
     end

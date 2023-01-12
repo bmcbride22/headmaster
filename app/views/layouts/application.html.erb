@@ -19,6 +19,16 @@
     -->
   </head>
   <body >
-    <%= yield %>
+    <main class="flex flex-col h-screen">
+      <div class="flex flex-1 overflow-hidden">
+        <%= render 'shared/sidebar_nav' %>
+        <div class="flex flex-1 flex-col">
+          <%= render 'shared/app_header'%>
+          <div class="flex flex-1 bg-white overflow-y-auto paragraph px-6">
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
