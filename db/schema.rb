@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_11_100845) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_12_085910) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -97,14 +97,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_11_100845) do
     t.index ["student_id"], name: "index_grades_on_student_id"
   end
 
+  create_table "instrument_sections", force: :cascade do |t|
+    t.string "title", null: false
+    t.float "weight", default: 1.0
+    t.integer "total_marks"
+    t.bigint "instrument_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instrument_id"], name: "index_instrument_sections_on_instrument_id"
+  end
+
   create_table "instruments", force: :cascade do |t|
     t.string "title"
     t.bigint "subject_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
-    t.string "instrument_format"
     t.bigint "creator_id", null: false
+    t.boolean "sectioned", default: false
     t.index ["creator_id"], name: "index_instruments_on_creator_id"
     t.index ["subject_id"], name: "index_instruments_on_subject_id"
   end
@@ -182,6 +192,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_11_100845) do
   add_foreign_key "enrollments", "users"
   add_foreign_key "grades", "assessments"
   add_foreign_key "grades", "users", column: "student_id"
+  add_foreign_key "instrument_sections", "instruments"
   add_foreign_key "instruments", "subjects"
   add_foreign_key "instruments", "users", column: "creator_id"
   add_foreign_key "messages", "chatrooms"
