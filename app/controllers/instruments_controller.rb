@@ -1,5 +1,6 @@
 class InstrumentsController < ApplicationController
-	before_action :set_instrument, only: %i[show edit update destroy]
+  layout 'application'
+  before_action :set_instrument, only: %i[show edit update destroy]
 
   # GET /instruments
   def index
@@ -13,11 +14,16 @@ class InstrumentsController < ApplicationController
   # GET /instruments/new
   def new
     @instrument = Instrument.new
+
+    @subjects = Subject.all
   end
 
   # POST /instruments
   def create
     @instrument = Instrument.new(instrument_params)
+    @instrument.creator = current_user
+    @instrument.subject = Subject.find(params[:instrument][:subject_id])
+
     if @instrument.save
       redirect_to @instrument, notice: "#{@instrument.title} was successfully created."
     else
@@ -50,6 +56,6 @@ class InstrumentsController < ApplicationController
   end
 
   def instrument_params
-    params.require(:instrument).permit(%i[title description sectioned])
+    params.require(:instrument).permit(%i[title description creator subject_id sectioned])
   end
 end
