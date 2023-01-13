@@ -23,5 +23,6 @@
 class Assessment < ApplicationRecord
   belongs_to :instrument
   belongs_to :unit
-  has_many :grades, dependent: :delete
+  has_many :grades, dependent: :destroy
+  delegate :syllabus, to: :unit, allow_nil: true
 end

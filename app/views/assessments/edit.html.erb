@@ -1,0 +1,11 @@
+<%# Simple edit page for the assessment %>
+<h1>Edit Instrument</h1>
+<%= simple_form_for @assessment do |f| %>
+  <%= render "shared/error_messages", resource: f.object %>
+  <%= f.input :title %>
+  <%= f.input :description %>
+  <%= f.input :subject_id do %>
+    <%= f.collection_select :subject_id, Subject.all, :id, :name, include_blank: true  %>
+  <% end %>
+  <%= f.submit %>
+<% end %>
