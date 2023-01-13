@@ -34,7 +34,8 @@ class User < ApplicationRecord
   has_many :children, class_name: 'User', foreign_key: 'parent_id'
   belongs_to :parent, class_name: 'User', optional: true
 
-  has_many :enrollments
+	has_one :student_profile
+  has_many :enrollments, through: :student_profile
   has_many :cohorts, through: :enrollments
   has_many :courses, through: :cohorts
 
