@@ -23,4 +23,7 @@ class Syllabus < ApplicationRecord
   belongs_to :teacher, class_name: 'User'
   has_many :courses
   belongs_to :subject
+
+  has_many :units
+  has_many :assessments, through: :units
 end
