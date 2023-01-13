@@ -12,5 +12,5 @@
 class Cohort < ApplicationRecord
   has_many :courses
   has_many :enrollments
-  has_many :users, through: :enrollments
+  has_many :student_profiles, through: :enrollments
 end

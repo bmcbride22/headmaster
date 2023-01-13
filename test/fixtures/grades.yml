@@ -17,7 +17,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (assessment_id => assessments.id)
-#  fk_rails_...  (student_id => users.id)
+#  fk_rails_...  (student_id => student_profiles.id)
 #
 
 one:

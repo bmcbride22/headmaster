@@ -17,9 +17,9 @@
 # Foreign Keys
 #
 #  fk_rails_...  (assessment_id => assessments.id)
-#  fk_rails_...  (student_id => users.id)
+#  fk_rails_...  (student_id => student_profiles.id)
 #
 class Grade < ApplicationRecord
   belongs_to :assessment
-  belongs_to :student, class_name: 'User'
+  belongs_to :student, class_name: 'StudentProfile'
 end
