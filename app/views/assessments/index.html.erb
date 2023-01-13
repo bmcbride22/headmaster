@@ -1,0 +1,26 @@
+<div class="flex flex-col max-w-6xl">
+  <div>
+    <h1>Assessments</h1>
+    <%= link_to 'New Assessment', new_assessment_path, class: "btn btn-primary inline-block" %>
+  </div>
+  <div class="grid grid-cols-3 gap-6">
+    <% @assessments.each do |assessment| %>
+      <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 w-full mx-auto">
+        <div>
+          <div class="flex">
+            <h3><%=assessment.instrument.title%></h3>
+            <%= button_to "Delete", assessment_path(assessment), method: :delete, class: 'ml-2 text-red-400 text-xs' %>
+          </div>
+          <p class= "text-gray-500">Date: <%=assessment.date.to_formatted_s(:long)%></p>
+          <p class= "text-gray-500">Subject: <%=assessment.instrument.subject.name%></p>
+          <p class= "text-gray-500">Syllabus: <%=assessment.syllabus.name%></p>
+          <p class= "text-gray-500">Unit: <%=assessment.unit.name%></p>
+          <p class= "text-gray-500">Unit Weight: <%=assessment.unit_weight.round%>%</p>
+        </div>
+        <div class="flex mt-12 space-x-2">
+          <%= link_to "View", assessment_path(assessment), class: 'btn btn-primary'%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

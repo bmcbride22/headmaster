@@ -18,24 +18,12 @@
         </div>
       </div>
     </header>
-    <nav class="flex flex-col mt-8">
+    <nav class="flex flex-col mt-8 space-y-1">
       <%= link_to '#', class: "text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md" do %>
         <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
         </svg>
         Dashboard
-      <% end %>
-      <%= link_to '#', class: "text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md" do %>
-        <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
-        </svg>
-        Classes
-      <% end %>
-      <%= link_to instruments_path , class: "text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md" do %>
-        <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
-        </svg>
-        Assessments
       <% end %>
       <%= link_to '#', class: "text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md" do %>
         <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -47,25 +35,43 @@
         <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
         </svg>
+        Classes
+      <% end %>
+      <%= link_to assessments_path , class: "text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md" do %>
+        <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
+        </svg>
+        Assessments
+      <% end %>
+      <%= link_to instruments_path , class: "text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md" do %>
+        <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
+        </svg>
+        Instruments
+      <% end %>
+      <%= link_to '#', class: "text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md" do %>
+        <svg class="mr-4 h-6 w-6 flex-shrink-0 text-violet-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H6.911a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661z" />
+        </svg>
         Messages
       <% end %>
     </nav>
   </div>
   <div class="flex-shrink-0 flex border-t border-violet-700 p-4">
-    <a href="#" class="flex-shrink-0 w-full group block">
+    <%= link_to '#', class: "flex-shrink-0 w-full group block" do %>
       <div class="flex items-center">
         <div>
-          <img class="inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1517841900229-3d87e9e765f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60" alt="">
+          <img class="inline-block h-9 w-9 rounded-full object-cover object-top" src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8" alt="">
         </div>
         <div class="ml-3">
           <p class="text-sm font-medium text-white">
-            John Doe
+            Jane Doe
           </p>
           <p class="text-xs font-medium text-violet-300 group-hover:text-white">
             View profile
           </p>
         </div>
       </div>
-    </a>
+    <% end %>
   </div>
 </div>
