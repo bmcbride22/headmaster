@@ -1,0 +1,16 @@
+<%# Simple edit page for the student_profile %>
+<div class="mx-auto">
+  <h1>Edit Instrument</h1>
+  <%= simple_form_for [@cohort, @student_profile] do |f| %>
+    <%= render "shared/error_messages", resource: f.object %>
+    <%= f.input :first_name%>
+    <%= f.input :last_name %>
+    <%# nested attributes for an enrollment %>
+    <%= f.simple_fields_for :enrollments do |enrollment| %>
+      <%= enrollment.input :cohort_id do %>
+        <%= enrollment.collection_select :cohort_id, Cohort.all, :id, :name, include_blank: true, selected: 1  %>
+      <% end %>
+    <% end %>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
+</div>

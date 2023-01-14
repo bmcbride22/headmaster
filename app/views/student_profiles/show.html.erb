@@ -1,0 +1,13 @@
+<div class="border-b-2 border-b-violet-700  mt-8 py-4 px-4 ">
+  <div>
+    <h3><%=@student_profile.name ||= "Cohort #{@student_profile.id}"%></h3>
+    <div class="ml-4 mt-2">
+      <p class= "text-gray-500"><%=@student_profile.cohorts.count%> cohorts</p>
+      <p class="text-gray-500"><%=@student_profile.courses.count%> courses</p>
+    </div>
+  </div>
+  <div class="flex mt-12 space-x-2">
+    <%= link_to "Edit", edit_student_profile_path(@student_profile), class: 'btn btn-primary'%>
+    <%= link_to "Back to students", student_profiles_path, class: 'btn btn-secondary'%>
+  </div>
+</div>

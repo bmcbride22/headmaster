@@ -18,7 +18,21 @@
 #  fk_rails_...  (student_id => users.id)
 #
 class StudentProfile < ApplicationRecord
-  belongs_to :student, class_name: 'User'
+  belongs_to :student, class_name: 'User', optional: true
   has_many :grades
-  has_many :enrollments
+  has_many :enrollments, dependent: :destroy, foreign_key: 'student_id'
+  has_many :cohorts, through: :enrollments
+  has_many :courses, through: :cohorts
+
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  def courselist
+    courselist = []
+    courses.each do |course|
+      courselist.push(course.name)
+    end
+    courselist
+  end
 end
