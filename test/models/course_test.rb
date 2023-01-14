@@ -3,8 +3,10 @@
 # Table name: courses
 #
 #  id          :bigint           not null, primary key
+#  description :text
 #  end_date    :date
 #  start_date  :date
+#  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  cohort_id   :bigint           not null

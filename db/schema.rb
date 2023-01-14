@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_13_043140) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -74,6 +74,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_043140) do
     t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "description"
+    t.string "title", null: false
     t.index ["cohort_id"], name: "index_courses_on_cohort_id"
     t.index ["syllabus_id"], name: "index_courses_on_syllabus_id"
   end
@@ -156,7 +158,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_13_043140) do
   end
 
   create_table "syllabuses", force: :cascade do |t|
-    t.string "name"
+    t.string "title"
     t.bigint "teacher_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

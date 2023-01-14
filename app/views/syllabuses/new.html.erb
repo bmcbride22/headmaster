@@ -1,0 +1,18 @@
+<div class="mx-auto">
+  <h1>Edit Instrument</h1>
+  <%= simple_form_for @syllabus do |f| %>
+    <%= render "shared/error_messages", resource: f.object %>
+    <%= f.input teacher_id:, as: :hidden, value: current_user.id%>
+    <%= f.input name: %>
+    <%= f.input :subject_id do %>
+      <%= f.collection_select :subject_id, Subject.all, :id, :name, include_blank: true  %>
+    <% end %>
+    <%= f.simple_fields_for :units do |unit| %>
+      <%= unit.input :name %>
+      <%= unit.input :description %>
+      <%= unit.input :weight %>
+      <%= unit.input :syllabus_id, as: :hidden, value: @syllabus.id %>
+    <% end %>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
+</div>

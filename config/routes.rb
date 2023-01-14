@@ -6,6 +6,11 @@ Rails.application.routes.draw do
     resources :student_profiles, only: %i[new create]
   end
   resources :student_profiles, except: %i[new create]
+  resources :syllabuses do
+    resources :units, only: %i[new create]
+  end
+  resources :units, except: %i[new create]
+  resources :courses
 
   root to: 'pages#landing_page'
   get 'pages/home'
