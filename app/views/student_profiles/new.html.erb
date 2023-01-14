@@ -1,0 +1,13 @@
+<div class="mx-auto">
+  <h1 class='mb-12'>Add a new Assessment Instrument</h1>
+  <%= simple_form_for [@cohort, @student_profile] do |f| %>
+    <%= render "shared/error_messages", resource: f.object %>
+    <%= f.input :first_name%>
+    <%= f.input :last_name %>
+    <%# nested attributes for an enrollment %>
+    <%= f.simple_fields_for :enrollments do |enrollment| %>
+      <%= enrollment.input :cohort_id, as: :hidden, value: params[:cohort_id] %>
+    <% end %>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
+</div>

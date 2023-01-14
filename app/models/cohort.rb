@@ -12,5 +12,5 @@
 class Cohort < ApplicationRecord
   has_many :courses
   has_many :enrollments
-  has_many :student_profiles, through: :enrollments
+  has_many :students, through: :enrollments, class_name: 'StudentProfile', foreign_key: 'student_id'
 end
