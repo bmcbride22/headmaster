@@ -26,4 +26,6 @@ class Syllabus < ApplicationRecord
 
   has_many :units
   has_many :assessments, through: :units
+
+	accepts_nested_attributes_for :units, allow_destroy: true
 end
