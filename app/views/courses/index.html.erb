@@ -1,0 +1,22 @@
+<div class="flex flex-col max-w-6xl">
+  <div>
+    <h1>Courses</h1>
+    <%= link_to 'New Course', new_course_path, class: "btn btn-primary inline-block" %>
+  </div>
+  <div class="grid grid-cols-3 gap-6">
+    <% @courses.each do |course| %>
+      <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
+        <div>
+          <h3><%=course.title%></h3>
+          <div class="ml-2 mt-2">
+            <p class="text-gray-500">Teacher: Mr.<%=course.teacher.last_name%></p>
+            <p class="text-gray-500"><%=course.syllabus.title%></p>
+          </div>
+        </div>
+        <div class="flex mt-12">
+          <%= link_to "View", course_path(course), class: 'btn btn-primary'%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

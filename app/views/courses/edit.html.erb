@@ -1,0 +1,17 @@
+<div class="mx-auto">
+  <h1>Edit Course</h1>
+  <%= simple_form_for @course do |f| %>
+    <%= render "shared/error_messages", resource: f.object %>
+    <%= f.input :title %>
+    <%= f.input :description %>
+    <%= f.input :start_date%>
+    <%= f.input :end_date %>
+    <%= f.input :cohort_id do %>
+      <%= f.collection_select :cohort_id, Cohort.all, :id, :name, include_blank: true  %>
+    <% end %>
+    <%= f.input :syllabus_id do %>
+      <%= f.collection_select :syllabus_id, Syllabus.all, :id, :title, include_blank: true  %>
+    <% end %>
+    <%= f.submit class: 'btn btn-primary' %>
+  <% end %>
+</div>
