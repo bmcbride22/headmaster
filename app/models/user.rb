@@ -38,10 +38,10 @@ class User < ApplicationRecord
   has_many :enrollments, through: :student_profile
   has_many :cohorts, through: :enrollments
   has_many :courses, through: :cohorts
+  has_many :grades, through: :student_profile
 
   has_many :instruments, foreign_key: 'creator_id'
   has_many :syllabuses, foreign_key: 'teacher_id'
-  has_many :grades, through: :student_profile
 
   has_many :messages
   has_many :participants

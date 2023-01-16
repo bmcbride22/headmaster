@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_16_003832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,10 +45,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
   create_table "assessments", force: :cascade do |t|
     t.bigint "instrument_id", null: false
     t.bigint "unit_id", null: false
-    t.float "unit_weight"
+    t.float "weight", default: 1.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "date"
+    t.text "description"
     t.index ["instrument_id"], name: "index_assessments_on_instrument_id"
     t.index ["unit_id"], name: "index_assessments_on_unit_id"
   end
@@ -65,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
     t.datetime "updated_at", null: false
     t.date "start_date"
     t.date "end_date"
+    t.text "description"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -92,6 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
   create_table "grades", force: :cascade do |t|
     t.bigint "assessment_id", null: false
     t.float "score"
+    t.integer "marks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "student_id", null: false
@@ -117,6 +120,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
     t.text "description"
     t.bigint "creator_id", null: false
     t.boolean "sectioned", default: false
+    t.string "instrument_type"
     t.index ["creator_id"], name: "index_instruments_on_creator_id"
     t.index ["subject_id"], name: "index_instruments_on_subject_id"
   end
@@ -163,16 +167,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "subject_id", null: false
+    t.text "description"
     t.index ["subject_id"], name: "index_syllabuses_on_subject_id"
     t.index ["teacher_id"], name: "index_syllabuses_on_teacher_id"
   end
 
   create_table "units", force: :cascade do |t|
-    t.string "name"
-    t.bigint "syllabus_id", null: false
-    t.float "weight"
+    t.string "title"
+    t.bigint "syllabus_id"
+    t.float "weight", default: 1.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "parent_unit_id"
+    t.boolean "main_unit", default: true, null: false
+    t.index ["parent_unit_id"], name: "index_units_on_parent_unit_id"
     t.index ["syllabus_id"], name: "index_units_on_syllabus_id"
   end
 
@@ -215,5 +223,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_14_080829) do
   add_foreign_key "syllabuses", "subjects"
   add_foreign_key "syllabuses", "users", column: "teacher_id"
   add_foreign_key "units", "syllabuses"
+  add_foreign_key "units", "units", column: "parent_unit_id"
   add_foreign_key "users", "users", column: "parent_id"
 end
