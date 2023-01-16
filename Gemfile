@@ -71,3 +71,4 @@ gem "foreman"
 gem 'simple_form'
 gem 'simple_form-tailwind'
 gem 'inline_svg', '~> 1.7', '>= 1.7.2'
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'

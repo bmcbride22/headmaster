@@ -4,7 +4,8 @@
 #
 #  id            :bigint           not null, primary key
 #  date          :date
-#  unit_weight   :float
+#  description   :text
+#  weight        :float            default(1.0), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  instrument_id :bigint           not null

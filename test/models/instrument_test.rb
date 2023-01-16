@@ -2,14 +2,15 @@
 #
 # Table name: instruments
 #
-#  id          :bigint           not null, primary key
-#  description :text
-#  sectioned   :boolean          default(FALSE)
-#  title       :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  creator_id  :bigint           not null
-#  subject_id  :bigint           not null
+#  id              :bigint           not null, primary key
+#  description     :text
+#  instrument_type :string
+#  sectioned       :boolean          default(FALSE)
+#  title           :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  creator_id      :bigint           not null
+#  subject_id      :bigint           not null
 #
 # Indexes
 #

@@ -22,7 +22,9 @@ class StudentProfile < ApplicationRecord
   has_many :grades
   has_many :enrollments, dependent: :destroy, foreign_key: 'student_id'
   has_many :cohorts, through: :enrollments
+  # These wont work, I need to create methods to access them
   has_many :courses, through: :cohorts
+  has_many :syllabuses, through: :courses
 
   def name
     "#{first_name} #{last_name}"

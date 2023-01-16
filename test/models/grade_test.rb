@@ -3,6 +3,7 @@
 # Table name: grades
 #
 #  id            :bigint           not null, primary key
+#  marks         :integer
 #  score         :float
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

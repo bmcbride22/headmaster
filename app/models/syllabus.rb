@@ -2,12 +2,13 @@
 #
 # Table name: syllabuses
 #
-#  id         :bigint           not null, primary key
-#  title      :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  subject_id :bigint           not null
-#  teacher_id :bigint           not null
+#  id          :bigint           not null, primary key
+#  description :text
+#  title       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  subject_id  :bigint           not null
+#  teacher_id  :bigint           not null
 #
 # Indexes
 #
@@ -27,5 +28,5 @@ class Syllabus < ApplicationRecord
   has_many :units
   has_many :assessments, through: :units
 
-	accepts_nested_attributes_for :units, allow_destroy: true
+  accepts_nested_attributes_for :units, allow_destroy: true
 end
