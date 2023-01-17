@@ -29,4 +29,24 @@ class Syllabus < ApplicationRecord
   has_many :assessments, through: :units
 
   accepts_nested_attributes_for :units, allow_destroy: true
+
+  def main_units
+    units.select(&:main_unit?)
+  end
+
+  def cohort_grades(cohort)
+    cohort_grades = []
+    main_units.each do |main_unit|
+      cohort_grades << main_unit.cohort_grades(cohort)
+    end
+    cohort_grades
+  end
+
+  def student_grades(student)
+    student_grades = []
+    main_units.each do |main_unit|
+      student_grades << main_unit.student_grades(student)
+    end
+    student_grades
+  end
 end

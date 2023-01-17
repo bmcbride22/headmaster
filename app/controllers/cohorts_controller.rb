@@ -33,14 +33,14 @@ class CohortsController < ApplicationController
   # PATCH /cohorts/:id
   def update
     if @cohort.update(cohort_params)
-      redirect_to @cohort, notice: "#{@cohort.title v} was successfully updated."
+      redirect_to @cohort, notice: "#{@cohort.name} was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    redirect_to cohorts_path, notice: "#{@cohort.title | + 'Cohort'} was successfully deleted." if @cohort.destroy
+    redirect_to cohorts_path, notice: "#{@cohort.name ||= 'Cohort'} was successfully deleted." if @cohort.destroy
   end
 
   private
