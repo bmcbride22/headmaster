@@ -31,9 +31,9 @@ winter_semester_end	= Date.new(2023, 6, 30)
 # Cohorts
 #====================================================================================================
 
-cohort_1 = Cohort.create(name: 'QCE 11-1', start_date: winter_semester_start, end_date: fall_semester_end)
-cohort_2 = Cohort.create(name: 'QCE 11-2', start_date: winter_semester_start, end_date: fall_semester_end)
-cohort_3 = Cohort.create(name: 'QCE 11-3', start_date: winter_semester_start, end_date: fall_semester_end)
+cohort_1 = Cohort.create(name: '11-1', start_date: winter_semester_start, end_date: fall_semester_end)
+cohort_2 = Cohort.create(name: '11-2', start_date: winter_semester_start, end_date: fall_semester_end)
+cohort_3 = Cohort.create(name: '11-3', start_date: winter_semester_start, end_date: fall_semester_end)
 
 cohorts = [cohort_1, cohort_2, cohort_3]
 

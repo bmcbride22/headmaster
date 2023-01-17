@@ -35,4 +35,16 @@ class Assessment < ApplicationRecord
   def syllabus
     unit.syllabus
   end
+
+  def courses
+    unit.syllabus.courses
+  end
+
+  def cohort_grades(cohort)
+    grades.where(student_id: cohort.students)
+  end
+
+  def student_grade(student)
+    grades.find_by(student:)
+  end
 end

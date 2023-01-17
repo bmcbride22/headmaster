@@ -2,11 +2,11 @@
   <h1 class='mb-12'>Add a new Assessment Instrument</h1>
   <%= simple_form_for @cohort do |f| %>
     <%= render "shared/error_messages", resource: f.object %>
-    <%= f.input :title %>
+    <%= f.input :name %>
     <%= f.input :description %>
-    <%= f.input :subject_id do %>
-      <%= f.collection_select :subject_id, Subject.all, :id, :name, include_blank: true  %>
-    <% end %>
+    <%# Add start and end date input %>
+    <%= f.input :start_date, as: :date%>
+    <%= f.input :end_date, as: :date%>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>
 </div>

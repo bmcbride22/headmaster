@@ -34,13 +34,41 @@ class Unit < ApplicationRecord
     if main_unit?
       ass_arr = []
       sections.each do |section|
+        section_assessments = []
         section.assessments.each do |assessment|
-					ass_arr << assessment
+          section_assessments << assessment
         end
+        ass_arr << section_assessments
       end
       ass_arr
     else
       assessments
     end
+  end
+
+  def cohort_grades(cohort)
+    cohort_grades = []
+    if main_unit?
+      sections.each do |section|
+        section_cohort_grades = []
+        section.assessments.each do |assessment|
+          section_cohort_grades << assessment.cohort_grades(cohort)
+        end
+        cohort_grades << section_cohort_grades
+      end
+    else
+      assessments.each do |assessment|
+        cohort_grades << assessment.cohort_grades(cohort)
+      end
+    end
+    cohort_grades
+  end
+
+  def student_grades(student)
+    student_grades = []
+    assessments.each do |assessment|
+      student_grades << assessment.student_grade(student)
+    end
+    student_grades
   end
 end
