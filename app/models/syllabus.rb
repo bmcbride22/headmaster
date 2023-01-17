@@ -29,4 +29,8 @@ class Syllabus < ApplicationRecord
   has_many :assessments, through: :units
 
   accepts_nested_attributes_for :units, allow_destroy: true
+
+  def main_units
+    units.select(&:main_unit?)
+  end
 end

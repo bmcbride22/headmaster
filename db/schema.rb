@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_16_003832) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_17_041702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,14 +43,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_003832) do
   end
 
   create_table "assessments", force: :cascade do |t|
-    t.bigint "instrument_id", null: false
     t.bigint "unit_id", null: false
     t.float "weight", default: 1.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.date "date"
     t.text "description"
-    t.index ["instrument_id"], name: "index_assessments_on_instrument_id"
+    t.string "title"
+    t.string "assessment_type"
+    t.bigint "subject_id", null: false
+    t.bigint "teacher_id", null: false
+    t.index ["subject_id"], name: "index_assessments_on_subject_id"
+    t.index ["teacher_id"], name: "index_assessments_on_teacher_id"
     t.index ["unit_id"], name: "index_assessments_on_unit_id"
   end
 
@@ -98,31 +102,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_003832) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "student_id", null: false
+    t.bigint "course_id", null: false
+    t.date "date"
     t.index ["assessment_id"], name: "index_grades_on_assessment_id"
+    t.index ["course_id"], name: "index_grades_on_course_id"
     t.index ["student_id"], name: "index_grades_on_student_id"
-  end
-
-  create_table "instrument_sections", force: :cascade do |t|
-    t.string "title", null: false
-    t.float "weight", default: 1.0
-    t.integer "total_marks"
-    t.bigint "instrument_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["instrument_id"], name: "index_instrument_sections_on_instrument_id"
-  end
-
-  create_table "instruments", force: :cascade do |t|
-    t.string "title"
-    t.bigint "subject_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "description"
-    t.bigint "creator_id", null: false
-    t.boolean "sectioned", default: false
-    t.string "instrument_type"
-    t.index ["creator_id"], name: "index_instruments_on_creator_id"
-    t.index ["subject_id"], name: "index_instruments_on_subject_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -203,17 +187,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_003832) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "assessments", "instruments"
+  add_foreign_key "assessments", "subjects"
   add_foreign_key "assessments", "units"
+  add_foreign_key "assessments", "users", column: "teacher_id"
   add_foreign_key "courses", "cohorts"
   add_foreign_key "courses", "syllabuses"
   add_foreign_key "enrollments", "cohorts"
   add_foreign_key "enrollments", "student_profiles", column: "student_id"
   add_foreign_key "grades", "assessments"
+  add_foreign_key "grades", "courses"
   add_foreign_key "grades", "student_profiles", column: "student_id"
-  add_foreign_key "instrument_sections", "instruments"
-  add_foreign_key "instruments", "subjects"
-  add_foreign_key "instruments", "users", column: "creator_id"
   add_foreign_key "messages", "chatrooms"
   add_foreign_key "messages", "users"
   add_foreign_key "participants", "chatrooms"

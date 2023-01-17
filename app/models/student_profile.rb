@@ -33,7 +33,7 @@ class StudentProfile < ApplicationRecord
   def courselist
     courselist = []
     courses.each do |course|
-      courselist.push(course.name)
+      courselist.push(course.title)
     end
     courselist
   end
