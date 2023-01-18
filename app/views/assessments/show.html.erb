@@ -25,3 +25,14 @@
     <% end %>
   </div>
 </div>
+<% chart_data = {labels: @assessment.courses.first.cohort.student_names_f_last,
+								datasets: [{label: "#{@assessment.courses.first.cohort.name} Grades",
+														backgroundColor: "#7c3aed",
+														borderColor: "#5b21b6",
+														borderWidth: 1,
+														hoverBackgroundColor: "##5b21b6",
+														hoverBorderColor: "#4c1d95",
+														data: @assessment.cohort_grades(@assessment.courses.first.cohort)}]}.to_json %>
+<div id="vue-chart">
+  <line-chart :chart-data="<%=chart_data%>" />
+  </div>

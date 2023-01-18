@@ -41,10 +41,14 @@ class Assessment < ApplicationRecord
   end
 
   def cohort_grades(cohort)
-    grades.where(student_id: cohort.students)
+    grades.where(student_id: cohort.students).map do |grade|
+			grade.score
+    end
   end
 
   def student_grade(student)
     grades.find_by(student:)
   end
+
+
 end
