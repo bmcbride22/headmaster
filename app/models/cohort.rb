@@ -20,4 +20,24 @@ class Cohort < ApplicationRecord
       student.first_name[0] + '.' + student.last_name
     end
   end
+
+  def student_roster_table_headers
+    [{ text: 'Name', value: 'student_full_name' },
+     { text: 'Account Registered', value: 'registered', sortable: true },
+     { text: 'Parent Account', value: 'parent_attached', sortable: true },
+     { text: 'Email', value: 'email' },
+     { text: 'Courses', value: 'course_history' }]
+  end
+
+  def student_roster_table_items
+    students.map do |student|
+      {
+        student_full_name: student.full_name,
+        registered: student.registered,
+        parent_attached: student.parent_attached,
+        email: student.email,
+        course_history: student.course_history
+      }
+    end
+  end
 end
