@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <h1>Hello</h1>
-    <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
-  </div>
+  <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
 </template>
 
 <script>
@@ -12,7 +9,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 export default {
-  name: "SimpleChart",
+  name: "BarChart",
   components: { Bar },
   data() {
     return {
