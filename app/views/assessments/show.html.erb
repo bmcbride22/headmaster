@@ -34,5 +34,7 @@
 														hoverBorderColor: "#4c1d95",
 														data: @assessment.cohort_grades(@assessment.courses.first.cohort)}]}.to_json %>
 <div id="vue-chart">
-  <line-chart :chart-data="<%=chart_data%>" />
+  <div class="h-auto w-full">
+    <line-chart :chart-data="<%=chart_data%>"></line-chart>
   </div>
+</div>

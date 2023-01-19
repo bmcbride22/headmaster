@@ -1,22 +1,24 @@
 <div class="flex flex-col max-w-6xl">
-  <div>
+  <div class="flex justify-between">
     <h1>Cohorts</h1>
-    <%= link_to 'New Cohort', new_cohort_path, class: "btn btn-primary inline-block" %>
+    <%= link_to 'Add Cohort', new_cohort_path, class: "btn btn-primary " %>
   </div>
-  <div class="grid grid-cols-3 gap-6">
+  <div id="vue-chart" class="flex flex-col	">
     <% @cohorts.each do |cohort| %>
-      <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
-        <div>
-          <h3><%=cohort.name ||= "Cohort #{cohort.id}"%></h3>
-          <div class="ml-4">
-            <p class= "text-gray-500"><%=cohort.enrollments.count%> students</p>
-            <p class="text-gray-500"><%=cohort.courses.count%> courses</p>
+      <%= link_to cohort_path(cohort) do %>
+        <div class="border flex justify-between border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
+          <div>
+            <h3>Cohort <%=cohort.name ||= cohort.id%></h3>
+            <div class="ml-4">
+              <p class= "text-gray-500"><%=cohort.enrollments.count%> students</p>
+              <p class="text-gray-500"><%=cohort.courses.count%> courses</p>
+            </div>
+          </div>
+          <div class="h-auto w-40">
+            <doughnut-chart></doughnut-chart>
           </div>
         </div>
-        <div class="flex mt-12">
-          <%= link_to "View", cohort_path(cohort), class: 'btn btn-primary'%>
-        </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 </div>
