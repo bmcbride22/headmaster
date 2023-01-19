@@ -22,19 +22,38 @@ class StudentProfile < ApplicationRecord
   has_many :grades
   has_many :enrollments, dependent: :destroy, foreign_key: 'student_id'
   has_many :cohorts, through: :enrollments
-  # These wont work, I need to create methods to access them
   has_many :courses, through: :cohorts
   has_many :syllabuses, through: :courses
 
-  def name
+  def full_name
     "#{first_name} #{last_name}"
   end
 
-  def courselist
+  def course_history
     courselist = []
     courses.each do |course|
       courselist.push(course.title)
     end
     courselist
   end
+
+  def registered
+    !student.nil?
+  end
+
+	def parent_attached
+		if registered
+			!student.parent.nil?
+		else
+			false
+		end
+	end
+
+	def email
+		if registered
+			student.email
+		else
+			'N/A'
+		end
+	end
 end

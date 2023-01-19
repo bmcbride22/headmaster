@@ -30,4 +30,38 @@ class Course < ApplicationRecord
   has_many :students, through: :cohort
   has_many :units, through: :syllabus
   has_many :assessments, through: :units
+
+  def course_grades_table_headers
+    headers = [{ text: 'Student', value: 'student_full_name', fixed: true, width: 150 }]
+    syllabus.main_units.each do |main_unit|
+      main_unit.sections.each do |section|
+        section.assessments.each do |assessment|
+          headers << { text: assessment.title, value: assessment.table_value_label, sortable: true }
+        end
+        headers << { text: section.title, value: section.table_value_label, sortable: true }
+      end
+      headers << { text: main_unit.title, value: main_unit.table_value_label, sortable: true }
+    end
+    headers
+  end
+
+  def course_student_grades_table_item(student)
+    items = {}
+    syllabus.main_units.each do |main_unit|
+      main_unit.sections.each do |section|
+        section.assessments.each do |assessment|
+          items = items.merge({ assessment.table_value_label.to_sym => assessment.student_grade(student).score })
+        end
+        items = items.merge({ section.table_value_label.to_sym => section.unit_total_score(student).round(2) })
+      end
+      items = items.merge({ main_unit.table_value_label.to_sym => main_unit.unit_total_score(student).round(2) })
+    end
+    items
+  end
+
+  def course_cohort_grades_table_items(cohort)
+    cohort.students.map do |student|
+      { student_full_name: student.full_name }.merge(course_student_grades_table_item(student))
+    end
+  end
 end

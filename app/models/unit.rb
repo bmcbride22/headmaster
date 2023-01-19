@@ -71,4 +71,26 @@ class Unit < ApplicationRecord
     end
     student_grades
   end
+
+  def unit_total_score(student)
+    total_score = 0
+    if main_unit?
+      sections.each do |section|
+        total_score += section.unit_total_score(student) * section.weight
+      end
+    else
+      assessments.each do |assessment|
+        total_score += assessment.student_grade(student).score * assessment.weight
+      end
+    end
+    total_score
+  end
+
+  def table_value_label
+    if main_unit?
+      "unit_#{id}_total_grade"
+    else
+      "section_#{id}_total_grade"
+    end
+  end
 end

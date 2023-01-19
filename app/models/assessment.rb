@@ -42,7 +42,7 @@ class Assessment < ApplicationRecord
 
   def cohort_grades(cohort)
     grades.where(student_id: cohort.students).map do |grade|
-			grade.score
+      grade.score
     end
   end
 
@@ -50,5 +50,7 @@ class Assessment < ApplicationRecord
     grades.find_by(student:)
   end
 
-
+  def table_value_label
+    "assessment_#{id}_grade"
+  end
 end
