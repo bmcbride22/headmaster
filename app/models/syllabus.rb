@@ -49,4 +49,6 @@ class Syllabus < ApplicationRecord
     end
     student_grades
   end
+
+
 end
