@@ -1,0 +1,23 @@
+<div class="flex justify-between">
+  <h1>Assessments</h1>
+  <%= link_to 'New Assessment', new_assessment_path, class: "btn btn-primary inline-block" %>
+</div>
+<div class="grid grid-cols-3 gap-6">
+  <% @assessments.each do |assessment| %>
+    <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 w-full mx-auto">
+      <div>
+        <div class="flex">
+          <h3><%=assessment.title%></h3>
+          <%= button_to "Delete", assessment_path(assessment), method: :delete, class: 'ml-2 text-red-400 text-xs' %>
+        </div>
+        <p class= "text-gray-500">Subject: <%=assessment.subject.name%></p>
+        <p class= "text-gray-500">Syllabus: <%=assessment.syllabus.title%></p>
+        <p class= "text-gray-500">Unit: <%=assessment.unit.title%></p>
+        <p class= "text-gray-500">Unit Weight: <%=assessment.weight * 100%>%</p>
+      </div>
+      <div class="flex mt-12 space-x-2">
+        <%= link_to "View", assessment_path(assessment), class: 'btn btn-primary'%>
+      </div>
+    </div>
+  <% end %>
+</div>

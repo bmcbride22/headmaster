@@ -1,0 +1,9 @@
+<div id="vue-chart" >
+  <div class="flex">
+    <h3><%=@unit.title%></h3>
+    <%= button_to "Delete", unit_path(@unit), method: :delete, class: 'ml-2 text-red-400 text-xs' %>
+  </div>
+  <div class="flex space-x-4 mt-2">
+    <p class= "text-gray-500"><span class="font-semibold">Syllabus:</span> <%=@unit.syllabus.title%></p>
+  </div>
+</div>

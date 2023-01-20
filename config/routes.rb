@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :syllabuses do
     resources :units, only: %i[new create]
   end
-  resources :units, except: %i[new create]
+  resources :units, except: %i[new]
   resources :courses
 
   root to: 'pages#landing_page'
