@@ -25,7 +25,7 @@ class Syllabus < ApplicationRecord
   has_many :courses
   belongs_to :subject
 
-  has_many :units
+  has_many :units, dependent: :destroy
   has_many :assessments, through: :units
 
   accepts_nested_attributes_for :units, allow_destroy: true
@@ -49,6 +49,4 @@ class Syllabus < ApplicationRecord
     end
     student_grades
   end
-
-
 end

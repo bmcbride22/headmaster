@@ -1,13 +1,19 @@
 <div class="border-b-2 border-b-violet-700  mt-8 py-4 px-4 ">
-  <div>
+  <div class="flex">
     <h3><%=@course.title%></h3>
-    <div class="ml-4">
+    <!--
+    <div class="">
       <p class="text-gray-500">Teacher: Mr. <%=@course.teacher.last_name%></p>
       <p class="text-gray-500"><%=@course.syllabus.title%></p>
+    </div>
+    <div class="">
       <p class="text-gray-500"><%=@course.cohort.students.count%> students</p>
       <p class= "text-gray-500"><%=@course.units.count%> units</p>
+    </div>
+    <div class="">
       <p class="text-gray-500"><%=@course.assessments.count%> assessments</p>
     </div>
+		-->
   </div>
 </div>
 <div id="vue-chart" >

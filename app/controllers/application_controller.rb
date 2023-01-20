@@ -1,9 +1,10 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  layout 'sessions'
 
   def after_sign_in_path_for(_user)
     if current_user
-      cohorts_path
+      dashboard_path
     else
       root_path
     end

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <Line :data="chartData" :options="chartOptions" />
-  </div>
+  <Line :data="chartData" :options="chartOptions" />
 </template>
 
 <script>
@@ -16,14 +14,38 @@ export default {
   props: {
     chartData: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return {
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [
+            {
+              label: "Cohort 1 Average",
+              backgroundColor: "#4c1d95",
+              lineColor: "#4c1d95",
+              borderColor: "#4c1d95",
+              data: [65, 59, 56, 64, 72, 80, 81]
+            },
+            {
+              label: "Cohort 2 Average",
+              backgroundColor: "#8b5cf6",
+              borderColor: "#8b5cf6",
+              data: [60, 63, 59, 65, 68, 70, 75]
+            },
+            {
+              label: "Cohort 3 Average",
+              backgroundColor: "#c4b5fd",
+              borderColor: "#c4b5fd",
+              data: [55, 57, 63, 60, 64, 70, 72]
+            }
+          ]
+        };
+      }
     }
   },
   data() {
     return {
       chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false
+        responsive: true
       }
       // chartData: {
       //   labels: ["January", "February", "March", "April", "May", "June", "July"],

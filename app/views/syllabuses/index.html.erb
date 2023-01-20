@@ -1,5 +1,5 @@
 <div class="flex flex-col max-w-6xl">
-  <div>
+  <div class="flex justify-between">
     <h1>Syllabuses</h1>
     <%= link_to 'New Syllabus', new_syllabus_path, class: "btn btn-primary inline-block" %>
   </div>
@@ -7,7 +7,7 @@
     <% @syllabuses.each do |syllabus| %>
       <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
         <div>
-          <h3><%=syllabus.name%></h3>
+          <h3><%=syllabus.title%></h3>
           <div class="ml-4">
             <p class="text-gray-500"><%=syllabus.subject.name%></p>
             <p class="text-gray-500"><%=syllabus.courses.count%> courses</p>

@@ -6,6 +6,7 @@ class CoursesController < ApplicationController
   def index
     # set the @courses variable to all courses
     @courses = Course.all
+    @syllabuses = Syllabus.all
   end
 
   # GET /courses/:id

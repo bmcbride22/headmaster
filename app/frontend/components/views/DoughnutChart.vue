@@ -13,11 +13,22 @@ export default {
   data() {
     return {
       chartData: {
-        labels: ["A", "B", "C", "D"],
+        labels: [">85", "70-85", "55-70", "<55"],
         datasets: [{ backgroundColor: ["#5b21b6", "#7c3aed", "#a78bfa", "#ddd6fe"], data: [15, 45, 30, 10] }]
       },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: {
+              color: "#5b21b6",
+              font: {
+                size: 10
+              }
+            }
+          }
+        }
       }
     };
   }
