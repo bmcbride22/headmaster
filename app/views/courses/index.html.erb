@@ -1,7 +1,7 @@
 <div class="flex flex-col max-w-6xl">
-  <div>
+  <div class="flex justify-between"cff>
     <h1>Courses</h1>
-    <%= link_to 'New Course', new_course_path, class: "btn btn-primary inline-block" %>
+    <%= link_to 'New Course', new_course_path, class: "btn btn-primary h-12" %>
   </div>
   <div class="grid grid-cols-3 gap-6">
     <% @courses.each do |course| %>
@@ -15,6 +15,28 @@
         </div>
         <div class="flex mt-12">
           <%= link_to "View", course_path(course), class: 'btn btn-primary'%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="flex justify-between mt-12">
+    <h1>Syllabuses</h1>
+    <%= link_to 'New Syllabus', new_syllabus_path, class: "btn btn-primary h-12" %>
+  </div>
+  <div class="grid grid-cols-3 gap-6">
+    <% @syllabuses.each do |syllabus| %>
+      <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
+        <div>
+          <h3><%=syllabus.title%></h3>
+          <div class="ml-4">
+            <p class="text-gray-500"><%=syllabus.subject.name%></p>
+            <p class="text-gray-500"><%=syllabus.courses.count%> courses</p>
+            <p class= "text-gray-500"><%=syllabus.units.count%> units</p>
+            <p class="text-gray-500"><%=syllabus.assessments.count%> assessments</p>
+          </div>
+        </div>
+        <div class="flex mt-12">
+          <%= link_to "View", syllabus_path(syllabus), class: 'btn btn-primary'%>
         </div>
       </div>
     <% end %>

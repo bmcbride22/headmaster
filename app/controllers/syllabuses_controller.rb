@@ -21,6 +21,10 @@ class SyllabusesController < ApplicationController
   def create
     @syllabus = Syllabus.new(syllabus_params)
     if @syllabus.save
+      @unit = Unit.new
+      @unit.syllabus_id = @syllabus.id
+      @unit.title = params[:syllabus][:units_attributes][:title]
+      @unit.weight = params[:syllabus][:units_attributes][:weight]
       redirect_to @syllabus, notice: 'Syllabus was successfully added.'
     else
       render :new, status: :unprocessable_entity
@@ -33,7 +37,7 @@ class SyllabusesController < ApplicationController
   # PATCH /syllabuses/:id
   def update
     if @syllabus.update(syllabus_params)
-      redirect_to @syllabus, notice: 'Syllabu was successfully updated.'
+      redirect_to @syllabus, notice: 'Syllabus was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -55,6 +59,7 @@ class SyllabusesController < ApplicationController
   end
 
   def syllabus_params
-    params.require(:syllabus).permit(%i[name subject_id teacher_id], units_attributes: %i[id name description _destroy])
+    params.require(:syllabus).permit(%i[title subject_id teacher_id],
+                                     units_attributes: %i[id title weight syllabus_id _destroy])
   end
 end

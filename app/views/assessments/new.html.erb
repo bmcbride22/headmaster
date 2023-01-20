@@ -1,15 +1,20 @@
 <div class="mx-auto">
-  <h1 class='mb-12'>Add a new Assessment Instrument</h1>
+  <h1 class='mb-12'>Add a new Assessment</h1>
   <%= simple_form_for @assessment do |f| %>
     <%= render "shared/error_messages", resource: f.object %>
+    <%= f.input :title %>
+    <%= f.input :description %>
+    <%= f.input :assessment_type, collection: %w[Quiz Test Exam Project Essay], include_blank: true, hint: 'Select assessment type'  %>
     <%= f.input :date, as: :date %>
-    <%= f.input :instrument_id do %>
-      <%= f.collection_select :instrument_id, Instrument.all, :id, :title, include_blank: true  %>
+    <%= f.input :subject_id do %>
+      <%= f.collection_select :subject_id, Subject.all, :id, :name, include_blank: true  %>
     <% end %>
     <%= f.input :unit_id do %>
-      <%= f.collection_select :unit_id, Unit.all, :id, :name, include_blank: true  %>
+      <%= f.collection_select :unit_id, Unit.all, :id, :title, include_blank: true  %>
     <% end %>
-    <%= f.input :unit_weight, as: :decimal %>
+    <%= f.hint 'Select a weight between 0 and 1' %>
+    <%= f.input :weight, as: :decimal %>
+    <%= f.input :teacher_id, as: :hidden, value: current_user.id %>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>
 </div>

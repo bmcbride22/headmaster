@@ -1,5 +1,5 @@
 <template>
-  <EasyDataTable :headers="headers" :items="items" alternating />
+  <EasyDataTable :headers="headers" :items="items" alternating @clickRow="showRow" />
 </template>
 
 <script>

@@ -2,8 +2,8 @@
   <h1>Edit Instrument</h1>
   <%= simple_form_for @syllabus do |f| %>
     <%= render "shared/error_messages", resource: f.object %>
-    <%= f.input teacher_id:, as: :hidden, value: current_user.id%>
-    <%= f.input name: %>
+    <%= f.input teacher:, as: :hidden, value: current_user%>
+    <%= f.input title: %>
     <%= f.input :subject_id do %>
       <%= f.collection_select :subject_id, Subject.all, :id, :name, include_blank: true  %>
     <% end %>

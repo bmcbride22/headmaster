@@ -1,16 +1,35 @@
 <div class="border-b-2 border-b-violet-700  mt-8 py-4 px-4 ">
   <div>
-    <h3><%=@syllabus.name%></h3>
-    <div class="ml-4">
-      <p class="text-gray-500"><%=@syllabus.subject.name%></p>
-      <p class="text-gray-500"><%=@syllabus.courses.count%> courses</p>
-      <p class= "text-gray-500"><%=@syllabus.units.count%> units</p>
-      <p class="text-gray-500"><%=@syllabus.assessments.count%> assessments</p>
+    <div class="flex">
+      <h3><%=@syllabus.title%></h3>
+      <%= button_to "Delete", syllabus_path(@syllabus), method: :delete, class: 'ml-2 text-red-400 text-xs' %>
+    </div>
+    <div class="ml-4 mt-4 flex justify-between">
+      <div class="flex space-x-8">
+        <div>
+          <p class="text-gray-500"><%=@syllabus.subject.name%></p>
+          <p class="text-gray-500"><%=@syllabus.courses.count%> courses</p>
+        </div>
+        <div>
+          <p class= "text-gray-500"><%=@syllabus.units.count%> units</p>
+          <p class="text-gray-500"><%=@syllabus.assessments.count%> assessments</p>
+        </div>
+      </div>
+      <div class="flex mt-4 space-x-2">
+        <%= link_to "Edit", edit_syllabus_path(@syllabus), class: 'btn btn-primary'%>
+        <%= link_to "Back to students", syllabuses_path, class: 'btn btn-secondary'%>
+      </div>
     </div>
   </div>
 </div>
-<div class="flex mt-12 space-x-2">
-  <%= link_to "Edit", edit_syllabus_path(@syllabus), class: 'btn btn-primary'%>
-  <%= link_to "Back to students", syllabuses_path, class: 'btn btn-secondary'%>
-</div>
-</div>
+<% @syllabus.main_units.each do |main_unit| %>
+  <div class="space-y-2">
+    <h2><%=main_unit.title%> - <span class="text-gray-400">(<%= (main_unit.weight * 100).round %>%)</span></h2>
+    <% main_unit.sections.each do |section| %>
+      <h3 class="ml-4 text-gray-600 font-semibold"><%=section.title %> - <span class="text-gray-400">(<%= (section.weight * 100).round(1) %>%)</span></h3>
+      <% section.assessments.each do |assessment| %>
+        <h4 class="ml-8 text-gray-400 font-semibold"><%=assessment.title %> - <span class="text-gray-400">(<%= (assessment.weight * 100).round(1) %>%)</span></h4>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
