@@ -6,15 +6,15 @@
     <%= f.input :description %>
     <%= f.input :assessment_type, collection: %w[Quiz Test Exam Project Essay], include_blank: true, hint: 'Select assessment type'  %>
     <%= f.input :date, as: :date %>
-    <%= f.input :subject_id do %>
-      <%= f.collection_select :subject_id, Subject.all, :id, :name, include_blank: true  %>
+    <% if @syllabus %>
+      <%= f.hidden_field :subject_id, value: @syllabus.subject.id %>
+    <% else %>
+      <%= f.input :subject_id, collection: Subject.all, include_blank: true, hint: 'Select a subject' %>
     <% end %>
-    <%= f.input :unit_id do %>
-      <%= f.collection_select :unit_id, Unit.all, :id, :title, include_blank: true  %>
-    <% end %>
-    <%= f.hint 'Select a weight between 0 and 1' %>
+    <%= f.hidden_field :teacher_id, value: current_user.id %>
+    <%= f.input :unit_id, collection: @units  %>
+    <%= f.hint 'Select a weight between 0 and 1 (calculated as percentage of unit total)' %>
     <%= f.input :weight, as: :decimal %>
-    <%= f.input :teacher_id, as: :hidden, value: current_user.id %>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>
 </div>

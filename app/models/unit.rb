@@ -80,7 +80,7 @@ class Unit < ApplicationRecord
       end
     else
       assessments.each do |assessment|
-        total_score += assessment.student_grade(student).score * assessment.weight
+        total_score += (assessment.student_grade(student)&.score&.* assessment.weight) || 0
       end
     end
     total_score

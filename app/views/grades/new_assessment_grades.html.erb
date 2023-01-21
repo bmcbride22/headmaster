@@ -1,0 +1,16 @@
+<div class="mx-auto">
+  <h1 class='mb-12'>Add Grades for Assessment</h1>
+  <%= form_tag "/courses/#{@course.id}/assessment/#{@assessment.id}/grade_assessment" do%>
+    <% @course.cohort.students.each do |student|%>
+      <h4><%= student.full_name %></h4>
+      <%= simple_fields_for @grade do |f| %>
+        <%= render "shared/error_messages", resource: f.object %>
+        <%= f.hidden_field :course, value: @course.id %>
+        <%= f.hidden_field :assessment_id, value: @assessment.id %>
+        <%= f.hidden_field :student_id, value: student.id %>
+        <%= f.input :score, as: :decimal %>
+      <% end %>
+    <% end %>
+    <button type=submit class="btn btn-primary w-full mt-8">Add Grades</button>
+  <% end %>
+</div>

@@ -5,13 +5,8 @@
     <%= f.input :title %>
     <%= f.input :description %>
     <%= f.input :start_date%>
-    <%= f.input :end_date %>
-    <%= f.input :cohort_id do %>
-      <%= f.collection_select :cohort_id, Cohort.all, :id, :name, include_blank: true  %>
-    <% end %>
-    <%= f.input :syllabus_id do %>
-      <%= f.collection_select :syllabus_id, Syllabus.all, :id, :title, include_blank: true  %>
-    <% end %>
+    <%= f.input :cohort_id, collection: Cohort.all%>
+    <%= f.input :syllabus_id, collection: Syllabus.all %>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>
 </div>

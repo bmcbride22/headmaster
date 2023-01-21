@@ -20,11 +20,12 @@ class StudentProfilesController < ApplicationController
   # POST /student_profiles
   def create
     @student_profile = StudentProfile.new(student_profile_params)
-    @enrollment = Enrollment.new(cohort: Cohort.find(params[:cohort_id]))
+    @cohort = Cohort.find(params[:cohort_id])
+    @enrollment = Enrollment.new(cohort: @cohort)
     if @student_profile.save
       @enrollment.student = @student_profile
       @enrollment.save
-      redirect_to @student_profile, notice: 'Student was successfully added.'
+      redirect_to @cohort, notice: 'Student was successfully added.'
     else
       render :new, status: :unprocessable_entity
     end

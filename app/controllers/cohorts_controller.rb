@@ -21,7 +21,7 @@ class CohortsController < ApplicationController
     @cohort = Cohort.new(cohort_params)
 
     if @cohort.save
-      redirect_to @cohort, notice: "#{@cohort.name | + 'Cohort'} was successfully created."
+      redirect_to @cohort, notice: "#{@cohort.name ||= 'Cohort'} was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
