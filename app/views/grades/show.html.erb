@@ -24,16 +24,14 @@
   <% end %>
 </div>
 -->
-  <% @assessment.courses.each do |course| %>
-    <% chart_data = {labels: course.cohort.student_names_f_last,
-								datasets: [{label: "#{course.cohort.name} Grades",
-														data: @assessment.cohort_grades(course.cohort),
+  <% chart_data = {labels: @assessment.courses.first.cohort.student_names_f_last,
+								datasets: [{label: "#{@assessment.courses.first.cohort.name} Grades",
+														data: @assessment.cohort_grades(@assessment.courses.first.cohort),
 														backgroundColor: ["#7c3aed"],
 														}]}.to_json
 														 %>
-    <div class="px-8 mt-8 h-auto w-full">
-      <h2><%= course.cohort.name %> Grades</h2>
-      <bar-chart :chart-data="<%=chart_data%>"></bar-chart>
-    </div>
-  <% end %>
+  <div class="px-8 h-auto w-full">
+    <bar-chart :chart-data="<%=chart_data%>"></bar-chart>
+    <doughnut-chart></doughnut-chart>
+  </div>
 </div>

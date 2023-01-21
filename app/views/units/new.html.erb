@@ -6,7 +6,7 @@
     <%= f.input :title %>
     <%= f.input :main_unit%>
     <%= f.hint 'Main units do not have a parent id, if selected, leave the parent unit blank' %>
-    <%= f.input :parent_unit_id, collection: @syllabus.units %>
+    <%= f.input :parent_unit_id, collection: @syllabus.main_units %>
     <%= f.hint 'Select a weight between 0 and 1 (weight is calculated for the immediate parent)' %>
     <%= f.input :weight, as: :decimal %>
     <%= f.submit class: 'btn btn-primary' %>

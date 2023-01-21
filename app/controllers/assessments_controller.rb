@@ -14,8 +14,11 @@ class AssessmentsController < ApplicationController
   # GET /assessments/new
   def new
     @assessment = Assessment.new
-
-    @subjects = Subject.all
+    @units = Unit.all
+    if params[:syllabus_id]
+      @syllabus = Syllabus.find_by(id: params[:syllabus_id])
+      @units = @syllabus.sections
+    end
   end
 
   # POST /assessments
@@ -56,6 +59,7 @@ class AssessmentsController < ApplicationController
   end
 
   def assessment_params
-    params.require(:assessment).permit(%i[date unit_weight instrument_id unit_id])
+    params.require(:assessment).permit(%i[date weight instrument_id subject_id teacher_id unit_id assessment_type
+                                          title description])
   end
 end

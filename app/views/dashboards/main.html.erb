@@ -1,11 +1,10 @@
 <div>
-  <h2>Main Dashboard</h2>
+  <h3>Main Dashboard</h3>
 </div>
 <div id="vue-chart" class=" w-full grid grid-cols-4 gap-2 mt-8">
   <div class="col-span-3">
-    <h3>Cohort Performance</h3>
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-      <div class="h-54">
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+      <div class=>
         <line-chart></line-chart>
       </div>
     </div>
@@ -21,8 +20,8 @@
   </div>
   <div class="col-span-2 space-y-4 mt-8 pt-12">
     <%= link_to 'Add assessment', new_assessment_path, class: "btn btn-secondary" %>
-    <%= link_to 'Add grades', syllabuses_path, class: "btn btn-secondary" %>
+    <%= link_to 'Add grades', courses_path, class: "btn btn-secondary" %>
     <%= link_to 'Add unit', syllabuses_path, class: "btn btn-secondary" %>
-    <%= link_to 'Add class', new_cohort_path, class: "btn btn-secondary" %>
+    <%= link_to 'Add cohort', new_cohort_path, class: "btn btn-secondary" %>
   </div>
 </>

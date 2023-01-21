@@ -34,6 +34,14 @@ class Syllabus < ApplicationRecord
     units.select(&:main_unit?)
   end
 
+  def sections
+    sections = []
+    main_units.each do |main_unit|
+      sections << main_unit.sections
+    end
+    sections.flatten
+  end
+
   def cohort_grades(cohort)
     cohort_grades = []
     main_units.each do |main_unit|

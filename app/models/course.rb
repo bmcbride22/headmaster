@@ -50,7 +50,7 @@ class Course < ApplicationRecord
     syllabus.main_units.each do |main_unit|
       main_unit.sections.each do |section|
         section.assessments.each do |assessment|
-          items = items.merge({ assessment.table_value_label.to_sym => assessment.student_grade(student).score })
+          items = items.merge({ assessment.table_value_label.to_sym => assessment.student_grade(student)&.score || 0 })
         end
         items = items.merge({ section.table_value_label.to_sym => section.unit_total_score(student).round(2) })
       end
