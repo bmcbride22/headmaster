@@ -33,4 +33,18 @@
       </div>
     </div>
   <% end %>
+  <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 w-full mx-auto">
+    <div>
+      <div class="flex">
+        <h3>Add an Assessment</h3>
+      </div>
+      <p class= "text-gray-500">Subject:</p>
+      <p class= "text-gray-500">Syllabus: <%=@unit.syllabus.title%></p>
+      <p class= "text-gray-500">Unit: <%=@unit.title%></p>
+      <p class= "text-gray-500">Unit Weight: </p>
+    </div>
+    <div class="flex mt-12 space-x-2">
+      <%= link_to "Create assessment", new_syllabus_assessment_path(@unit.syllabus), class: 'btn btn-primary'%>
+    </div>
+  </div>
 </div>

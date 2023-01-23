@@ -40,11 +40,10 @@ class User < ApplicationRecord
   has_many :courses, through: :cohorts
   has_many :grades, through: :student_profile
 
-  has_many :instruments, foreign_key: 'creator_id'
-  has_many :syllabuses, foreign_key: 'teacher_id'
+  has_many :syllabuses, foreign_key: 'teacher_id', dependent: :destroy
 
-  has_many :messages
-  has_many :participants
+  has_many :messages, dependent: :destroy
+  has_many :participants, dependent: :destroy
   has_many :chatrooms, through: :participants
 
   has_person_name
