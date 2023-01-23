@@ -25,10 +25,9 @@ class Unit < ApplicationRecord
   belongs_to :syllabus
   belongs_to :parent_unit, -> { where(main_unit: false) }, class_name: 'Unit', optional: true
 
-  has_many :assessments
-  has_many :instruments, through: :assessments
+  has_many :assessments, dependent: :destroy
 
-  has_many :sections, class_name: 'Unit', foreign_key: 'parent_unit_id'
+  has_many :sections, class_name: 'Unit', foreign_key: 'parent_unit_id', dependent: :destroy
 
   def unit_assessments
     if main_unit?

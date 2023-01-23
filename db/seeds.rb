@@ -1,5 +1,12 @@
 require 'faker'
-
+puts 'Clearing DB'
+Grade.destroy_all
+Course.destroy_all
+User.destroy_all
+Cohort.destroy_all
+StudentProfile.destroy_all
+Subject.destroy_all
+puts 'All records deleted'
 teacher = User.create!(email: 'brendan@test.com', first_name: 'Brendan', last_name: 'McBride', password: 'password',
                        password_confirmation: 'password', role: 1)
 #====================================================================================================
