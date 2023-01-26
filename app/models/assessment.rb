@@ -29,12 +29,10 @@
 class Assessment < ApplicationRecord
   belongs_to :teacher, class_name: 'User'
   belongs_to :unit
+  has_one :syllabus, through: :unit
+  has_one :parent_unit, through: :unit
   belongs_to :subject
   has_many :grades, dependent: :destroy
-
-  def syllabus
-    unit.syllabus
-  end
 
   def courses
     unit.syllabus.courses

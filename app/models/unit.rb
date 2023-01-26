@@ -23,7 +23,7 @@
 #
 class Unit < ApplicationRecord
   belongs_to :syllabus
-  belongs_to :parent_unit, -> { where(main_unit: false) }, class_name: 'Unit', optional: true
+  belongs_to :parent_unit, class_name: 'Unit', optional: true
   has_many :sections, class_name: 'Unit', foreign_key: 'parent_unit_id', dependent: :destroy
 
   has_many :assessments, dependent: :destroy
@@ -55,10 +55,5 @@ class Unit < ApplicationRecord
     student_grades
   end
 
-  def unit_total_score(student)
-		if main_unit?
-    	unit_assessments = Assessment.where(unit_id: sections.ids, 'assessment.grades.student_id': student.id)
-
-
-  end
+  def unit_total_score(student); end
 end

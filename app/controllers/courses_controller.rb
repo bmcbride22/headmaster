@@ -11,15 +11,23 @@ class CoursesController < ApplicationController
 
   # GET /courses/:id
   def show
-    @course = Course.includes(
-      { syllabus: { units: { sections: :assessments } } }
-    ).find(params[:id])
+    @course = Course.includes({ cohort: :students },
+                              { syllabus: { units: { sections: { assessments: { grades: :student } } } } }).find(params[:id])
+
     @headers = [{ text: 'Student', value: 'student_id' }, { text: 'Name', value: 'student_name' }]
+    course_grades = {}
+
     @course.syllabus.units.each do |unit|
       next unless unit.main_unit?
 
+      course_grades["unit_#{unit.id}_grades"] = {}
+
       unit.sections.each do |section|
+        course_grades["unit_#{unit.id}_grades"]["section_#{section.id}_grades"] = {}
+
         section.assessments.each do |assessment|
+          course_grades["unit_#{unit.id}_grades"]["section_#{section.id}_grades"]["assessment_#{assessment.id}_grades"] =
+            {}
           @headers << { text: assessment.title, value: "grades.assessment_#{assessment.id}_score" }
         end
         @headers << { text: section.title, value: "section_#{section.id}_total_score" }
@@ -27,9 +35,9 @@ class CoursesController < ApplicationController
       @headers << { text: unit.title, value: "unit_#{unit.id}_total_score" }
     end
 
-    @grades = Grade.includes(:student)
+    @grades = Grade.includes(:student, { assessment: { unit: :sections } })
                    .where(course_id: @course.id)
-                   .select('id, student_id, assessment_id, score')
+                   .select('id, student_id, assessment_id, score, grades.assessments.weight, assessments.unit_id, units.weight, units.parent_unit_id')
                    .order('student_id')
 
     @student_row_items = []

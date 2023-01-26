@@ -30,6 +30,7 @@ class Course < ApplicationRecord
   has_many :students, through: :cohort
   has_many :units, through: :syllabus
   has_many :assessments, through: :units
+  has_many :grades, through: :assessments
 
   def course_grades_table_headers
     headers = [{ text: 'Student', value: 'student_full_name', fixed: true, width: 150 }]

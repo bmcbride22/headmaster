@@ -19,7 +19,7 @@
 #
 class StudentProfile < ApplicationRecord
   belongs_to :student, class_name: 'User', optional: true
-  has_many :grades
+  has_many :grades, foreign_key: 'student_id'
   has_many :enrollments, dependent: :destroy, foreign_key: 'student_id'
   has_many :cohorts, through: :enrollments
   has_many :courses, through: :cohorts
@@ -41,19 +41,19 @@ class StudentProfile < ApplicationRecord
     !student.nil?
   end
 
-	def parent_attached
-		if registered
-			!student.parent.nil?
-		else
-			false
-		end
-	end
+  def parent_attached
+    if registered
+      !student.parent.nil?
+    else
+      false
+    end
+  end
 
-	def email
-		if registered
-			student.email
-		else
-			'N/A'
-		end
-	end
+  def email
+    if registered
+      student.email
+    else
+      'N/A'
+    end
+  end
 end

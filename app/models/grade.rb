@@ -27,6 +27,8 @@
 class Grade < ApplicationRecord
   belongs_to :assessment
   has_one :unit, through: :assessment
+  has_one :parent_unit, through: :unit
+
   belongs_to :course
   belongs_to :student, class_name: 'StudentProfile'
 end
