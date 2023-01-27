@@ -6,7 +6,7 @@ class SyllabusesController < ApplicationController
   # GET /syllabuses
   def index
     # set the @syllabuses variable to all syllabuses
-    @syllabuses = Syllabus.all
+    @syllabuses = Syllabus.where(teacher_id: current_user.id)
   end
 
   # GET /syllabuses/:id

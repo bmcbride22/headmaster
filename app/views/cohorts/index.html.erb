@@ -3,18 +3,22 @@
     <h1>Cohorts</h1>
     <%= link_to 'Add Cohort', new_cohort_path, class: "btn btn-primary " %>
   </div>
-  <div id="vue-chart" class="grid grid-cols-3 gap-6 w-full	">
-    <% @cohorts.each do |cohort| %>
-      <%= link_to cohort_path(cohort) do %>
-        <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
-          <h3>Cohort <%=cohort.name ||= cohort.id%></h3>
-          <p class= "text-gray-500"><%=pluralize(cohort.enrollments.count, 'student')%></p>
-          <div class="">
-            <doughnut-chart></doughnut-chart>
+  <% if @cohorts.length > 0%>
+    <div id="vue-chart" class="grid grid-cols-3 gap-6 w-full	">
+      <% @cohorts.each do |cohort| %>
+        <%= link_to cohort_path(cohort) do %>
+          <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
+            <h3>Cohort <%=cohort.name ||= cohort.id%></h3>
+            <p class= "text-gray-500"><%=pluralize(cohort.enrollments.count, 'student')%></p>
+            <div class="">
+              <doughnut-chart></doughnut-chart>
+            </div>
+            <%=  %>
           </div>
-          <%=  %>
-        </div>
+        <% end %>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  <% else %>
+    <p>No cohorts yet, go add your first cohort</p>
+  <% end %>
 </div>

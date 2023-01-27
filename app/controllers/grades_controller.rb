@@ -6,7 +6,7 @@ class GradesController < ApplicationController
   # GET /grades
   def index
     # set the @grades variable to all grades
-    @grades = Grade.all
+    @grades = Grade.all.where(course: current_user.courses)
   end
 
   # GET /grades/:id

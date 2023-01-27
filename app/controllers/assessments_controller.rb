@@ -6,7 +6,7 @@ class AssessmentsController < ApplicationController
   # GET /assessments
   def index
     # set the @assessments variable to all assessments
-    @assessments = Assessment.all
+    @assessments = Assessment.all.where(teacher: current_user)
   end
 
   # GET /assessments/:id

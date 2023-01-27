@@ -6,8 +6,8 @@ class CoursesController < ApplicationController
   # GET /courses
   def index
     # set the @courses variable to all courses
-    @courses = Course.includes(%i[syllabus cohort]).all
-    @syllabuses = Syllabus.all
+    @syllabuses = Syllabus.all.where(teacher: current_user)
+    @courses = Course.includes(%i[syllabus cohort]).where(syllabus: @syllabuses)
   end
 
   # GET /courses/:id
@@ -16,7 +16,9 @@ class CoursesController < ApplicationController
 
     # TODO: Memoize the table headers in the course model and update them when a new assessment is added
 
-    @headers = [{ text: 'Student', value: 'student_id' }, { text: 'Name', value: 'student_name' }]
+    @headers = [
+      { text: 'Name', value: 'student_name', fixed: true, width: 150 }
+    ]
     course_grades = {}
 
     @course.syllabus.units.each do |unit|
@@ -31,14 +33,14 @@ class CoursesController < ApplicationController
 
         section.assessments.each do |assessment|
           @headers << { text: assessment.title,
-                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade" }
+                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true }
         end
         @headers << { text: section.title,
-                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade" }
+                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true }
       end
-      @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade" }
+      @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade", sortable: true }
     end
-    @headers << { text: @course.title, value: 'grades.course_total_grade' }
+    @headers << { text: @course.title, value: 'grades.course_total_grade', sortable: true }
 
     # original way of creating the student grades hash used to populate the table with the grades,
     # but not sure how to get the calculated values, nor any counts/sums of students based on the calculated values

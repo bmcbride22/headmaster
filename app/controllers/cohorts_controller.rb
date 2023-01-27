@@ -6,7 +6,7 @@ class CohortsController < ApplicationController
   # GET /cohorts
   def index
     # set the @cohorts variable to all cohorts
-    @cohorts = Cohort.all
+    @cohorts = current_user.classes
   end
 
   # GET /cohorts/:id
