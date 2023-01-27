@@ -1,11 +1,12 @@
 class SyllabusesController < ApplicationController
   layout 'application'
   before_action :set_syllabus, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /syllabuses
   def index
     # set the @syllabuses variable to all syllabuses
-    @syllabuses = Syllabus.all
+    @syllabuses = Syllabus.where(teacher_id: current_user.id)
   end
 
   # GET /syllabuses/:id

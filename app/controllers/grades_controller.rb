@@ -1,11 +1,12 @@
 class GradesController < ApplicationController
   layout 'application'
   before_action :set_grade, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /grades
   def index
     # set the @grades variable to all grades
-    @grades = Grade.all
+    @grades = Grade.all.where(course: current_user.courses)
   end
 
   # GET /grades/:id

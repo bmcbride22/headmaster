@@ -1,11 +1,12 @@
 class UnitsController < ApplicationController
   layout 'application'
   before_action :set_unit, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /units
   def index
     # set the @units variable to all units
-    @units = Unit.all
+    @units = Unit.where(syllabus: current_user.syllabuses)
   end
 
   # GET /units/:id
@@ -22,7 +23,7 @@ class UnitsController < ApplicationController
     @unit = Unit.new(unit_params)
     @syllabus = Syllabus.find_by(id: params[syllabus_id])
     if @unit.save
-      redirect_to @sylalbus, notice: "#{@unit.title} was successfully created."
+      redirect_to @syllabus, notice: "#{@unit.title} was successfully created."
     else
       render :new, status: :unprocessable_entity
     end

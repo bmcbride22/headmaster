@@ -1,11 +1,12 @@
 class CohortsController < ApplicationController
   layout 'application'
   before_action :set_cohort, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /cohorts
   def index
     # set the @cohorts variable to all cohorts
-    @cohorts = Cohort.all
+    @cohorts = current_user.classes
   end
 
   # GET /cohorts/:id

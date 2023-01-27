@@ -47,4 +47,14 @@ class User < ApplicationRecord
   has_many :chatrooms, through: :participants
 
   has_person_name
+
+  def classes
+    classes = []
+    syllabuses.each do |syllabus|
+      syllabus.courses.each do |course|
+        classes << course.cohort
+      end
+    end
+    classes
+  end
 end

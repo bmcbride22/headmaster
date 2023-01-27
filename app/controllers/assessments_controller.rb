@@ -1,11 +1,12 @@
 class AssessmentsController < ApplicationController
   layout 'application'
   before_action :set_assessment, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /assessments
   def index
     # set the @assessments variable to all assessments
-    @assessments = Assessment.all
+    @assessments = Assessment.all.where(teacher: current_user)
   end
 
   # GET /assessments/:id
