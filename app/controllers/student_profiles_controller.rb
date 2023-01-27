@@ -1,6 +1,7 @@
 class StudentProfilesController < ApplicationController
   layout 'application'
   before_action :set_student_profile, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /student_profiles
   def index

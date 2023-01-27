@@ -1,6 +1,7 @@
 class CoursesController < ApplicationController
   layout 'application'
   before_action :set_course, only: %i[edit update destroy]
+  before_action :authenticate_user!
 
   # GET /courses
   def index

@@ -1,6 +1,7 @@
 class CohortsController < ApplicationController
   layout 'application'
   before_action :set_cohort, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /cohorts
   def index

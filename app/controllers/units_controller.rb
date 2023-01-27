@@ -1,6 +1,7 @@
 class UnitsController < ApplicationController
   layout 'application'
   before_action :set_unit, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /units
   def index

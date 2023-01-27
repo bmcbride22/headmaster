@@ -1,6 +1,7 @@
 class AssessmentsController < ApplicationController
   layout 'application'
   before_action :set_assessment, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /assessments
   def index

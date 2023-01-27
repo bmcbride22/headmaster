@@ -21,4 +21,12 @@ class ApplicationController < ActionController::Base
       u.permit(:first_name, :last_name, :name, :email, :password, :password_confirmation, :current_password)
     end
   end
+
+  def authenticate_user!
+    if user_signed_in?
+      super
+    else
+      redirect_to new_user_session_path, notice: 'Please sign in before accessing your dashboard.'
+    end
+  end
 end
