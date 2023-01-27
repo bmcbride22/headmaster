@@ -11,8 +11,9 @@ class CoursesController < ApplicationController
 
   # GET /courses/:id
   def show
-    @course = Course.includes({ cohort: :students },
-                              { syllabus: { units: { sections: { assessments: { grades: :student } } } } }).find(params[:id])
+    @course = Course.includes({ syllabus: { units: { sections: :assessments } } }).find(params[:id])
+
+    # TODO: Memoize the table headers in the course model and update them when a new assessment is added
 
     @headers = [{ text: 'Student', value: 'student_id' }, { text: 'Name', value: 'student_name' }]
     course_grades = {}
@@ -20,36 +21,50 @@ class CoursesController < ApplicationController
     @course.syllabus.units.each do |unit|
       next unless unit.main_unit?
 
-      course_grades["unit_#{unit.id}_grades"] = {}
+      course_grades["unit_#{unit.id}_grades"] =
+        { "unit_total_grade": 0, "unit_weight": unit.weight }
 
       unit.sections.each do |section|
-        course_grades["unit_#{unit.id}_grades"]["section_#{section.id}_grades"] = {}
+        course_grades["unit_#{unit.id}_grades"]["section_#{section.id}_grades"] =
+          { "section_#{section.id}_total_grade": 0, "section_#{section.id}_weight": section.weight }
 
         section.assessments.each do |assessment|
-          course_grades["unit_#{unit.id}_grades"]["section_#{section.id}_grades"]["assessment_#{assessment.id}_grades"] =
-            {}
-          @headers << { text: assessment.title, value: "grades.assessment_#{assessment.id}_score" }
+          @headers << { text: assessment.title,
+                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade" }
         end
-        @headers << { text: section.title, value: "section_#{section.id}_total_score" }
+        @headers << { text: section.title,
+                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade" }
       end
-      @headers << { text: unit.title, value: "unit_#{unit.id}_total_score" }
+      @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade" }
     end
+    @headers << { text: @course.title, value: 'grades.course_total_grade' }
 
-    @grades = Grade.includes(:student, { assessment: { unit: :sections } })
+    # original way of creating the student grades hash used to populate the table with the grades,
+    # but not sure how to get the calculated values, nor any counts/sums of students based on the calculated values
+
+    @grades = Grade.includes(:student, assessment: { unit: :sections })
                    .where(course_id: @course.id)
-                   .select('id, student_id, assessment_id, score, grades.assessments.weight, assessments.unit_id, units.weight, units.parent_unit_id')
+                   .select('id, student_id, assessment_id, score')
                    .order('student_id')
 
     @student_row_items = []
     new_student_hash = { student_name: @grades.first.student.full_name, student_id: @grades.first.student_id,
-                         grades: {} }
+                         grades: course_grades.deep_dup }
+
     @grades.each do |grade|
       if new_student_hash[:student_id] != grade.student_id
-
+        # calculate the total grade for the student for each unit using the section grades and section weight, then the grade for course as a whole using the unit grades and the unit weights
+        new_student_hash[:grades].each do |unit, unit_grades|
+        end
         @student_row_items << new_student_hash
-        new_student_hash = { student_name: grade.student.full_name, student_id: grade.student_id, grades: {} }
+
+        new_student_hash = { student_name: grade.student.full_name, student_id: grade.student_id,
+                             grades: course_grades.deep_dup }
       end
-      new_student_hash[:grades]["assessment_#{grade.assessment_id}_score"] = grade.score
+      new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades"]["section_#{grade.assessment.unit.id}_grades"]["assessment_#{grade.assessment_id}_grade".to_sym] =
+        (grade.score * 100).round(2)
+
+      new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades"]["section_#{grade.assessment.unit.id}_grades"]["section_#{grade.assessment.unit_id}_total_grade".to_sym] += ((grade.score * grade.assessment.weight) * 100).round
     end
   end
 
