@@ -51,7 +51,7 @@ export default {
 }
 
 .calendar-day--not-current {
-  @apply bg-gray-100 text-gray-300;
+  @apply text-gray-300;
 }
 
 .calendar-day--today > span {
