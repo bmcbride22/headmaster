@@ -20,7 +20,7 @@ export default {
         responsive: true,
         plugins: {
           legend: {
-            position: "bottom",
+            position: "right",
             labels: {
               color: "#5b21b6",
               font: {

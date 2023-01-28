@@ -1,27 +1,83 @@
 <div>
   <h3>Main Dashboard</h3>
 </div>
-<div id="vue-chart" class=" w-full grid grid-cols-4 gap-2 mt-8">
-  <div class="col-span-3">
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
-      <div class=>
-        <line-chart></line-chart>
+<div id="vue-chart" class=" w-full grid grid-cols-5 gap-2 mt-8">
+  <div class="col-span-3 h-full">
+    <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Classes Overview</h3>
+    <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8">
+      <line-chart></line-chart>
+    </div>
+  </div>
+  <div class="px-12 col-span-2 flex flex-col">
+    <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Calendar</h4>
+    <calendar-month></calendar-month>
+  </div>
+  <hr class="col-span-5 my-4">
+  <div class="col-span-3 space-y-4 mx-auto">
+    <div class="mx-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
+      <h4 class="font-bold text-lg ">Achievement Groups</h3>
+      <doughnut-chart></doughnut-chart>
+      <hr>
+      <div class="flex flex-row-reverse pt-4">
+        <%= link_to 'View all stats',  "#", class: "btn btn-secondary" %>
       </div>
     </div>
   </div>
-  <div class="col-span-1 px-4 pb-8 m-4 rounded-lg bg-violet-100">
-    <div class="mx-auto"><%= render 'calendar' %></div>
-  </div>
-  <div class="col-span-2 my-4 space-y-4">
-    <h3>Achievement Groups</h3>
-    <div class="h-80 mx-auto">
-      <doughnut-chart></doughnut-chart>
+  <div class="col-span-2 col-start-4 flex flex-col">
+    <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Start adding data </h4>
+    <div class="space-x-1">
+      <%= link_to courses_path do%>
+        <div class="border-2 border-gray drop-shadow-sm flex px-4 py-6 rounded-md">
+          <div class="bg-violet-100 h-12 w-12 rounded-full flex">
+            <%= render_svg 'icons/grades-plus-minus', styles: "text-violet-700 h-6 w-6 m-3" %>
+          </div>
+          <div class="ml-4 flex">
+            <div class="self-center">
+              <p class="font-semibold text-gray-800">Add grades</p>
+              <p class="text-xs font-semibold tracking-wide text-gray-500">Input grades for an existing assessment</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to new_assessment_path do%>
+        <div class="border-2 border-gray drop-shadow-sm flex px-4 py-6 rounded-md">
+          <div class="bg-violet-100 h-12 w-12 rounded-full flex">
+            <%= render_svg 'icons/file-plus', styles: "text-violet-700 h-6 w-6 m-3" %>
+          </div>
+          <div  class="ml-4 flex">
+            <div class="self-center">
+              <p class="font-semibold text-gray-800">Add assessment </p>
+              <p class="text-xs font-semibold tracking-wide text-gray-500">Add a new assessment to an existing syllabus / unit</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to new_assessment_path do%>
+        <div class="border-2 border-gray drop-shadow-sm flex px-4 py-6 rounded-md">
+          <div class="bg-violet-100 h-12 w-12 rounded-full flex">
+            <%= render_svg 'icons/edit', styles: "text-violet-700 h-6 w-6 m-3" %>
+          </div>
+          <div class="ml-4 flex">
+            <div class="self-center">
+              <p class="font-semibold text-gray-800">Update syllabus</p>
+              <p class="text-xs font-semibold tracking-wide text-gray-500">Modify a course's structure with a new assessment / unit</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to new_assessment_path do%>
+        <div class="border-2 border-gray drop-shadow-sm flex px-4 py-6 h- rounded-md">
+          <div class="bg-violet-100 h-12 w-12 rounded-full flex">
+            <%= render_svg 'icons/user-plus', styles: "text-violet-700 h-6 w-6 m-3" %>
+          </div>
+          <div class="ml-4 flex">
+            <div class="self-center">
+              <p class="font-semibold text-gray-800">Create new cohort</p>
+              <p class="text-xs font-semibold tracking-wide text-gray-500">Add new or existing students to a new cohort</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
-  <div class="col-span-2 space-y-4 mt-8 pt-12">
-    <%= link_to 'Add assessment', new_assessment_path, class: "btn btn-secondary" %>
-    <%= link_to 'Add grades', courses_path, class: "btn btn-secondary" %>
-    <%= link_to 'Add unit', syllabuses_path, class: "btn btn-secondary" %>
-    <%= link_to 'Add cohort', new_cohort_path, class: "btn btn-secondary" %>
-  </div>
-</>
+</div>
