@@ -77,9 +77,6 @@
   <div class="flex-shrink-0 flex border-t-2 border-t-violet-500 p-4">
     <%= link_to '#', class: "flex-shrink-0 w-full group block" do %>
       <div class="flex items-center">
-        <div>
-          <img class="inline-block h-10 w-10 rounded-full object-cover object-top" src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8" alt="">
-        </div>
         <div class="ml-2 self-center">
           <p class="text-sm font-medium text-violet-300 mb-0 group-hover:text-violet-200">
             <%= current_user.name %>
@@ -90,9 +87,9 @@
         </div>
       </div>
     <% end %>
-    <%= button_to destroy_user_session_path, method: :delete, class: "text-xs font-light text-gray-400" do %>
-      <%= render_svg 'icons/log-out', styles: "mr-2 h-4 w-4 flex-shrink-0 text-violet-300" %>
-      <p class="text-violet-700 text-xs  hover:text-violet-300">Sign out</p>
+    <%= button_to destroy_user_session_path, method: :delete, class: "text-xs font-light text-gray-400 group" do %>
+      <%= render_svg 'icons/log-out', styles: "mr-2 h-4 w-4 flex-shrink-0 text-violet-300 group-hover:text-orange-500" %>
+      <p class="text-violet-700 text-xs  group-hover:text-orange-500">Sign out</p>
     <% end %>
   </div>
 </div>
