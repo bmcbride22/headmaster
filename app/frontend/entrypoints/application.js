@@ -1,6 +1,8 @@
+import "v-calendar/dist/style.css";
 import "./main.scss";
 
 import { createApp } from "vue/dist/vue.esm-bundler";
+import { SetupCalendar, Calendar } from "v-calendar";
 // import Home from "../components/views/Home.vue";
 
 import BarChart from "../components/views/BarChart.vue";
@@ -18,6 +20,8 @@ const app = createApp({
 
 // import (and use) the components one by one
 // app.component("Home", Home);
+app.use(SetupCalendar, {});
+app.component("Calendar", Calendar);
 app.component("EasyTable", EasyTable);
 app.component("LineChart", LineChart);
 app.component("DoughnutChart", DoughnutChart);

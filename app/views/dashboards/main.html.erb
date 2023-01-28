@@ -1,7 +1,7 @@
 <div>
   <h3>Main Dashboard</h3>
 </div>
-<div id="vue-chart" class=" w-full grid grid-cols-4 gap-2 mt-8">
+<div id="vue-chart" class=" w-full grid grid-cols-4 gap-8 mt-8">
   <div class="col-span-3">
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
       <div class=>
@@ -9,12 +9,12 @@
       </div>
     </div>
   </div>
-  <div class="col-span-1 px-4 pb-8 m-4 rounded-lg bg-violet-100">
-    <div class="mx-auto"><%= render 'calendar' %></div>
+  <div class="col-span-1 px-4 pb-8 m-4 rounded-lg ">
+    <Calendar color="purple"></Calendar>
   </div>
   <div class="col-span-2 my-4 space-y-4">
     <h3>Achievement Groups</h3>
-    <div class="h-80 mx-auto">
+    <div class="mx-auto">
       <doughnut-chart></doughnut-chart>
     </div>
   </div>
@@ -24,4 +24,4 @@
     <%= link_to 'Add unit', syllabuses_path, class: "btn btn-secondary" %>
     <%= link_to 'Add cohort', new_cohort_path, class: "btn btn-secondary" %>
   </div>
-</>
+</div>
