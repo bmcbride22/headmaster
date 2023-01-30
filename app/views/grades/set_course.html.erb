@@ -1,0 +1,21 @@
+<div class="flex flex-col max-w-6xl">
+  <div>
+    <h1>Select Course</h1>
+    <h3>Which course do you want to add grades for?</h3>
+  </div>
+  <div class="grid grid-cols-3 gap-6">
+    <% @courses.each do |course| %>
+      <%= link_to add_assessment_grades_path(course) do%>
+        <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-1">
+          <div>
+            <h3><%=course.title%></h3>
+            <div class="ml-2 mt-2">
+              <p class="text-gray-500">Syllabus: <%=course.syllabus.title%></p>
+              <p class="text-gray-500">Cohort: <%=course.cohort.name%></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

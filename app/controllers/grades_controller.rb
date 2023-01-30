@@ -17,16 +17,30 @@ class GradesController < ApplicationController
     @grade = Grade.new
   end
 
+  def set_course
+    @courses = Course.where(syllabus: current_user.syllabuses)
+  end
+
   def new_assessment_grades
-    @course = Course.find_by(id: params[:course_id])
-    @assessment = Assessment.find_by(id: params[:assessment_id])
+    @course = Course.includes({ cohort: :students }).find_by(id: params[:course_id])
+    @assessment = Assessment.find_by(id: params[:assessment_id]) if params[:assessment_id]
     @grades = []
     @course.cohort.students.each do |_i|
       @grades << Grade.new
     end
   end
 
-  def create_assessment_grades; end
+  def create_assessment_grades
+    assessment = Assessment.includes(:syllabus).find(params[:assessment_id])
+    params[:grades].each do |grade_attrs|
+      grade = Grade.new(student_id: grade_attrs[:student_id], score: grade_attrs[:score],
+                        course_id: grade_attrs[:course_id])
+      grade.assessment = assessment
+      grade.save
+    end
+
+    redirect_to course_path(params[:grades][0][:course_id])
+  end
 
   # POST /grades
   def create
@@ -64,6 +78,6 @@ class GradesController < ApplicationController
   end
 
   def grade_params
-    params.require(:grade).permit(%i[date marks score assessment_id course_id student_id])
+    params.require(:grade).permit(%i[marks score assessment_id course_id student_id])
   end
 end

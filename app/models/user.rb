@@ -51,7 +51,7 @@ class User < ApplicationRecord
   def classes
     classes = []
     syllabuses.each do |syllabus|
-      syllabus.courses.each do |course|
+      syllabus.courses.includes(:cohort).each do |course|
         classes << course.cohort
       end
     end

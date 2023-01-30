@@ -24,14 +24,16 @@ class CoursesController < ApplicationController
     @course.syllabus.units.each do |unit|
       next unless unit.main_unit?
 
-      course_grades["unit_#{unit.id}_grades"] =
+      course_grades["unit_#{unit.id}_grades".to_sym] =
         { "unit_total_grade": 0, "unit_weight": unit.weight }
 
       unit.sections.each do |section|
-        course_grades["unit_#{unit.id}_grades"]["section_#{section.id}_grades"] =
+        course_grades["unit_#{unit.id}_grades".to_sym]["section_#{section.id}_grades".to_sym] =
           { "section_#{section.id}_total_grade": 0, "section_#{section.id}_weight": section.weight }
 
         section.assessments.each do |assessment|
+          course_grades["unit_#{unit.id}_grades".to_sym]["section_#{section.id}_grades".to_sym]["assessment_#{assessment.id}_grade".to_sym] =
+            'N/A'
           @headers << { text: assessment.title,
                         value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true }
         end
@@ -51,24 +53,39 @@ class CoursesController < ApplicationController
                    .order('student_id')
 
     @student_row_items = []
-    new_student_hash = { student_name: @grades.first.student.full_name, student_id: @grades.first.student_id,
-                         grades: course_grades.deep_dup }
 
-    @grades.each do |grade|
-      if new_student_hash[:student_id] != grade.student_id
-        # calculate the total grade for the student for each unit using the section grades and section weight, then the grade for course as a whole using the unit grades and the unit weights
-        new_student_hash[:grades].each do |unit, unit_grades|
-        end
-        @student_row_items << new_student_hash
-
-        new_student_hash = { student_name: grade.student.full_name, student_id: grade.student_id,
-                             grades: course_grades.deep_dup }
+    if @grades.empty?
+      @course.students.each do |student|
+        @student_row_items << { student_name: student.full_name, student_id: student.student_id,
+                                grades: course_grades.deep_dup }
       end
-      new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades"]["section_#{grade.assessment.unit.id}_grades"]["assessment_#{grade.assessment_id}_grade".to_sym] =
-        (grade.score * 100).round(2)
 
-      new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades"]["section_#{grade.assessment.unit.id}_grades"]["section_#{grade.assessment.unit_id}_total_grade".to_sym] += ((grade.score * grade.assessment.weight) * 100).round
+    else
+      new_student_hash = { student_name: @grades.first&.student&.full_name ||= @course.students.first.full_name, student_id: @grades.first&.student_id ||= @course.students.first.student_id,
+                           grades: course_grades.deep_dup }
+
+      @grades.each do |grade|
+        if new_student_hash[:student_id] != grade.student_id
+          # calculate the total grade for the student for each unit using the section grades and section weight, then the grade for course as a whole using the unit grades and the unit weights
+          new_student_hash[:grades].each do |unit, unit_grades|
+          end
+          @student_row_items << new_student_hash
+
+          new_student_hash = { student_name: grade.student.full_name, student_id: grade.student_id,
+                               grades: course_grades.deep_dup }
+
+        end
+        new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades".to_sym]["section_#{grade.assessment.unit.id}_grades".to_sym]["assessment_#{grade.assessment_id}_grade".to_sym] =
+          (grade.score * 100).round(2)
+
+        new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades".to_sym]["section_#{grade.assessment.unit.id}_grades".to_sym]["section_#{grade.assessment.unit_id}_total_grade".to_sym] += ((grade.score * grade.assessment.weight) * 100).round
+      end
+
     end
+    @student_row_items << new_student_hash
+
+    puts course_grades
+    puts @student_row_item
   end
 
   # GET /courses/new
