@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  average    :float
+#  current    :boolean          default(TRUE)
 #  date       :date
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
