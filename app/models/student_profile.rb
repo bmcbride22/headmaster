@@ -20,6 +20,7 @@
 class StudentProfile < ApplicationRecord
   belongs_to :student, class_name: 'User', optional: true
   has_many :grades, foreign_key: 'student_id'
+  has_many :averages, foreign_key: 'student_id'
   has_many :enrollments, dependent: :destroy, foreign_key: 'student_id'
   has_many :cohorts, through: :enrollments
   has_many :courses, through: :cohorts

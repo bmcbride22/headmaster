@@ -28,6 +28,7 @@ class Unit < ApplicationRecord
 
   has_many :assessments, dependent: :destroy
   has_many :grades, through: :assessments
+  has_many :averages
 
   def cohort_grades(cohort)
     cohort_grades = []
