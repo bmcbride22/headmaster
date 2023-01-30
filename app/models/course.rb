@@ -46,6 +46,10 @@ class Course < ApplicationRecord
     headers
   end
 
+  def sections
+    units.reject(&:main_unit?)
+  end
+
   def course_student_grades_table_item(student)
     items = {}
     syllabus.main_units.each do |main_unit|

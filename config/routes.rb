@@ -13,13 +13,17 @@ Rails.application.routes.draw do
     end
   end
   resources :units, except: %i[new]
+
   resources :courses do
-    get '/assessment/:assessment_id/grade_assessment',
-        to: 'grades#new_assessment_grades', as: 'assessment_grades'
-    post '/assessment/:assessment_id/grade_assessment',
-         to: 'grades#create_assessment_grades'
+    resources :assessment_grades, controller: 'assessment_grades'
   end
 
+  get 'grades/set_course', to: 'grades#set_course'
+  get 'grades/course/[:course_id]/new_assessment_grades', to: 'grades#new_assessment_grades',
+                                                          as: 'add_assessment_grades'
+  get 'grades/course/[:course_id]/assessment/[:assessment_id]/new_assessment_grades', to: 'grades#new_assessment_grades',
+                                                                                      as: 'add_grades_to_assessment'
+  post 'grades/create_assessment_grades', to: 'grades#create_assessment_grades', as: 'create_assessment_grades'
   root to: 'pages#landing_page'
   get 'pages/home'
   get 'dashboard', to: 'dashboards#main'

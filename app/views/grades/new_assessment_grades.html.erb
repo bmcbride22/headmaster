@@ -1,12 +1,16 @@
 <div class="mx-auto">
-  <h1 class='mb-12'>Add Grades for Assessment</h1>
-  <%= form_tag "/courses/#{@course.id}/assessment/#{@assessment.id}/grade_assessment" do%>
-    <% @course.cohort.students.each do |student|%>
+  <h1 class='mb-12'>Add Grades for <%= @assessment ? @assessment.title : 'Assessment' %> </h1>
+  <%= form_with url: create_assessment_grades_path do |form|%>
+    <% if @assessment.nil? %>
+      <%= form.grouped_collection_select :assessment_id, @course.sections, :assessments,:title, :id, :title %>
+    <% else %>
+      <%= form.hidden_field :assessment_id, value: @assessment.id %>
+    <% end %>
+    <% @grades.each_with_index do |grade, i| %>
+      <% student = @course.cohort.students[i] %>
       <h4><%= student.full_name %></h4>
-      <%= simple_fields_for @grade do |f| %>
-        <%= render "shared/error_messages", resource: f.object %>
-        <%= f.hidden_field :course, value: @course.id %>
-        <%= f.hidden_field :assessment_id, value: @assessment.id %>
+      <%= simple_fields_for "grades[]", grade do |f| %>
+        <%= f.hidden_field :course_id, value: @course.id %>
         <%= f.hidden_field :student_id, value: student.id %>
         <%= f.input :score, as: :decimal %>
       <% end %>
