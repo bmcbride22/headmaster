@@ -4,7 +4,7 @@ class DashboardsController < ApplicationController
 
   def main
     @cohorts = current_user.classes
-    @averages = Average.includes(:unit, { course: :cohort }).where(course_id: current_user.courses)
+    @averages = Average.includes(:unit, { course: :cohort }).where(course_id: current_user.courses, course_avg: true)
     course_avgs_by_date = @averages.group(:course_id, :date).average(:average)
                                    .each_with_object({}) do |((course_id, date), average_average), m|
       m[course_id] ||= {}

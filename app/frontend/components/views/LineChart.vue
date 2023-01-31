@@ -1,5 +1,5 @@
 <template>
-  <Line :data="chartData" :options="chartOptions" @click="onClick" />
+  <Line :data="chartData" :options="chartOptions" />
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
   // eslint-disable-next-line vue/no-reserved-component-names
   components: { Line },
   props: {
-    chartData: {
+    propData: {
       type: Object,
       default: () => {
         return {
@@ -50,9 +50,38 @@ export default {
   },
   data() {
     return {
+      chartData: {
+        labels: this.propData.labels,
+        datasets: this.propData.datasets
+      },
       chartOptions: {
         plugins: {
           legend: {
+            onClick: (event, legendItem, legend) => {
+              const index = legendItem.datasetIndex;
+              console.log(legend.chart.data.datasets[index].originalColor);
+              legend.chart.data.datasets.forEach((data, i) => {
+                if (i !== index && data.backgroundColor === "#f97316") {
+                  data.backgroundColor = data.originalColor;
+                  data.borderColor = data.originalColor;
+                  data.lineColor = data.originalColor;
+                }
+              });
+
+              if (legend.chart.data.datasets[index].backgroundColor === "#f97316") {
+                legend.chart.data.datasets[index].backgroundColor = legend.chart.data.datasets[index].originalColor;
+                legend.chart.data.datasets[index].borderColor = legend.chart.data.datasets[index].originalColor;
+                legend.chart.data.datasets[index].lineColor = legend.chart.data.datasets[index].originalColor;
+              } else {
+                legend.chart.data.datasets[index].originalColor = legend.chart.data.datasets[index].backgroundColor;
+
+                legend.chart.data.datasets[index].backgroundColor = "#f97316";
+                legend.chart.data.datasets[index].borderColor = "#f97316";
+                legend.chart.data.datasets[index].lineColor = "#f97316";
+              }
+              legend.chart.update();
+            },
+
             labels: {
               usePointStyle: true
             }
