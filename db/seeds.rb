@@ -1,6 +1,7 @@
 require 'faker'
 puts 'Clearing DB'
 Grade.destroy_all
+Average.destroy_all
 Course.destroy_all
 User.destroy_all
 Cohort.destroy_all
@@ -41,7 +42,6 @@ winter_semester_end	= Date.new(2023, 6, 30)
 cohort_1 = Cohort.create(name: '11-1', start_date: winter_semester_start, end_date: fall_semester_end)
 cohort_2 = Cohort.create(name: '11-2', start_date: winter_semester_start, end_date: fall_semester_end)
 cohort_3 = Cohort.create(name: '11-3', start_date: winter_semester_start, end_date: fall_semester_end)
-cohort_4 = Cohort.create(name: '11-4', start_date: winter_semester_start, end_date: fall_semester_end)
 
 cohorts = [cohort_1, cohort_2, cohort_3]
 
@@ -51,10 +51,6 @@ cohorts.each do |cohort|
     Enrollment.create(student:, cohort:)
   end
 end
-student = StudentProfile.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
-Enrollment.create(student:, cohort: cohort_4)
-
-cohorts << cohort_4
 
 #====================================================================================================
 # Syllabus and Units
@@ -380,16 +376,18 @@ market_efficiency_and_environmental_economics_exam = Assessment.create(title: 'M
 unit_2_assessments = topic_2_1_assessments + topic_2_2_assessments + [market_efficiency_and_environmental_economics_exam]
 
 courses = Course.all
-first_assessment = Date.new(2021, 9, 7)
 
 courses.each do |course|
+  ass_date = Date.new(2021, 9, 7)
   course.syllabus.main_units.each do |unit|
     unit.sections.each do |section|
-      section.assessments.each_with_index do |assessment, i|
+      section.assessments.each do |assessment|
+        ass_date += 7.days
         course.cohort.students.each do |student|
           score = (rand * 1.15).round(2)
           score = 1 if score > 1
-          Grade.create(student:, assessment:, course:, score:, date: (first_assessment + ((i + 1) * 7)))
+          puts ass_date
+          Grade.create(student:, assessment:, course:, score:, date: ass_date)
         end
       end
     end

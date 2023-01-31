@@ -94,29 +94,18 @@ class Grade < ApplicationRecord
 
   def create_course_average
     previous_average = Average.find_by(student:, course_avg: true, course:, current: true)
-    puts previous_average
 
     if previous_average.nil?
-      puts ' prev = nil'
-      puts student
-      puts course
-      puts score
 
       Average.create!(student:, course:, average: score, course_avg: true, date: date || Date.new, current: true)
-      puts 'Created new course average', Average.last.course_avg?
     else
-      puts ' NOOOOOOOOOOTTTTTT NIIIIILLLLL'
       course_average_numerator = 0
       course_average_denominator = 0
       course.main_units.each do |unit|
-        puts unit
         unit_avg = Average.find_by(student:, course:, unit:, unit_avg: true, current: true)
         next if unit_avg.nil?
 
-        puts unit_avg.average
-        puts unit.weight
         course_average_numerator += (unit_avg.average * unit.weight)
-        puts course_average_numerator
         course_average_denominator += unit.weight
       end
       course_average = course_average_numerator / course_average_denominator
