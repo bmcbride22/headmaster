@@ -50,6 +50,9 @@ class Course < ApplicationRecord
   def sections
     units.reject(&:main_unit?)
   end
+	def main_units
+		units.select(&:main_unit?)
+	end
 
   def course_student_grades_table_item(student)
     items = {}

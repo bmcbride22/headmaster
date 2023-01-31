@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_30_092742) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_31_003931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -62,11 +62,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_30_092742) do
     t.float "average"
     t.bigint "student_id", null: false
     t.bigint "course_id", null: false
-    t.bigint "unit_id", null: false
+    t.bigint "unit_id"
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "current", default: true
+    t.boolean "section_avg", default: false
+    t.boolean "unit_avg", default: false
+    t.boolean "course_avg", default: false
     t.index ["course_id"], name: "index_averages_on_course_id"
     t.index ["student_id"], name: "index_averages_on_student_id"
     t.index ["unit_id"], name: "index_averages_on_unit_id"

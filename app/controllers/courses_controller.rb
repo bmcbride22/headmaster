@@ -49,8 +49,10 @@ class CoursesController < ApplicationController
 
     @grades = Grade.includes(:student, assessment: { unit: :sections })
                    .where(course_id: @course.id)
-                   .select('id, student_id, assessment_id, score')
+                   .select('id, student_id, assessment_id, course_id, score')
                    .order('student_id')
+
+    @averages = Average.where(course_id: @course.id)
 
     @student_row_items = []
 
@@ -61,31 +63,42 @@ class CoursesController < ApplicationController
       end
 
     else
-      new_student_hash = { student_name: @grades.first&.student&.full_name ||= @course.students.first.full_name, student_id: @grades.first&.student_id ||= @course.students.first.student_id,
-                           grades: course_grades.deep_dup }
 
+      new_student_hash = { student_name: @grades.first&.student&.full_name, student_id: @grades.first&.student_id,
+                           grades: course_grades.deep_dup }
       @grades.each do |grade|
         if new_student_hash[:student_id] != grade.student_id
           # calculate the total grade for the student for each unit using the section grades and section weight, then the grade for course as a whole using the unit grades and the unit weights
-          new_student_hash[:grades].each do |unit, unit_grades|
-          end
-          @student_row_items << new_student_hash
 
+          # Add the section averages and the unit averages to the sstudent hash from the @averages variable above
+
+          @student_row_items << new_student_hash
           new_student_hash = { student_name: grade.student.full_name, student_id: grade.student_id,
                                grades: course_grades.deep_dup }
-
         end
         new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades".to_sym]["section_#{grade.assessment.unit.id}_grades".to_sym]["assessment_#{grade.assessment_id}_grade".to_sym] =
           (grade.score * 100).round(2)
-
-        new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades".to_sym]["section_#{grade.assessment.unit.id}_grades".to_sym]["section_#{grade.assessment.unit_id}_total_grade".to_sym] += ((grade.score * grade.assessment.weight) * 100).round
       end
 
     end
-    @student_row_items << new_student_hash
 
-    puts course_grades
-    puts @student_row_item
+    @student_row_items << new_student_hash
+    @student_row_items.each do |student|
+      @course.syllabus.units.each do |unit|
+        if unit.main_unit?
+          student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym] = (@averages.find_by(
+            student_id: student[:student_id], unit_id: unit.id, course_id: @course.id, current: true
+          ).average * 100).round(2)
+        else
+          student[:grades]["unit_#{unit.parent_unit_id}_grades".to_sym]["section_#{unit.id}_grades".to_sym]["section_#{unit.id}_total_grade".to_sym] = (@averages.find_by(
+            student_id: student[:student_id], unit_id: unit.id, course_id: @course.id, current: true
+          ).average * 100).round(2)
+        end
+      end
+      student[:grades][:course_total_grade] =
+        (@averages.find_by(course_avg: true, course: @course, student: student[:student_id],
+                           current: true).average * 100).round(2)
+    end
   end
 
   # GET /courses/new

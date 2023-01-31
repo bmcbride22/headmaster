@@ -2,15 +2,18 @@
 #
 # Table name: averages
 #
-#  id         :bigint           not null, primary key
-#  average    :float
-#  current    :boolean          default(TRUE)
-#  date       :date
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  course_id  :bigint           not null
-#  student_id :bigint           not null
-#  unit_id    :bigint           not null
+#  id          :bigint           not null, primary key
+#  average     :float
+#  course_avg  :boolean          default(FALSE)
+#  current     :boolean          default(TRUE)
+#  date        :date
+#  section_avg :boolean          default(FALSE)
+#  unit_avg    :boolean          default(FALSE)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  course_id   :bigint           not null
+#  student_id  :bigint           not null
+#  unit_id     :bigint
 #
 # Indexes
 #
@@ -27,5 +30,5 @@
 class Average < ApplicationRecord
   belongs_to :student, class_name: 'StudentProfile'
   belongs_to :course
-  belongs_to :unit
+  belongs_to :unit, optional: true
 end
