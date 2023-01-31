@@ -28,6 +28,25 @@ class Unit < ApplicationRecord
 
   has_many :assessments, dependent: :destroy
   has_many :grades, through: :assessments
+  has_many :averages
+
+  def unit_assessments
+    if !main_unit?
+      assessments
+    else
+      assess = []
+      sections.each do |section|
+        assess << section.assessments
+      end
+      assess
+    end
+  end
+
+  def unit_grades(student_id)
+    unit_assessments.each do |a|
+      a.grades.where(student_id:)
+    end
+  end
 
   def cohort_grades(cohort)
     cohort_grades = []

@@ -41,6 +41,7 @@ winter_semester_end	= Date.new(2023, 6, 30)
 cohort_1 = Cohort.create(name: '11-1', start_date: winter_semester_start, end_date: fall_semester_end)
 cohort_2 = Cohort.create(name: '11-2', start_date: winter_semester_start, end_date: fall_semester_end)
 cohort_3 = Cohort.create(name: '11-3', start_date: winter_semester_start, end_date: fall_semester_end)
+cohort_4 = Cohort.create(name: '11-4', start_date: winter_semester_start, end_date: fall_semester_end)
 
 cohorts = [cohort_1, cohort_2, cohort_3]
 
@@ -50,6 +51,10 @@ cohorts.each do |cohort|
     Enrollment.create(student:, cohort:)
   end
 end
+student = StudentProfile.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
+Enrollment.create(student:, cohort: cohort_4)
+
+cohorts << cohort_4
 
 #====================================================================================================
 # Syllabus and Units

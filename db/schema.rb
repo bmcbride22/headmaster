@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_17_041702) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_31_003931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -56,6 +56,23 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_041702) do
     t.index ["subject_id"], name: "index_assessments_on_subject_id"
     t.index ["teacher_id"], name: "index_assessments_on_teacher_id"
     t.index ["unit_id"], name: "index_assessments_on_unit_id"
+  end
+
+  create_table "averages", force: :cascade do |t|
+    t.float "average"
+    t.bigint "student_id", null: false
+    t.bigint "course_id", null: false
+    t.bigint "unit_id"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "current", default: true
+    t.boolean "section_avg", default: false
+    t.boolean "unit_avg", default: false
+    t.boolean "course_avg", default: false
+    t.index ["course_id"], name: "index_averages_on_course_id"
+    t.index ["student_id"], name: "index_averages_on_student_id"
+    t.index ["unit_id"], name: "index_averages_on_unit_id"
   end
 
   create_table "chatrooms", force: :cascade do |t|
@@ -190,6 +207,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_17_041702) do
   add_foreign_key "assessments", "subjects"
   add_foreign_key "assessments", "units"
   add_foreign_key "assessments", "users", column: "teacher_id"
+  add_foreign_key "averages", "courses"
+  add_foreign_key "averages", "student_profiles", column: "student_id"
+  add_foreign_key "averages", "units"
   add_foreign_key "courses", "cohorts"
   add_foreign_key "courses", "syllabuses"
   add_foreign_key "enrollments", "cohorts"

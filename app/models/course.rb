@@ -31,6 +31,7 @@ class Course < ApplicationRecord
   has_many :units, through: :syllabus
   has_many :assessments, through: :units
   has_many :grades, through: :assessments
+	has_many :averages, through: :units
 
   def course_grades_table_headers
     headers = [{ text: 'Student', value: 'student_full_name', fixed: true, width: 150 }]
@@ -49,6 +50,9 @@ class Course < ApplicationRecord
   def sections
     units.reject(&:main_unit?)
   end
+	def main_units
+		units.select(&:main_unit?)
+	end
 
   def course_student_grades_table_item(student)
     items = {}

@@ -12,6 +12,7 @@
       <%= simple_fields_for "grades[]", grade do |f| %>
         <%= f.hidden_field :course_id, value: @course.id %>
         <%= f.hidden_field :student_id, value: student.id %>
+        <%= f.hidden_field :date, value: Date.new %>
         <%= f.input :score, as: :decimal %>
       <% end %>
     <% end %>
