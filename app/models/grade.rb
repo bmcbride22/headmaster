@@ -25,7 +25,7 @@
 #  fk_rails_...  (student_id => student_profiles.id)
 #
 class Grade < ApplicationRecord
-  before_save :create_section_average
+  after_save :create_section_average
 
   belongs_to :assessment
   has_one :unit, through: :assessment

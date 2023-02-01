@@ -87,6 +87,12 @@ export default {
             }
           }
         },
+        scales: {
+          y: {
+            suggestedMin: 45,
+            suggestedMax: 70
+          }
+        },
         responsive: true
       }
     };
