@@ -24,7 +24,8 @@ export default {
       //   datasets: [{ data: [40, 20, 12] }]
       // },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        hoverBackgroundColor: "#f97316"
       }
     };
   }

@@ -1,6 +1,7 @@
 <template>
-  <Doughnut id="doughnut-chart" :options="chartOptions" :data="chartData" />
+  <Doughnut :options="chartOptions" :data="propData" />
 </template>
+
 <script>
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "vue-chartjs";
@@ -10,40 +11,38 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export default {
   name: "DoughnutChart",
   components: { Doughnut },
+  props: {
+    propData: {
+      type: Object,
+      default: () => {
+        return {
+          labels: ["+85", "70-85", "55-70", "< 55"],
+          datasets: [{ backgroundColor: ["#5b21b6", "#7c3aed", "#a78bfa", "#ddd6fe"], data: [15, 45, 30, 10] }]
+        };
+      }
+    }
+  },
+
   data() {
     return {
       chartColors: ["#5b21b6", "#7c3aed", "#a78bfa", "#ddd6fe"],
-      chartData: {
-        labels: [">85", "70-85", "55-70", "<55"],
-        datasets: [{ backgroundColor: ["#5b21b6", "#7c3aed", "#a78bfa", "#ddd6fe"], data: [15, 45, 30, 10] }]
-      },
       chartOptions: {
         responsive: true,
-        onHover: (event, elements, chart) => {
-          if (elements.length > 0) {
-            const index = elements[0].index;
-            chart.data.datasets[0].backgroundColor.forEach((color, i, colors) => {
-              if (i !== index && chart.data.datasets[0].selected !== i) {
-                colors[i] = this.chartColors[i];
-              } else {
-                colors[i] = "#f97316";
-              }
-            });
-          } else {
-            chart.data.datasets[0].backgroundColor.forEach((color, i, colors) => {
-              if (chart.data.datasets[0].selected !== i) {
-                colors[i] = this.chartColors[i];
-              }
-            });
-          }
-        },
+        hoverBackgroundColor: "#f97316",
         plugins: {
           legend: {
             position: "right",
+            title: {
+              text: "Avg grade",
+              display: true
+            },
             labels: {
-              color: "#5b21b6",
+              usePointStyle: true,
+              color: "#4b5563",
+
               font: {
-                size: 10
+                family: "segoe-ui, sans-serif",
+                size: 12
               }
             },
             onClick: (event, legendItem, legend) => {

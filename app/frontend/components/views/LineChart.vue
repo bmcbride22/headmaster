@@ -5,6 +5,7 @@
 <script>
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "vue-chartjs";
+
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default {
@@ -55,8 +56,12 @@ export default {
         datasets: this.propData.datasets
       },
       chartOptions: {
+        hoverBackgroundColor: "#f97316",
+        hoverBorderColor: "#f97316",
         plugins: {
           legend: {
+            position: "top",
+            align: "start",
             onClick: (event, legendItem, legend) => {
               const index = legendItem.datasetIndex;
               console.log(legend.chart.data.datasets[index].originalColor);
@@ -83,7 +88,11 @@ export default {
             },
 
             labels: {
-              usePointStyle: true
+              usePointStyle: true,
+              font: {
+                family: "segoe-ui, sans-serif",
+                size: 16
+              }
             }
           }
         },
