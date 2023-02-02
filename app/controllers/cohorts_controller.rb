@@ -33,7 +33,13 @@ class CohortsController < ApplicationController
   end
 
   # GET /cohorts/:id
-  def show; end
+  def show
+    teacher_cohorts = Cohort.includes({ courses: :syllabus }).where(id: current_user.classes)
+    @cohorts = []
+    teacher_cohorts.each do |cohort|
+      @cohorts << { id: cohort.id, title: cohort.name }
+    end
+  end
 
   # GET /cohorts/new
   def new

@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div class="flex flex-row-reverse items-center justify-between mb-2">
+    <h4 class="text-xl font-semibold font-gray-900">Student Performance</h4>
+    <p class="text-xs font-gray-600 mb-6">Select a student to view their profile</p>
+    <div class="flex items-center justify-between mb-2">
       <div class="relative items-center">
-        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1">
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
-              class="mr-4 h-6 w-6 flex-shrink-0 text-violet-700"
+              class="mr-4 h-6 w-6 flex-shrink-0 text-gray-500"
               d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3
             15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
               stroke-width="1.5"
@@ -17,7 +19,7 @@
           </svg>
         </div>
         <input
-          class="bg-violet-50 placeholder:text-violet-700 placeholder:text-base placeholder:font-semi-light focus:outline-violet-700 rounded-md py-2 pl-10"
+          class="placeholder:text-gray-400 border border-gray-300 placeholder:text-base placeholder:font-semi-light focus:border-violet-600 focus:outline-none focus:ring-1 focus:ring-violet-600 rounded-lg py-2 px-3 pl-10"
           type="text"
           placeholder="Search"
           v-model="searchValue"
@@ -128,17 +130,17 @@ export default {
 /* table head sort icons */
 /* None */
 .vue3-easy-data-table__header tr th.sortable.none .sortType-icon {
-  @apply border  hover:bg-violet-50  ml-3 border-orange-500 font-bold inline-block p-1 -rotate-45
+  @apply border  hover:bg-violet-50  ml-3 border-violet-100 font-bold inline-block p-1 -rotate-45
 transition  cursor-pointer;
 }
 /* Asce */
 .vue3-easy-data-table__header tr th.sortable.asc .sortType-icon {
-  @apply border-t-2 border-r-2 ml-3 border-orange-500  inline-block p-1 -rotate-45
+  @apply border-t-2 border-r-2 ml-3 border-violet-700  inline-block p-1 -rotate-45
 transition  cursor-pointer;
 }
 /* Desc */
 .vue3-easy-data-table__header tr th.sortable.desc .sortType-icon {
-  @apply border-b-2 border-l-2 ml-3 border-orange-500 inline-block p-1 -rotate-45
+  @apply border-b-2 border-l-2 ml-3 border-violet-700 inline-block p-1 -rotate-45
 transition  cursor-pointer;
 }
 /* make sortable headers use cursor pointer */

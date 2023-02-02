@@ -22,7 +22,7 @@ class Cohort < ApplicationRecord
   end
 
   def student_roster_table_headers
-    [{ text: 'Name', value: 'student_full_name' },
+    [{ text: 'Name', value: 'student_name' },
      { text: 'Student ID', value: 'student_id' },
      { text: 'Account Registered', value: 'registered', sortable: true },
      { text: 'Parent Account', value: 'parent_attached', sortable: true },
@@ -33,7 +33,7 @@ class Cohort < ApplicationRecord
   def student_roster_table_items
     students.map do |student|
       {
-        student_full_name: student.full_name,
+        student_name: student.full_name,
         student_id: student.id,
         registered: student.registered,
         parent_attached: student.parent_attached,
