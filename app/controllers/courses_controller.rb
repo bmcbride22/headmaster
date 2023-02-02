@@ -34,15 +34,16 @@ class CoursesController < ApplicationController
         section.assessments.each do |assessment|
           course_grades["unit_#{unit.id}_grades".to_sym]["section_#{section.id}_grades".to_sym]["assessment_#{assessment.id}_grade".to_sym] =
             '-'
-          @headers << { text: assessment.title,
-                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true }
+          @headers << { text: assessment.title.truncate(10),
+                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true, width: 100 }
         end
         @headers << { text: section.title,
-                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true }
+                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true, width: 150 }
       end
-      @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade", sortable: true }
+      @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade", sortable: true,
+                    width: 150 }
     end
-    @headers << { text: @course.title, value: 'grades.course_total_grade', sortable: true }
+    @headers << { text: @course.title, value: 'grades.course_total_grade', sortable: true, width: 200 }
 
     # original way of creating the student grades hash used to populate the table with the grades,
     # but not sure how to get the calculated values, nor any counts/sums of students based on the calculated values

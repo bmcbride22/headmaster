@@ -17,7 +17,7 @@
           </svg>
         </div>
         <input
-          class="bg-violet-50 placeholder:text-violet-700 placeholder:text-base placeholder:font-semi-light focus:ring-violet-700 rounded-md py-2 pl-10"
+          class="bg-violet-50 placeholder:text-violet-700 placeholder:text-base placeholder:font-semi-light focus:outline-violet-700 rounded-md py-2 pl-10"
           type="text"
           placeholder="Search"
           v-model="searchValue"
@@ -128,17 +128,17 @@ export default {
 /* table head sort icons */
 /* None */
 .vue3-easy-data-table__header tr th.sortable.none .sortType-icon {
-  @apply border hover:bg-violet-50  ml-3 border-gray-100 inline-block p-1 -rotate-45
+  @apply border  hover:bg-violet-50  ml-3 border-orange-500 font-bold inline-block p-1 -rotate-45
 transition  cursor-pointer;
 }
 /* Asce */
 .vue3-easy-data-table__header tr th.sortable.asc .sortType-icon {
-  @apply border-t-2 border-r-2 ml-3 border-violet-700  inline-block p-1 -rotate-45
+  @apply border-t-2 border-r-2 ml-3 border-orange-500  inline-block p-1 -rotate-45
 transition  cursor-pointer;
 }
 /* Desc */
 .vue3-easy-data-table__header tr th.sortable.desc .sortType-icon {
-  @apply border-b-2 border-l-2 ml-3 border-violet-700 inline-block p-1 -rotate-45
+  @apply border-b-2 border-l-2 ml-3 border-orange-500 inline-block p-1 -rotate-45
 transition  cursor-pointer;
 }
 /* make sortable headers use cursor pointer */
