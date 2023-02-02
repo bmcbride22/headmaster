@@ -62,6 +62,7 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
 gem "vite_rails"
 gem "vite_ruby"
 gem "image_processing", "~> 1.2"
