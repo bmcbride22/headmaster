@@ -67,6 +67,9 @@ h1, h2, h3 {
     font-size: 1.375em;
   }
 }
+hr {
+	@apply m-0 border-t-2 border-gray-200;
+}
 
 img, svg {
   @apply w-full h-auto;

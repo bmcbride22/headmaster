@@ -5,7 +5,7 @@ class DashboardsController < ApplicationController
   def main
     @cohorts = current_user.classes
     @averages = Average.includes(:unit, { course: :cohort }).where(course_id: current_user.courses, course_avg: true)
-    course_avgs_by_date = @averages.group(:course_id, :date).average(:average)
+    course_avgs_by_date = @averages.group(:course_id, :date).order(:date).average(:average)
                                    .each_with_object({}) do |((course_id, date), average_average), m|
       m[course_id] ||= {}
       m[course_id][date] = average_average
@@ -44,7 +44,7 @@ class DashboardsController < ApplicationController
       {
         labels: ['+85', '70-85', '55-70', ' 0-55'],
         datasets: [{ backgroundColor: ['#5b21b6', '#7c3aed', '#a78bfa', '#ddd6fe'],
-                     label: 'Students in this grade range',
+                     label: 'Students',
                      data: group_data }]
       }.to_json
   end

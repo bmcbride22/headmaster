@@ -56,12 +56,43 @@ export default {
         datasets: this.propData.datasets
       },
       chartOptions: {
+        pointHitRadius: 10,
+        pointHoverRadius: 6,
+
         hoverBackgroundColor: "#f97316",
         hoverBorderColor: "#f97316",
         plugins: {
+          tooltip: {
+            backgroundColor: "#f5f3ff",
+            titleColor: "#6d28d9",
+            bodyColor: "#f97316",
+            borderColor: "#f5f3ff",
+            borderWidth: 2,
+            caretPadding: 10,
+            cornerRadius: 6,
+            displayColors: false,
+            padding: 10,
+            titleFont: {
+              family: "segoe-ui, sans-serif",
+              size: 16,
+              weight: "bold"
+            },
+            bodyFont: {
+              family: "segoe-ui, sans-serif",
+              size: 16
+            }
+          },
           legend: {
+            beforeInit(chart) {
+              const originalFit = chart.legend.fit;
+              chart.legend.fit = function fit() {
+                originalFit.bind(chart.legend)();
+                this.height += 100;
+              };
+            },
+
             position: "top",
-            align: "start",
+
             onClick: (event, legendItem, legend) => {
               const index = legendItem.datasetIndex;
               console.log(legend.chart.data.datasets[index].originalColor);
@@ -88,20 +119,17 @@ export default {
             },
 
             labels: {
+              pointStyleWidth: 24,
               usePointStyle: true,
               font: {
                 family: "segoe-ui, sans-serif",
                 size: 16
-              }
+              },
+              padding: 20
             }
           }
         },
-        scales: {
-          y: {
-            suggestedMin: 45,
-            suggestedMax: 70
-          }
-        },
+
         responsive: true
       }
     };
