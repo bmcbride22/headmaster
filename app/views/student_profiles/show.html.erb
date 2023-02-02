@@ -1,13 +1,34 @@
-<div class="border-b-2 border-b-violet-700  mt-8 py-4 px-4 ">
-  <div>
-    <h3><%=@student_profile.full_name ||= "Cohort #{@student_profile.id}"%></h3>
-    <div class="ml-4 mt-2">
-      <p class= "text-gray-500"><%=@student_profile.cohorts.count%> cohorts</p>
-      <p class="text-gray-500"><%=@student_profile.courses.count%> courses</p>
+<div class="border-b-2 border-b-violet-700  my-4 py-4 px-4 ">
+  <div class="flex justify-between">
+    <h3><%=@student_profile.full_name%></h3>
+    <div class="flex space-x-2">
+      <%= link_to 'Add Syllabus Unit', '#', class: 'btn btn-primary' %>
+      <%= link_to 'Add Assessment', '#', class: 'btn btn-secondary' %>
     </div>
   </div>
-  <div class="flex mt-12 space-x-2">
-    <%= link_to "Edit", edit_student_profile_path(@student_profile), class: 'btn btn-primary'%>
-    <%= link_to "Back to students", student_profiles_path, class: 'btn btn-secondary'%>
+</div>
+<div id="vue-chart" class="grid grid-cols-5 gap-2" >
+  <div class="col-span-2 w-11/12 mx-auto">
+    <div class="mx-auto space-y-6 h-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
+      <h4 class="font-bold text-lg ">Achievement Groups</h4>
+      <hr class="!mt-2">
+      <doughnut-chart class="!mt-0"></doughnut-chart>
+      <hr class="!mt-2">
+      <div class="flex flex-row-reverse pt-2">
+        <%= link_to 'View all stats',  "#", class: "btn btn-secondary" %>
+      </div>
+    </div>
   </div>
+  <div class="col-span-3 ">
+    <div class="bg-white  border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg px-8 pt-4 pb-8">
+      <h4 class="font-bold text-lg mb-4 border-b-2 pb-2 border-gray-200"> Class Performance</h3>
+      <line-chart></line-chart>
+    </div>
+  </div>
+  <hr class="col-span-5 my-6">
+  <div class="col-span-5">
+    <easy-table :headers='<%= @headers.to_json %>' :items='<%= @student_row_items.to_json %>' alternating></easy-table>
+  </div>
+</div>
+<div class="grid grid-cols-4 gap-6">
 </div>

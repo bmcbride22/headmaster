@@ -3,9 +3,13 @@
 </div>
 <div id="vue-chart" class=" w-full grid grid-cols-5 gap-2 mt-8">
   <div class="col-span-3 h-full">
-    <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Classes Overview</h3>
-    <div class="bg-white shadow-md rounded-lg px-8 pt-6 pb-8">
-      <line-chart></line-chart>
+    <div class="bg-white  border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg px-8 pt-6 pb-8">
+      <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Classes Overview</h3>
+      <% if @chart_data.empty? %>
+        <line-chart ></line-chart>
+      <% else %>
+        <line-chart :prop-data= "<%= @chart_data %>"></line-chart>
+      <% end %>
     </div>
   </div>
   <div class="px-12 col-span-2 flex flex-col">
@@ -13,17 +17,22 @@
     <calendar-month></calendar-month>
   </div>
   <hr class="col-span-5 my-4">
-  <div class="col-span-3 space-y-4 mx-auto">
-    <div class="mx-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
-      <h4 class="font-bold text-lg ">Achievement Groups</h3>
-      <doughnut-chart></doughnut-chart>
-      <hr>
+  <div class="col-span-2 w-11/12 mx-auto">
+    <div class="mx-auto space-y-2 p-4 h-auto border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
+      <h4 class="font-bold text-lg ">Achievement Groups</h4>
+      <hr class="!mt-2">
+      <% if @achievement_groups.empty? || @achievement_groups.nil?%>
+        <doughnut-chart ></doughnut-chart>
+      <% else %>
+        <doughnut-chart :prop-data= "<%= @achievement_groups %>"></doughnut-chart>
+      <% end %>
+      <hr class="!mt-2">
       <div class="flex flex-row-reverse pt-4">
         <%= link_to 'View all stats',  "#", class: "btn btn-secondary" %>
       </div>
     </div>
   </div>
-  <div class="col-span-2 col-start-4 flex flex-col">
+  <div class="col-span-3 col-start-3 flex flex-col pl-4">
     <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Start adding data </h4>
     <div class="space-x-1">
       <%= link_to grades_set_course_path do%>

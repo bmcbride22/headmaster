@@ -7,6 +7,29 @@ class CohortsController < ApplicationController
   def index
     # set the @cohorts variable to all cohorts
     @cohorts = current_user.classes
+    @achievement_groups = []
+
+    @cohorts.each do |cohort|
+      group_1 = Average.where(average: (0.85..1.0), course_avg: true, current: true,
+                              student_id: cohort.students.ids).count
+      group_2 = Average.where(average: (0.7..0.85), course_avg: true, current: true,
+                              student_id: cohort.students.ids).count
+
+      group_3 = Average.where(average: (0.55..0.7), course_avg: true, current: true,
+                              student_id: cohort.students.ids).count
+      group_4 = Average.where(average: (0.0..0.55), course_avg: true, current: true,
+                              student_id: cohort.students.ids).count
+      group_data = [group_1, group_2, group_3, group_4]
+
+      chart_data = {
+        labels: ['+85', '70-85', '55-70', ' 0-55'],
+        datasets: [{ backgroundColor: ['#5b21b6', '#7c3aed', '#a78bfa', '#ddd6fe'],
+                     label: 'Students in this grade range',
+                     data: group_data }]
+      }
+
+      @achievement_groups << chart_data
+    end
   end
 
   # GET /cohorts/:id

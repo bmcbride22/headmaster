@@ -31,4 +31,6 @@ class Average < ApplicationRecord
   belongs_to :student, class_name: 'StudentProfile'
   belongs_to :course
   belongs_to :unit, optional: true
+
+
 end

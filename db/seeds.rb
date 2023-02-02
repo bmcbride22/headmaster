@@ -1,6 +1,7 @@
 require 'faker'
 puts 'Clearing DB'
 Grade.destroy_all
+Average.destroy_all
 Course.destroy_all
 User.destroy_all
 Cohort.destroy_all
@@ -41,7 +42,6 @@ winter_semester_end	= Date.new(2023, 6, 30)
 cohort_1 = Cohort.create(name: '11-1', start_date: winter_semester_start, end_date: fall_semester_end)
 cohort_2 = Cohort.create(name: '11-2', start_date: winter_semester_start, end_date: fall_semester_end)
 cohort_3 = Cohort.create(name: '11-3', start_date: winter_semester_start, end_date: fall_semester_end)
-cohort_4 = Cohort.create(name: '11-4', start_date: winter_semester_start, end_date: fall_semester_end)
 
 cohorts = [cohort_1, cohort_2, cohort_3]
 
@@ -51,17 +51,13 @@ cohorts.each do |cohort|
     Enrollment.create(student:, cohort:)
   end
 end
-student = StudentProfile.create(first_name: Faker::Name.first_name, last_name: Faker::Name.last_name)
-Enrollment.create(student:, cohort: cohort_4)
-
-cohorts << cohort_4
 
 #====================================================================================================
 # Syllabus and Units
 #====================================================================================================
 
 econ = Subject.find_by(name: 'Economics')
-econ_11 = Syllabus.create(title: 'QCE 11 Economics', subject: econ, teacher:)
+econ_11 = Syllabus.create(title: 'QCE 11 Econ', subject: econ, teacher:)
 unit_1 = Unit.create(title: 'Markets and Models', weight: 0.5, syllabus: econ_11)
 unit_2 = Unit.create(title: 'Modified Markets', weight: 0.5, syllabus: econ_11)
 
@@ -93,15 +89,15 @@ end
 def assessment_weight(assessment_type)
   case assessment_type
   when 'Quiz'
-    0.125
+    0.15
   when 'Test'
-    0.25
+    0.35
   when 'Project'
-    0.25
+    0.35
   when 'Exam'
     0.25
   when 'Essay'
-    0.25
+    0.35
   end
 end
 #====================================================================================================
@@ -114,12 +110,6 @@ topic_1_1_dates = [date]
   topic_1_1_dates.push(date)
 end
 
-basic_economic_problem_quiz =  Assessment.create(title: 'The Basic Economic Problem Quiz',
-                                                 description: 'This quiz will test students understanding of the basic economic problem of scarcity and how it causes individuals, businesses and governments to make choices',
-                                                 assessment_type: 'Quiz',
-                                                 teacher:,
-                                                 subject: econ, unit: topic_1_1, weight: assessment_weight('Quiz'))
-
 factors_production_income_quiz = Assessment.create(title: 'Factors of Production and Income Quiz',
                                                    description: 'This quiz will test students understanding of the factors of production and how they are linked to income',
                                                    assessment_type: 'Quiz',
@@ -130,12 +120,6 @@ opportunity_cost_quiz = Assessment.create(title: 'Opportunity Cost Quiz',
                                           assessment_type: 'Quiz',
                                           teacher:,
                                           subject: econ, unit: topic_1_1, weight: assessment_weight('Quiz'))
-
-production_possibility_curve_quiz = Assessment.create(title: 'Production Possibility Curve Quiz',
-                                                      description: 'This quiz will test students understanding of the production possibility curve and its use in illustrating concepts of scarcity, choice, opportunity cost, trade-offs, underutilisation of resources, efficiency, productivity, unemployment and economic growth',
-                                                      assessment_type: 'Quiz',
-                                                      teacher:,
-                                                      subject: econ, unit: topic_1_1, weight: assessment_weight('Quiz'))
 
 economic_systems_project = Assessment.create(title: 'Analyzing Economic Systems Project',
                                              description: 'A project that requires students to analyze how different economic systems attempt to resolve the three economic questions using real-world testples',
@@ -149,8 +133,8 @@ economic_fundamentals_test = Assessment.create(title: 'Economic Fundamentals Tes
                                                teacher:,
                                                subject: econ, unit: topic_1_1, weight: assessment_weight('Test'))
 
-topic_1_1_assessments = [basic_economic_problem_quiz, factors_production_income_quiz, opportunity_cost_quiz,
-                         production_possibility_curve_quiz, economic_systems_project, economic_fundamentals_test]
+topic_1_1_assessments = [factors_production_income_quiz, opportunity_cost_quiz,
+                         economic_systems_project, economic_fundamentals_test]
 
 #====================================================================================================
 # Topic 1.2  Assessments
@@ -161,12 +145,6 @@ topic_1_2_dates = [date]
   date = topic_1_2_dates[-1] + 7
   topic_1_2_dates.push(date)
 end
-
-key_economic_terminology_quiz = Assessment.create(title: 'Key Economic Terminology Quiz',
-                                                  description: 'Used to assess the students understanding of key concepts in economics, including aggregate demand, aggregate supply, circular flow of income model, consumption, exports, government expenditure, gross domestic product (GDP), imports, investment, subsidy and taxes.',
-                                                  assessment_type: 'Quiz',
-                                                  teacher:,
-                                                  subject: econ, unit: topic_1_2, weight: assessment_weight('Quiz'))
 
 circular_flow_income_quiz = Assessment.create(title: 'The Circular Flow of Income Model Quiz',
                                               description: 'Used to assess the students understanding of construction and significance of the five-sector circular flow of income model, including the relationships between the sectors, injections and withdrawals, and equilibrium conditions.',
@@ -180,12 +158,6 @@ government_economic_flows_quiz = Assessment.create(title: 'Government Decisions 
                                                    teacher:,
                                                    subject: econ, unit: topic_1_2, weight: assessment_weight('Quiz'))
 
-factors_aggregate_supply_quiz = Assessment.create(title: 'Factors of Aggregate Supply and Economic Growth Quiz',
-                                                  description: 'Used to assess the students understanding of the effects of changes in factors of aggregate supply on the circular flow of income model and how it relates to economic growth and employment. The quiz will also analyse and evaluate how current and topical economic events impact economic flows and draw conclusions or make decisions.',
-                                                  assessment_type: 'Quiz',
-                                                  teacher:,
-                                                  subject: econ, unit: topic_1_2, weight: assessment_weight('Quiz'))
-
 economic_flows_test =  Assessment.create(title: 'Economic Flows Test',
                                          description: 'An test that covers all the concepts of economic flows including the circular flow of income model, government decisions, aggregate demand and supply and effects of various factors on the economy',
                                          assessment_type: 'Test',
@@ -198,8 +170,8 @@ economic_flows_project = Assessment.create(title: 'Analyzing Economic Flows in R
                                            teacher:,
                                            subject: econ, unit: topic_1_2, weight: assessment_weight('Project'))
 
-topic_1_2_assessments = [key_economic_terminology_quiz, circular_flow_income_quiz,
-                         government_economic_flows_quiz, factors_aggregate_supply_quiz, economic_flows_test, economic_flows_project]
+topic_1_2_assessments = [circular_flow_income_quiz,
+                         government_economic_flows_quiz, economic_flows_test, economic_flows_project]
 
 #====================================================================================================
 # Topic 1.3 assessments
@@ -211,12 +183,6 @@ topic_1_3_dates = [date]
   date = topic_1_3_dates[-1] + 7
   topic_1_3_dates.push(date)
 end
-
-market_forces_quiz = Assessment.create(title: 'Market Forces Quiz',
-                                       description: 'This quiz will test students understanding of the forces of demand and supply that underlie the operation of the price mechanism in the economy, including the concepts of shortages, surpluses and elasticities.',
-                                       assessment_type: 'Quiz',
-                                       teacher:,
-                                       subject: econ, unit: topic_1_3, weight: assessment_weight('Quiz'))
 
 equilibrium_elasticity_quiz =  Assessment.create(title: 'Equilibrium and Elasticity Quiz',
                                                  description: 'This quiz will test students understanding of market equilibrium and the concept of elasticity of demand and supply.',
@@ -230,12 +196,6 @@ market_characteristics_quiz =  Assessment.create(title: 'Market Characteristics 
                                                  teacher:,
                                                  subject: econ, unit: topic_1_3, weight: assessment_weight('Quiz'))
 
-market_analysis_quiz = Assessment.create(title: 'Market Analysis Quiz',
-                                         description: 'This quiz will test students understanding of analyzing market situations that are not in equilibrium in the short term, and expressing graphically to demonstrate shortage and surplus',
-                                         assessment_type: 'Quiz',
-                                         teacher:,
-                                         subject: econ, unit: topic_1_3, weight: assessment_weight('Quiz'))
-
 market_supply_shock_essay = Assessment.create(title: 'Market Forces and Supply Shocks Essay',
                                               description: 'This essay will require students to analyze the effects of a supply shock on market forces, including changes in prices and quantities, and the potential implications for both consumers and producers.',
                                               assessment_type: 'Essay',
@@ -248,8 +208,8 @@ market_forces_test =  Assessment.create(title: 'Market Forces Test',
                                         teacher:,
                                         subject: econ, unit: topic_1_3, weight: assessment_weight('Test'))
 
-topic_1_3_assessments = [market_forces_quiz, equilibrium_elasticity_quiz, market_characteristics_quiz,
-                         market_analysis_quiz, market_supply_shock_essay, market_forces_test]
+topic_1_3_assessments = [equilibrium_elasticity_quiz, market_characteristics_quiz,
+                         market_supply_shock_essay, market_forces_test]
 
 #====================================================================================================
 # Final exam assessment
@@ -292,18 +252,6 @@ market_modification_quiz = Assessment.create(title: 'Market Modification Quiz',
                                              teacher:,
                                              subject: econ, unit: topic_2_1, weight: assessment_weight('Quiz'))
 
-property_rights_quiz = Assessment.create(title: 'Property Rights Quiz',
-                                         description: 'This quiz will test students understanding of how the extension of property rights may resolve economic inefficiencies associated with common resources and the tension between the costs to society of market failure and the unintended consequences of possible mitigation methods.',
-                                         assessment_type: 'Quiz',
-                                         teacher:,
-                                         subject: econ, unit: topic_2_1, weight: assessment_weight('Quiz'))
-
-market_efficiency_quiz = Assessment.create(title: 'Market Efficiency Quiz',
-                                           description: 'This quiz will cover the concept of market efficiency, including allocative efficiency, productive efficiency, and dynamic efficiency. It will also explore the causes and effects of market failure, as well as methods for correcting market failure.',
-                                           assessment_type: 'Quiz',
-                                           teacher:,
-                                           subject: econ, unit: topic_2_1, weight: assessment_weight('Quiz'))
-
 market_failure_research_project = Assessment.create(title: 'Market Failure Research Project',
                                                     description: 'This project will require students to conduct research on a specific market failure and analyze the causes and effects of the market failure, as well as potential methods of correction.',
                                                     assessment_type: 'Project',
@@ -316,7 +264,7 @@ markets_efficiency_test = Assessment.create(title: 'Markets and Efficiency Test'
                                             teacher:,
                                             subject: econ, unit: topic_2_1, weight: assessment_weight('Test'))
 
-topic_2_1_assessments = [market_failure_quiz, market_modification_quiz, property_rights_quiz, market_efficiency_quiz,
+topic_2_1_assessments = [market_failure_quiz, market_modification_quiz,
                          market_failure_research_project, markets_efficiency_test]
 
 #====================================================================================================
@@ -328,12 +276,6 @@ topic_2_2_dates = [date]
   date = topic_2_2_dates[-1] + 7
   topic_2_2_dates.push(date)
 end
-
-ecological_sustainable_development_quiz = Assessment.create(title: 'Ecologically Sustainable Development Quiz',
-                                                            description: 'This quiz will assess the students understanding of ecologically sustainable development and its relationship to allocative, productive, and dynamic efficiency.',
-                                                            assessment_type: 'Quiz',
-                                                            teacher:,
-                                                            subject: econ, unit: topic_2_2, weight: assessment_weight('Quiz'))
 
 environmental_impacts_quiz =  Assessment.create(title: 'Environmental Impacts of Economic Activities Quiz',
                                                 description: 'This quiz will assess the students understanding of the environmental impacts of economic activities and the trade-offs between economic growth and ecologically sustainable development.',
@@ -347,12 +289,6 @@ valuing_externalities_quiz =  Assessment.create(title: 'Valuing Externalities Qu
                                                 teacher:,
                                                 subject: econ, unit: topic_2_2, weight: assessment_weight('Quiz'))
 
-environmental_degradation_test = Assessment.create(title: 'Environmental Degradation in Australia Test',
-                                                   description: 'This test will assess the students understanding of environmental degradation in Australia and the underlying assumptions and perspectives of the different sources of information.',
-                                                   assessment_type: 'Test',
-                                                   teacher:,
-                                                   subject: econ, unit: topic_2_2, weight: assessment_weight('Quiz'))
-
 government_strategies_project =  Assessment.create(title: 'Government Strategies for Redressing Environmental Degradation Project',
                                                    description: 'This project will require students to research and analyze government strategies and/or interventions to redress environmental degradation and significant measures to achieve economic and ecological sustainability.',
                                                    assessment_type: 'Project',
@@ -364,8 +300,8 @@ environmental_economics_essay =  Assessment.create(title: 'Environmental Economi
                                                    assessment_type: 'Essay',
                                                    teacher:,
                                                    subject: econ, unit: topic_2_2, weight: assessment_weight('Essay'))
-topic_2_2_assessments = [ecological_sustainable_development_quiz, environmental_impacts_quiz,
-                         valuing_externalities_quiz, environmental_degradation_test, government_strategies_project, environmental_economics_essay]
+topic_2_2_assessments = [environmental_impacts_quiz,
+                         valuing_externalities_quiz, government_strategies_project, environmental_economics_essay]
 
 #====================================================================================================
 # Unit 2 Final Exam
@@ -380,16 +316,39 @@ market_efficiency_and_environmental_economics_exam = Assessment.create(title: 'M
 unit_2_assessments = topic_2_1_assessments + topic_2_2_assessments + [market_efficiency_and_environmental_economics_exam]
 
 courses = Course.all
-first_assessment = Date.new(2021, 9, 7)
 
-courses.each do |course|
-  course.syllabus.main_units.each do |unit|
-    unit.sections.each do |section|
-      section.assessments.each_with_index do |assessment, i|
-        course.cohort.students.each do |student|
-          score = (rand * 1.15).round(2)
-          score = 1 if score > 1
-          Grade.create(student:, assessment:, course:, score:, date: (first_assessment + ((i + 1) * 7)))
+courses.each_with_index do |course, _i|
+  ass_count = 0
+  course.cohort.students.each do |student|
+    ass_date = Date.new(2021, 9, 1)
+    ranges = [1, 2, 2, 3, 3, 4]
+    range = ranges.sample
+    mean = case range
+           when 1
+             rand(0.85..0.94)
+           when 2
+             rand(0.72..0.85)
+           when 3
+             rand(0.54..0.7)
+           else
+             rand(0.48..0.56)
+
+           end
+    sd = rand(0.04..0.06)
+    gen = Rubystats::NormalDistribution.new(mean, sd)
+    course.syllabus.main_units.each do |unit|
+      unit.sections.each do |section|
+        section.assessments.each do |assessment|
+          ass_difficulty_modifier = rand(-0.1..0.1)
+          ass_count += 1
+          ass_date += 9.days
+
+          score = gen.rng
+          score = 1.0 - rand(0.04) if score > 1.0
+          puts ass_count
+          puts score
+          puts ass_date
+          Grade.create(student:, assessment:, course:, score: score.round(2), date: ass_date)
         end
       end
     end

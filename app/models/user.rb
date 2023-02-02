@@ -37,10 +37,10 @@ class User < ApplicationRecord
   has_one :student_profile
   has_many :enrollments, through: :student_profile
   has_many :cohorts, through: :enrollments
-  has_many :courses, through: :cohorts
   has_many :grades, through: :student_profile
 
   has_many :syllabuses, foreign_key: 'teacher_id', dependent: :destroy
+  has_many :courses, through: :syllabuses
 
   has_many :messages, dependent: :destroy
   has_many :participants, dependent: :destroy

@@ -24,7 +24,30 @@ export default {
       //   datasets: [{ data: [40, 20, 12] }]
       // },
       chartOptions: {
-        responsive: true
+        responsive: true,
+        hoverBackgroundColor: "#f97316",
+        plugins: {
+          tooltip: {
+            backgroundColor: "#f5f3ff",
+            titleColor: "#6d28d9",
+            bodyColor: "#f97316",
+            borderColor: "#f5f3ff",
+            borderWidth: 2,
+            caretPadding: 10,
+            cornerRadius: 6,
+            displayColors: false,
+            padding: 10,
+            titleFont: {
+              family: "segoe-ui, sans-serif",
+              size: 16,
+              weight: "bold"
+            },
+            bodyFont: {
+              family: "segoe-ui, sans-serif",
+              size: 16
+            }
+          }
+        }
       }
     };
   }

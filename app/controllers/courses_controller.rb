@@ -25,24 +25,25 @@ class CoursesController < ApplicationController
       next unless unit.main_unit?
 
       course_grades["unit_#{unit.id}_grades".to_sym] =
-        { "unit_total_grade": 0, "unit_weight": unit.weight }
+        { "unit_total_grade": '-', "unit_weight": unit.weight }
 
       unit.sections.each do |section|
         course_grades["unit_#{unit.id}_grades".to_sym]["section_#{section.id}_grades".to_sym] =
-          { "section_#{section.id}_total_grade": 0, "section_#{section.id}_weight": section.weight }
+          { "section_#{section.id}_total_grade": '-', "section_#{section.id}_weight": section.weight }
 
         section.assessments.each do |assessment|
           course_grades["unit_#{unit.id}_grades".to_sym]["section_#{section.id}_grades".to_sym]["assessment_#{assessment.id}_grade".to_sym] =
-            'N/A'
-          @headers << { text: assessment.title,
-                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true }
+            '-'
+          @headers << { text: assessment.title.truncate(10),
+                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true, width: 100 }
         end
         @headers << { text: section.title,
-                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true }
+                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true, width: 150 }
       end
-      @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade", sortable: true }
+      @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade", sortable: true,
+                    width: 150 }
     end
-    @headers << { text: @course.title, value: 'grades.course_total_grade', sortable: true }
+    @headers << { text: @course.title, value: 'grades.course_total_grade', sortable: true, width: 200 }
 
     # original way of creating the student grades hash used to populate the table with the grades,
     # but not sure how to get the calculated values, nor any counts/sums of students based on the calculated values
@@ -58,7 +59,7 @@ class CoursesController < ApplicationController
 
     if @grades.empty?
       @course.students.each do |student|
-        @student_row_items << { student_name: student.full_name, student_id: student.student_id,
+        @student_row_items << { student_name: student.full_name, student_id: student.id,
                                 grades: course_grades.deep_dup }
       end
 
@@ -82,22 +83,28 @@ class CoursesController < ApplicationController
 
     end
 
-    @student_row_items << new_student_hash
+    @student_row_items << new_student_hash unless new_student_hash.nil?
     @student_row_items.each do |student|
       @course.syllabus.units.each do |unit|
         if unit.main_unit?
+
           student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym] = (@averages.find_by(
             student_id: student[:student_id], unit_id: unit.id, course_id: @course.id, current: true
-          ).average * 100).round(2)
+          )&.average&.* 100)&.round(2)
+          if student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym].nil?
+            student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym] =
+              '-'
+          end
+
         else
           student[:grades]["unit_#{unit.parent_unit_id}_grades".to_sym]["section_#{unit.id}_grades".to_sym]["section_#{unit.id}_total_grade".to_sym] = (@averages.find_by(
             student_id: student[:student_id], unit_id: unit.id, course_id: @course.id, current: true
-          ).average * 100).round(2)
+          )&.average&.* 100)&.round(2)
         end
       end
       student[:grades][:course_total_grade] =
         (@averages.find_by(course_avg: true, course: @course, student: student[:student_id],
-                           current: true).average * 100).round(2)
+                           current: true)&.average&.* 100)&.round(2)
     end
   end
 
