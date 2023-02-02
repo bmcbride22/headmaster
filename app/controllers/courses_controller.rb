@@ -13,6 +13,11 @@ class CoursesController < ApplicationController
   # GET /courses/:id
   def show
     @course = Course.includes({ syllabus: { units: { sections: :assessments } } }).find(params[:id])
+    teacher_courses = Course.includes(:syllabus).where(syllabus: Syllabus.where(teacher: current_user))
+    @courses = []
+    teacher_courses.each do |course|
+      @courses << { id: course.id, title: course.title }
+    end
 
     # TODO: Memoize the table headers in the course model and update them when a new assessment is added
 
