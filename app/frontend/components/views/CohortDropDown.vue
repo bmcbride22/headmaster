@@ -8,16 +8,17 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               class="h-5 w-5 flex-shrink-0 text-gray-500"
+              id="Icon"
+              d="M21 19V17C21 15.1362 19.7252 13.5701 18 13.126M14.5 1.29076C15.9659 1.88415 17 3.32131 17 5C17 6.67869 15.9659 8.11585 14.5 8.70924M16 19C16 17.1362 16 16.2044 15.6955 15.4693C15.2895 14.4892 14.5108 13.7105 13.5307 13.3045C12.7956 13 11.8638 13 10 13H7C5.13623 13 4.20435 13 3.46927 13.3045C2.48915 13.7105 1.71046 14.4892 1.30448 15.4693C1 16.2044 1 17.1362 1 19M12.5 5C12.5 7.20914 10.7091 9 8.5 9C6.29086 9 4.5 7.20914 4.5 5C4.5 2.79086 6.29086 1 8.5 1C10.7091 1 12.5 2.79086 12.5 5Z"
               stroke-width="1.5"
               stroke="currentColor"
               aria-hidden="true"
               stroke-linecap="round"
               stroke-linejoin="round"
-              d="M11 19L10.8999 18.8499C10.2053 17.808 9.85798 17.287 9.3991 16.9098C8.99286 16.5759 8.52476 16.3254 8.02161 16.1726C7.45325 16 6.82711 16 5.57482 16H4.2C3.07989 16 2.51984 16 2.09202 15.782C1.71569 15.5903 1.40973 15.2843 1.21799 14.908C1 14.4802 1 13.9201 1 12.8V4.2C1 3.07989 1 2.51984 1.21799 2.09202C1.40973 1.71569 1.71569 1.40973 2.09202 1.21799C2.51984 1 3.07989 1 4.2 1H4.6C6.84021 1 7.96031 1 8.81596 1.43597C9.56861 1.81947 10.1805 2.43139 10.564 3.18404C11 4.03968 11 5.15979 11 7.4M11 19V7.4M11 19L11.1001 18.8499C11.7947 17.808 12.142 17.287 12.6009 16.9098C13.0071 16.5759 13.4752 16.3254 13.9784 16.1726C14.5467 16 15.1729 16 16.4252 16H17.8C18.9201 16 19.4802 16 19.908 15.782C20.2843 15.5903 20.5903 15.2843 20.782 14.908C21 14.4802 21 13.9201 21 12.8V4.2C21 3.07989 21 2.51984 20.782 2.09202C20.5903 1.71569 20.2843 1.40973 19.908 1.21799C19.4802 1 18.9201 1 17.8 1H17.4C15.1598 1 14.0397 1 13.184 1.43597C12.4314 1.81947 11.8195 2.43139 11.436 3.18404C11 4.03968 11 5.15979 11 7.4"
             />
           </svg>
         </div>
-        <span class="block truncate ml-8 pr-12 text-gray-500">Select Course</span>
+        <span class="block truncate ml-8 pr-12 text-gray-500">Select Class</span>
         <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
           <ChevronDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
         </span>
@@ -28,15 +29,15 @@
           class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
         >
           <ListboxOption
-            @click="changeCourse"
+            @click="changeCohort"
             as="template"
-            v-for="course in courses"
-            :key="course.id"
-            :value="course.id"
+            v-for="cohort in cohorts"
+            :key="cohort.id"
+            :value="cohort.id"
             v-slot="{ active, selected }"
           >
             <li :class="[active ? 'text-white bg-indigo-600' : 'text-gray-900', 'relative cursor-default select-none py-2 pl-8 pr-4']">
-              <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">{{ course.title }}</span>
+              <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">{{ cohort.title }}</span>
 
               <span
                 v-if="selected"
@@ -56,7 +57,7 @@ import { ref } from "vue";
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/vue";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/vue/20/solid";
 export default {
-  name: "DropDown",
+  name: "CohortDropDown",
   components: {
     Listbox,
     ListboxButton,
@@ -66,7 +67,7 @@ export default {
     ChevronDownIcon
   },
   props: {
-    courses: {
+    cohorts: {
       type: Array,
       required: true
     },
@@ -77,12 +78,12 @@ export default {
   },
   data() {
     return {
-      selected: ref(this.courses[this.current])
+      selected: ref(this.cohorts[this.current])
     };
   },
   methods: {
-    changeCourse() {
-      window.location.href = `/courses/${this.selected}`;
+    changeCohort() {
+      window.location.href = `/cohorts/${this.selected}`;
     }
   }
 };

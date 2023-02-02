@@ -1,28 +1,21 @@
-<div class="border-b-2 border-b-violet-700  mt-8 py-4 px-4 flex justify-between">
-  <div >
-    <div class="flex">
-      <h3>Cohort <%=@cohort.name ||= @cohort.id%></h3>
-      <%= link_to "Edit", edit_cohort_path(@cohort), method: :delete, class: 'ml-2 text-red-400 text-xs ' %>
+<div id="vue-chart">
+  <div class="my-4 py-4 px-4 ">
+    <div class="flex justify-between">
+      <h3 class="text-gray-900">Cohort <%=@cohort.name%></h3>
+      <div class="">
+        <cohort-drop-down :cohorts="<%= @cohorts.to_json %>" :current="<%= @cohorts.find_index({id: @cohort.id, title: @cohort.name})%>"></cohort-drop-down>
+      </div>
     </div>
-    <div class="ml-4 mt-2">
-      <p class= "text-gray-500"><%=@cohort.enrollments.count%> students</p>
-      <p class="text-gray-500 "><%=@cohort.courses.count%> courses</p>
+    <div class="mt-8 ">
+      <div class="sm:flex flex-row-reverse sm:items-center">
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none sm:-mb-56">
+          <%= link_to 'Add student', new_cohort_student_profile_path(@cohort), class: "btn btn-secondary" %>
+        </div>
+      </div>
+      <div class="mt-8" >
+        <easy-table :headers='<%= @cohort.student_roster_table_headers.to_json %>' :items='<%= @cohort.student_roster_table_items.to_json %>'/>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="self-end">
-    <%= link_to "Back", cohorts_path, class: 'btn btn-secondary h-11  '%>
   </div>
 </div>
-<div class="mt-8 px-4 sm:px-6 lg:px-8">
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
-      <h1 class="text-2xl font-semibold text-gray-900">Student Roster</h1>
-    </div>
-    <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-      <%= link_to 'Add student', new_cohort_student_profile_path(@cohort), class: "inline-flex items-center justify-center rounded-md border border-transparent bg-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 sm:w-auto" %>
-    </div>
-  </div>
-  <div class="mt-8" id="vue-chart">
-    <easy-table :headers='<%= @cohort.student_roster_table_headers.to_json %>' :items='<%= @cohort.student_roster_table_items.to_json %>'/>
-    </div>
-  </div>

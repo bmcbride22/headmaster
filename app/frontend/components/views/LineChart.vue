@@ -56,6 +56,7 @@ export default {
         datasets: this.propData.datasets
       },
       chartOptions: {
+        aspectRatio: 1.7,
         pointHitRadius: 10,
         pointHoverRadius: 6,
 
