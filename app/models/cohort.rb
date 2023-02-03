@@ -15,6 +15,10 @@ class Cohort < ApplicationRecord
   has_many :enrollments, dependent: :destroy
   has_many :students, through: :enrollments, class_name: 'StudentProfile', foreign_key: 'student_id'
 
+	validates :name, presence: true
+	validates :name, uniqueness: { scope: %i[start_date end_date] }
+
+
   def student_names_f_last
     students.map do |student|
       student.first_name[0] + '.' + student.last_name

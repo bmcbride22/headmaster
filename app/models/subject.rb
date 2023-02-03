@@ -19,6 +19,8 @@
 class Subject < ApplicationRecord
   has_many :subjects, class_name: 'Subject', foreign_key: 'discipline_id'
   belongs_to :discipline, class_name: 'Subject', optional: true
-	has_many :instruments
-	has_many :syllabuses
+  has_many :instruments
+  has_many :syllabuses
+
+  validates :name, presence: true
 end

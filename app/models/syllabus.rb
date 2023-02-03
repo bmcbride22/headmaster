@@ -30,6 +30,9 @@ class Syllabus < ApplicationRecord
 
   accepts_nested_attributes_for :units, allow_destroy: true
 
+  validates :title, presence: true
+  validates :teacher, presence: true
+
   def main_units
     units.select(&:main_unit?)
   end

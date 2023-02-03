@@ -4,7 +4,6 @@
 #
 #  id              :bigint           not null, primary key
 #  assessment_type :string
-#  date            :date
 #  description     :text
 #  title           :string
 #  weight          :float            default(1.0), not null
