@@ -48,6 +48,14 @@ class User < ApplicationRecord
 
   has_person_name
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :email, presence: true
+  validates	:email, uniqueness: true
+  # validate :parent_cannot_be_own_child
+
+  enum role: %i[student teacher admin]
+
   def classes
     classes = []
     syllabuses.each do |syllabus|
