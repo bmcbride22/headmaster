@@ -12,8 +12,8 @@ class CoursesController < ApplicationController
 
   # GET /courses/:id
   def show
-    @course = Course.includes({ syllabus: { units: { sections: :assessments } } }).find(params[:id])
-    teacher_courses = Course.includes(:syllabus).where(syllabus: Syllabus.where(teacher: current_user))
+    @course = Course.includes({ syllabus: { units: :assessments } }).find(params[:id])
+    teacher_courses = Course.where(syllabus: Syllabus.where(teacher: current_user))
     @courses = []
     teacher_courses.each do |course|
       @courses << { id: course.id, title: course.title }
@@ -26,7 +26,7 @@ class CoursesController < ApplicationController
     ]
     course_grades = {}
 
-    @course.syllabus.units.each do |unit|
+    @course.syllabus.units.includes(:sections).each do |unit|
       next unless unit.main_unit?
 
       course_grades["unit_#{unit.id}_grades".to_sym] =
@@ -53,12 +53,12 @@ class CoursesController < ApplicationController
     # original way of creating the student grades hash used to populate the table with the grades,
     # but not sure how to get the calculated values, nor any counts/sums of students based on the calculated values
 
-    @grades = Grade.includes(:student, assessment: { unit: :sections })
+    @grades = Grade.includes(:student, :assessment)
                    .where(course_id: @course.id)
                    .select('id, student_id, assessment_id, course_id, score')
                    .order('student_id')
 
-    @averages = Average.includes(:unit, { course: :cohort }).where(course_id: @course.id)
+    @averages = Average.where(course_id: @course.id)
 
     @student_row_items = []
 
@@ -139,10 +139,16 @@ class CoursesController < ApplicationController
       }.to_json
     end
 
-    group_1 = Average.where('course_avg = true AND course_id = ? AND average >= 0.85 AND current = true', @course.id).count
-    group_2 = Average.where('course_avg = true AND course_id = ? AND average < 0.85 AND average >= 0.7 AND current = true' , @course.id).count
-    group_3 = Average.where('course_avg = true AND course_id = ? AND average < 0.7 AND average >= 0.55 AND current = true', @course.id).count
-    group_4 = Average.where('course_avg = true AND course_id = ? AND average < 0.55 AND current = true', @course.id).count
+    group_1 = Average.where('course_avg = true AND course_id = ? AND average >= 0.85 AND current = true',
+                            @course.id).count
+    group_2 = Average.where(
+      'course_avg = true AND course_id = ? AND average < 0.85 AND average >= 0.7 AND current = true', @course.id
+    ).count
+    group_3 = Average.where(
+      'course_avg = true AND course_id = ? AND average < 0.7 AND average >= 0.55 AND current = true', @course.id
+    ).count
+    group_4 = Average.where('course_avg = true AND course_id = ? AND average < 0.55 AND current = true',
+                            @course.id).count
 
     group_data = [group_1, group_2, group_3, group_4]
 
