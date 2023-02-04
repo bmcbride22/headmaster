@@ -4,7 +4,6 @@
 #
 #  id              :bigint           not null, primary key
 #  assessment_type :string
-#  date            :date
 #  description     :text
 #  title           :string
 #  weight          :float            default(1.0), not null
@@ -33,6 +32,16 @@ class Assessment < ApplicationRecord
   has_one :parent_unit, through: :unit
   belongs_to :subject
   has_many :grades, dependent: :destroy
+
+  validates :title, presence: true
+  validates :assessment_type, presence: true
+  validates :assessment_type, inclusion: { in: %w[Exam Quiz Essay Project Test] }
+  validates :weight, presence: true
+  validates :weight, numericality: { greater_than: 0, less_than_or_equal_to: 1 }
+  validates :unit, presence: true
+  validates :teacher, presence: true
+  validates :subject, presence: true
+  validates :title, uniqueness: { scope: %i[unit teacher] }
 
   def courses
     unit.syllabus.courses

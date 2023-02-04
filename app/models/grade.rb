@@ -26,6 +26,7 @@
 #
 class Grade < ApplicationRecord
   after_save :create_section_average
+  after_update :create_section_average
 
   belongs_to :assessment
   has_one :unit, through: :assessment
@@ -34,10 +35,14 @@ class Grade < ApplicationRecord
   belongs_to :course
   belongs_to :student, class_name: 'StudentProfile'
 
-  private
+  validates :score, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :date, presence: true
+  validates :student, uniqueness: { scope: %i[assessment course] }
+  validates :student, presence: true
+  validates :course, presence: true
+  validates :assessment, presence: true
 
-  # write a callback function to create a new unit average for the grades student when a new grade gets created,
-  # and set the previously current average to false for that student / unit pairing.
+  private
 
   def create_section_average
     previous_average = Average.find_by(student:, section_avg: true, unit:, course:, current: true)

@@ -39,16 +39,16 @@ class CoursesController < ApplicationController
         section.assessments.each do |assessment|
           course_grades["unit_#{unit.id}_grades".to_sym]["section_#{section.id}_grades".to_sym]["assessment_#{assessment.id}_grade".to_sym] =
             '-'
-          @headers << { text: assessment.title.truncate(10),
-                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true, width: 100 }
+          @headers << { text: assessment.assessment_type,
+                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true, width: 50 }
         end
         @headers << { text: section.title,
-                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true, width: 150 }
+                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true, width: 100 }
       end
       @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade", sortable: true,
                     width: 150 }
     end
-    @headers << { text: @course.title, value: 'grades.course_total_grade', sortable: true, width: 200 }
+    @headers << { text: @course.title, value: 'grades.course_total_grade', sortable: true, width: 150 }
 
     # original way of creating the student grades hash used to populate the table with the grades,
     # but not sure how to get the calculated values, nor any counts/sums of students based on the calculated values
@@ -58,7 +58,7 @@ class CoursesController < ApplicationController
                    .select('id, student_id, assessment_id, course_id, score')
                    .order('student_id')
 
-    @averages = @averages = Average.includes(:unit, { course: :cohort }).where(course_id: @course.id, course_avg: true)
+    @averages = Average.includes(:unit, { course: :cohort }).where(course_id: @course.id)
 
     @student_row_items = []
 
@@ -89,6 +89,7 @@ class CoursesController < ApplicationController
     end
 
     @student_row_items << new_student_hash unless new_student_hash.nil?
+
     @student_row_items.each do |student|
       @course.syllabus.units.each do |unit|
         if unit.main_unit?
@@ -100,7 +101,6 @@ class CoursesController < ApplicationController
             student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym] =
               '-'
           end
-
         else
           student[:grades]["unit_#{unit.parent_unit_id}_grades".to_sym]["section_#{unit.id}_grades".to_sym]["section_#{unit.id}_total_grade".to_sym] = (@averages.find_by(
             student_id: student[:student_id], unit_id: unit.id, course_id: @course.id, current: true
@@ -139,10 +139,10 @@ class CoursesController < ApplicationController
       }.to_json
     end
 
-    group_1 = Average.where('course_avg = true AND average >= 0.85 AND current = true').count
-    group_2 = Average.where('course_avg = true AND average < 0.85 AND average >= 0.7 AND current = true').count
-    group_3 = Average.where('course_avg = true AND average < 0.7 AND average >= 0.55 AND current = true').count
-    group_4 = Average.where('course_avg = true AND average < 0.55 AND current = true').count
+    group_1 = Average.where('course_avg = true AND course_id = ? AND average >= 0.85 AND current = true', @course.id).count
+    group_2 = Average.where('course_avg = true AND course_id = ? AND average < 0.85 AND average >= 0.7 AND current = true' , @course.id).count
+    group_3 = Average.where('course_avg = true AND course_id = ? AND average < 0.7 AND average >= 0.55 AND current = true', @course.id).count
+    group_4 = Average.where('course_avg = true AND course_id = ? AND average < 0.55 AND current = true', @course.id).count
 
     group_data = [group_1, group_2, group_3, group_4]
 

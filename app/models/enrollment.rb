@@ -21,4 +21,8 @@
 class Enrollment < ApplicationRecord
   belongs_to :student, class_name: 'StudentProfile'
   belongs_to :cohort
+
+  validates :student, presence: true
+  validates :cohort, presence: true
+  validates :student, uniqueness: { scope: :cohort }
 end

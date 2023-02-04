@@ -6,6 +6,9 @@
     <% else %>
       <%= form.hidden_field :assessment_id, value: @assessment.id %>
     <% end %>
+    <%= simple_fields_for "date" do |f| %>
+      <%= f.input :date, as: :date, label: "Assessment Date" %>
+    <% end %>
     <% @grades.each_with_index do |grade, i| %>
       <% student = @course.cohort.students[i] %>
       <h4><%= student.full_name %></h4>
@@ -13,7 +16,7 @@
         <%= f.hidden_field :course_id, value: @course.id %>
         <%= f.hidden_field :student_id, value: student.id %>
         <%= f.hidden_field :date, value: Date.new %>
-        <%= f.input :score, as: :decimal %>
+        <%= f.input :score, as: :float %>
       <% end %>
     <% end %>
     <button type=submit class="btn btn-primary w-full mt-8">Add Grades</button>

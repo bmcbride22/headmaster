@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_31_003931) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_03_043901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_31_003931) do
     t.float "weight", default: 1.0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "date"
     t.text "description"
     t.string "title"
     t.string "assessment_type"

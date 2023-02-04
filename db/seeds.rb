@@ -103,12 +103,6 @@ end
 #====================================================================================================
 # Topic 1.1 Assessments
 #====================================================================================================
-date = Date.new(2022, 9, 10)
-topic_1_1_dates = [date]
-5.times do
-  date = topic_1_1_dates[-1] + 7
-  topic_1_1_dates.push(date)
-end
 
 factors_production_income_quiz = Assessment.create(title: 'Factors of Production and Income Quiz',
                                                    description: 'This quiz will test students understanding of the factors of production and how they are linked to income',
@@ -139,12 +133,6 @@ topic_1_1_assessments = [factors_production_income_quiz, opportunity_cost_quiz,
 #====================================================================================================
 # Topic 1.2  Assessments
 #====================================================================================================
-date = topic_1_1_dates[-1] + 7
-topic_1_2_dates = [date]
-5.times do
-  date = topic_1_2_dates[-1] + 7
-  topic_1_2_dates.push(date)
-end
 
 circular_flow_income_quiz = Assessment.create(title: 'The Circular Flow of Income Model Quiz',
                                               description: 'Used to assess the students understanding of construction and significance of the five-sector circular flow of income model, including the relationships between the sectors, injections and withdrawals, and equilibrium conditions.',
@@ -176,13 +164,6 @@ topic_1_2_assessments = [circular_flow_income_quiz,
 #====================================================================================================
 # Topic 1.3 assessments
 #====================================================================================================
-
-date = topic_1_2_dates[-1] + 7
-topic_1_3_dates = [date]
-5.times do
-  date = topic_1_3_dates[-1] + 7
-  topic_1_3_dates.push(date)
-end
 
 equilibrium_elasticity_quiz =  Assessment.create(title: 'Equilibrium and Elasticity Quiz',
                                                  description: 'This quiz will test students understanding of market equilibrium and the concept of elasticity of demand and supply.',
@@ -233,12 +214,6 @@ unit_1_assessments = topic_1_1_assessments + topic_1_2_assessments + topic_1_3_a
 #====================================================================================================
 # Unit 2.1 assessments
 #====================================================================================================
-date = topic_1_3_dates[-1] + 7
-topic_2_1_dates = [date]
-5.times do
-  date = topic_2_1_dates[-1] + 7
-  topic_2_1_dates.push(date)
-end
 
 market_failure_quiz = Assessment.create(title: 'Market Failure Quiz',
                                         description: 'This quiz will test students understanding of the causes and effects of market failure, including excesses of boom and bust cycles, externalities, market power, public goods, and asymmetric information.',
@@ -270,12 +245,6 @@ topic_2_1_assessments = [market_failure_quiz, market_modification_quiz,
 #====================================================================================================
 # Unit 2.2  Assessments
 #====================================================================================================
-date = topic_2_1_dates[-1] + 7
-topic_2_2_dates = [date]
-5.times do
-  date = topic_2_2_dates[-1] + 7
-  topic_2_2_dates.push(date)
-end
 
 environmental_impacts_quiz =  Assessment.create(title: 'Environmental Impacts of Economic Activities Quiz',
                                                 description: 'This quiz will assess the students understanding of the environmental impacts of economic activities and the trade-offs between economic growth and ecologically sustainable development.',
@@ -338,13 +307,13 @@ courses.each_with_index do |course, _i|
     gen = Rubystats::NormalDistribution.new(mean, sd)
     course.syllabus.main_units.each do |unit|
       unit.sections.each do |section|
-        section.assessments.each do |assessment|
-          ass_difficulty_modifier = rand(-0.1..0.1)
+        section.assessments.each_with_index do |assessment, i|
+          ass_difficulty_modifier = rand(-0.06..0.06)
           ass_count += 1
           ass_date += 9.days
+          score = gen.rng + ass_difficulty_modifier + (i * 0.004)
 
-          score = gen.rng
-          score = 1.0 - rand(0.04) if score > 1.0
+          score = 1.0 - rand(0.05) if score > 1.0
           puts ass_count
           puts score
           puts ass_date

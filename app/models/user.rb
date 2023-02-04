@@ -10,7 +10,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  role                   :integer          default(1)
+#  role                   :integer          default("teacher")
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  parent_id              :bigint
@@ -47,6 +47,14 @@ class User < ApplicationRecord
   has_many :chatrooms, through: :participants
 
   has_person_name
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :email, presence: true
+  validates	:email, uniqueness: true
+  # validate :parent_cannot_be_own_child
+
+  enum role: %i[student teacher admin]
 
   def classes
     classes = []

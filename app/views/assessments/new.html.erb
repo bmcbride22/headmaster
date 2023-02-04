@@ -5,7 +5,6 @@
     <%= f.input :title %>
     <%= f.input :description %>
     <%= f.input :assessment_type, collection: %w[Quiz Test Exam Project Essay], include_blank: true, hint: 'Select assessment type'  %>
-    <%= f.input :date, as: :date %>
     <% if @syllabus %>
       <%= f.hidden_field :subject_id, value: @syllabus.subject.id %>
     <% else %>
