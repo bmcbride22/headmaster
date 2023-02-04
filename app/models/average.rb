@@ -38,7 +38,6 @@ class Average < ApplicationRecord
   validates :date, presence: true
   validates :unit, presence: true, unless: :course_avg
   validates :unit, absence: true, if: :course_avg
-  validates :current, uniqueness: { scope: %i[student unit course] }, if: :current
 
   # create a custom validation to ensure that only one average is current for a student, unit, course combination
 end
