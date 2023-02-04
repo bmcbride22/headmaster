@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :assessments
   resources :cohorts do
     resources :student_profiles, only: %i[new create]
+    resources :courses, only: %i[new], to: 'courses#new'
   end
   resources :student_profiles, except: %i[new create]
   resources :syllabuses do

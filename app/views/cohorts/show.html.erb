@@ -9,7 +9,8 @@
     <div class="mt-8 ">
       <div class="sm:flex flex-row-reverse sm:items-center">
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none sm:-mb-56">
-          <%= link_to 'Add student', new_cohort_student_profile_path(@cohort), class: "btn btn-secondary" %>
+          <%= link_to 'Register new course', new_cohort_course_path(@cohort), class: "btn btn-primary" %>
+          <%= link_to 'Add student', new_cohort_student_profile_path(@cohort), class: "btn btn-secondary ml-2" %>
         </div>
       </div>
       <div class="mt-8" >

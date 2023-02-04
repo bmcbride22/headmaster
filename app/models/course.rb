@@ -4,8 +4,6 @@
 #
 #  id          :bigint           not null, primary key
 #  description :text
-#  end_date    :date
-#  start_date  :date
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -26,12 +24,16 @@ class Course < ApplicationRecord
   belongs_to :cohort
   belongs_to :syllabus
 
+  has_many :semester_courses
+  has_many :semesters, through: :semester_courses
   has_one :teacher, through: :syllabus
   has_many :students, through: :cohort
   has_many :units, through: :syllabus
   has_many :assessments, through: :units
   has_many :grades, through: :assessments
   has_many :averages, through: :units
+
+  accepts_nested_attributes_for :semester_courses, allow_destroy: true
 
   validates :title, presence: true
   validates :title, uniqueness: { scope: %i[syllabus cohort] }

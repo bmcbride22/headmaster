@@ -1,11 +1,22 @@
 <div class="mx-auto">
-  <h1>Edit Course</h1>
+  <% if params[:cohort_id] %>
+    <h1>Register new course with <br>
+      Cohort <%= Cohort.find(params[:cohort_id]).name %></h1>
+  <% else %>
+    <h1>Register a new course</h1>
+  <% end %>
   <%= simple_form_for @course do |f| %>
     <%= render "shared/error_messages", resource: f.object %>
     <%= f.input :title %>
     <%= f.input :description %>
-    <%= f.input :start_date%>
-    <%= f.input :cohort_id, collection: Cohort.all%>
+    <%= simple_fields_for :semester_courses do |sem_f| %>
+      <%= sem_f.input :semester_id, collection: Semester.all, as: :checkboxes, prompt: "Select a semester(s)" %>
+    <% end %>
+    <% if params[:cohort_id] %>
+      <%= f.hidden_field :cohort_id, value: params[:cohort_id] %>
+    <% else %>
+      <%= f.input :cohort_id, collection: Cohort.all%>
+    <% end %>
     <%= f.input :syllabus_id, collection: Syllabus.all %>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>

@@ -164,6 +164,8 @@ class CoursesController < ApplicationController
   # GET /courses/new
   def new
     @course = Course.new
+    @cohort = Cohort.find(params[:cohort_id]) if params[:cohort_id]
+    @course.semester_courses.build
   end
 
   # POST /courses
@@ -171,6 +173,9 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
+      params[:course][:semester_courses_attributes].each do |semester_course|
+        SemesterCourse.create(semester_id: semester_course[:semester_id], course_id: @course.id)
+      end
       redirect_to @course, notice: "#{@course.title ||= 'Course'} was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -202,6 +207,7 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[title description start_date end_date cohort_id syllabus_id])
+    params.require(:course).permit(%i[title description cohort_id syllabus_id semester_courses_attributes: %i[id
+                                      semester_id _destroy]])
   end
 end
