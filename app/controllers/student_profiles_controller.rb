@@ -10,7 +10,52 @@ class StudentProfilesController < ApplicationController
   end
 
   # GET /student_profiles/:id
-  def show; end
+  def show
+    @averages = Average.includes(:unit, { course: :cohort }).where(student_id: @student_profile.id)
+    course_avgs_by_date = @averages.group(:course_id, :date).order(:date).average(:average)
+                                   .each_with_object({}) do |((course_id, date), average_average), m|
+      m[course_id] ||= {}
+      m[course_id][date] = average_average
+    end
+    colors = ['#4c1d95', '#8b5cf6', '#c4b5fd', '#6d28d9', '#ede9fe']
+    data_sets = []
+    if course_avgs_by_date.empty?
+      @chart_data = {}
+    else
+      course_avgs_by_date.each do |course_id, avgs_by_date|
+        color = colors.shift
+        data_sets << {
+          label: Course.find(course_id).title,
+          data: avgs_by_date.values.map { |avg| (avg * 100).round(2) },
+          backgroundColor: color,
+          lineColor: color,
+          borderColor: color,
+          pointStyle: 'circle',
+          pointRadius: 4
+        }
+      end
+      @chart_data = {
+        labels: course_avgs_by_date.first[1].keys.map { |date| date.strftime('%-d %b, %Y') },
+        datasets: data_sets
+      }.to_json
+    end
+    group_1 = Grade.where('student_id = ? AND score >= 0.85 ', @student_profile.id).count
+    group_2 = Grade.where('student_id = ? AND score < 0.85 AND score >= 0.7 ',
+                          @student_profile.id).count
+    group_3 = Grade.where('student_id = ? AND score < 0.7 AND score >= 0.55 ',
+                          @student_profile.id).count
+    group_4 = Grade.where('student_id = ? AND score < 0.55 ', @student_profile.id).count
+
+    group_data = [group_1, group_2, group_3, group_4]
+
+    @achievement_groups =
+      {
+        labels: ['+85', '70-85', '55-70', ' 0-55'],
+        datasets: [{ backgroundColor: ['#5b21b6', '#7c3aed', '#a78bfa', '#ddd6fe'],
+                     label: 'Students',
+                     data: group_data }]
+      }.to_json
+  end
 
   # GET /student_profiles/new
   def new

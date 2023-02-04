@@ -32,14 +32,18 @@ class GradesController < ApplicationController
 
   def create_assessment_grades
     assessment = Assessment.includes(:syllabus).find(params[:assessment_id])
-    params[:grades].each do |grade_attrs|
-      grade = Grade.new(student_id: grade_attrs[:student_id], score: grade_attrs[:score],
-                        course_id: grade_attrs[:course_id])
-      grade.assessment = assessment
-      grade.save
-    end
 
-    redirect_to course_path(params[:grades][0][:course_id])
+    date_input = params[:date]
+    date = Date.new(date_input['date(1i)'].to_i, date_input['date(2i)'].to_i, date_input['date(3i)'].to_i)
+    params[:grades].each do |grade_attrs|
+      grade = Grade.new(student_id: grade_attrs[:student_id], score: (grade_attrs[:score].to_f / 100.0),
+                        course_id: grade_attrs[:course_id], date:, assessment_id: assessment.id)
+      if grade.save
+        redirect_to course_path(params[:grades][0][:course_id]), notice: 'Grades were successfully created.'
+      else
+        render :new_assessment_grades, status: :unprocessable_entity
+      end
+    end
   end
 
   # POST /grades

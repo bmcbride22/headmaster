@@ -9,25 +9,33 @@
 <div id="vue-chart" class="grid grid-cols-5 gap-2" >
   <div class="col-span-2 w-11/12 mx-auto">
     <div class="mx-auto space-y-6 h-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
-      <h4 class="font-bold text-lg ">Achievement Groups</h4>
+      <h4 class="font-bold text-lg -mb-2 ">Achievement Groups</h4>
+      <% if @achievement_groups.empty? || @achievement_groups.nil?%>
+        <doughnut-chart class="!-mt-0" ></doughnut-chart>
+      <% else %>
+        <doughnut-chart class="!-mt-0" :prop-data= "<%= @achievement_groups %>"></doughnut-chart>
+      <% end %>
       <hr class="!mt-2">
-      <doughnut-chart class="!mt-0"></doughnut-chart>
-      <hr class="!mt-2">
-      <div class="flex flex-row-reverse pt-2">
-        <%= link_to 'View all stats',  "#", class: "btn btn-secondary" %>
+      <div class="flex flex-row-reverse ">
+        <%= link_to "View all data", '#course-data-table', class:"btn btn-secondary" %>
       </div>
     </div>
   </div>
   <div class="col-span-3 ">
     <div class="bg-white  border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg px-8 pt-4 pb-8">
-      <h4 class="font-bold text-lg mb-4 border-b-2 pb-2 border-gray-200"> Class Performance</h3>
-      <line-chart></line-chart>
+      <h4 class="font-bold text-lg mb-4 pb-2 border-gray-200"> Class Performance</h3>
+      <% if @chart_data.empty? %>
+        <line-chart ></line-chart>
+      <% else %>
+        <line-chart :prop-data= "<%= @chart_data %>"></line-chart>
+      <% end %>
     </div>
   </div>
-  <hr class="col-span-5 my-6">
-  <div class="col-span-5">
-    <easy-table :headers='<%= @headers.to_json %>' :items='<%= @student_row_items.to_json %>' alternating></easy-table>
-  </div>
+</div>
+<hr class="col-span-5 my-6">
+<div class="col-span-5">
+  <easy-table :headers='<%= @headers.to_json %>' :items='<%= @student_row_items.to_json %>' alternating></easy-table>
+</div>
 </div>
 <div class="grid grid-cols-4 gap-6">
 </div>
