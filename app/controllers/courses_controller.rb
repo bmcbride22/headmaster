@@ -7,7 +7,7 @@ class CoursesController < ApplicationController
   def index
     # set the @courses variable to all courses
     @syllabuses = Syllabus.all.where(teacher: current_user)
-    @courses = Course.includes(%i[syllabus cohort]).where(syllabus: @syllabuses)
+    @courses = Course.includes(%i[syllabus cohort]).where(syllabus: @syllabuses).or(Course.where(teacher: current_user))
   end
 
   # GET /courses/:id
@@ -171,10 +171,10 @@ class CoursesController < ApplicationController
   # POST /courses
   def create
     @course = Course.new(course_params)
-
+    @course.teacher = current_user
     if @course.save
-      params[:course][:semester_courses_attributes].each do |semester_course|
-        SemesterCourse.create(semester_id: semester_course[:semester_id], course_id: @course.id)
+      params[:course][:semester_courses][:semester_ids].each do |semester_id|
+        SemesterCourse.create(semester_id:, course_id: @course.id)
       end
       redirect_to @course, notice: "#{@course.title ||= 'Course'} was successfully created."
     else
@@ -207,7 +207,7 @@ class CoursesController < ApplicationController
   end
 
   def course_params
-    params.require(:course).permit(%i[title description cohort_id syllabus_id semester_courses_attributes: %i[id
-                                      semester_id _destroy]])
+    params.require(:course).permit([:title, :description, :cohort_id, :syllabus_id,
+                                    { semester_courses: %i[id semester_id _destroy] }])
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_04_090621) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_05_015641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -85,6 +85,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_090621) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
+    t.bigint "teacher_id"
+    t.index ["teacher_id"], name: "index_cohorts_on_teacher_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -94,8 +96,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_090621) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "title", null: false
+    t.bigint "teacher_id"
     t.index ["cohort_id"], name: "index_courses_on_cohort_id"
     t.index ["syllabus_id"], name: "index_courses_on_syllabus_id"
+    t.index ["teacher_id"], name: "index_courses_on_teacher_id"
   end
 
   create_table "enrollments", force: :cascade do |t|
@@ -232,8 +236,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_090621) do
   add_foreign_key "averages", "courses"
   add_foreign_key "averages", "student_profiles", column: "student_id"
   add_foreign_key "averages", "units"
+  add_foreign_key "cohorts", "users", column: "teacher_id"
   add_foreign_key "courses", "cohorts"
   add_foreign_key "courses", "syllabuses"
+  add_foreign_key "courses", "users", column: "teacher_id"
   add_foreign_key "enrollments", "cohorts"
   add_foreign_key "enrollments", "student_profiles", column: "student_id"
   add_foreign_key "grades", "assessments"

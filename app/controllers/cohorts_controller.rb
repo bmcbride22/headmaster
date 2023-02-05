@@ -6,7 +6,7 @@ class CohortsController < ApplicationController
   # GET /cohorts
   def index
     # set the @cohorts variable to all cohorts
-    @cohorts = current_user.classes
+    @cohorts = Cohort.where(id: current_user.classes).or(Cohort.where(teacher: current_user))
     @achievement_groups = []
 
     @cohorts.each do |cohort|
@@ -15,10 +15,10 @@ class CohortsController < ApplicationController
       group_2 = Average.where(average: (0.7..0.85), course_avg: true, current: true,
                               student_id: cohort.students.ids).count
 
-      group_3 = Average.where(average: (0.55..0.7), course_avg: true, current: true,
-                              student_id: cohort.students.ids).count
-      group_4 = Average.where(average: (0.0..0.55), course_avg: true, current: true,
-                              student_id: cohort.students.ids).count
+      group_3 =  Average.where(average: (0.55..0.7), course_avg: true, current: true,
+                               student_id: cohort.students.ids).count
+      group_4 =  Average.where(average: (0.0..0.55), course_avg: true, current: true,
+                               student_id: cohort.students.ids).count
       group_data = [group_1, group_2, group_3, group_4]
 
       chart_data = {
@@ -34,7 +34,7 @@ class CohortsController < ApplicationController
 
   # GET /cohorts/:id
   def show
-    teacher_cohorts = Cohort.includes({ courses: :syllabus }).where(id: current_user.classes)
+    teacher_cohorts = Cohort.includes({ courses: :syllabus }).where(id: current_user.classes).or(Cohort.where(teacher: current_user))
     @cohorts = []
     teacher_cohorts.each do |cohort|
       @cohorts << { id: cohort.id, title: cohort.name }
@@ -44,13 +44,17 @@ class CohortsController < ApplicationController
   # GET /cohorts/new
   def new
     @cohort = Cohort.new
+    @cohort.semester_cohorts.build
   end
 
   # POST /cohorts
   def create
     @cohort = Cohort.new(cohort_params)
-
+    @cohort.teacher = current_user
     if @cohort.save
+      params[:semester_cohorts][:semester_ids].each do |semester_id|
+        SemesterCohort.create(semester_id:, cohort_id: @cohort.id)
+      end
       redirect_to @cohort, notice: "#{@cohort.name ||= 'Cohort'} was successfully created."
     else
       render :new, status: :unprocessable_entity
@@ -82,6 +86,6 @@ class CohortsController < ApplicationController
   end
 
   def cohort_params
-    params.require(:cohort).permit(%i[name start_date end_date])
+    params.require(:cohort).permit([:name, { semester_courses_attributes: %i[id semester_id _destroy] }])
   end
 end

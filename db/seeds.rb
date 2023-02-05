@@ -39,24 +39,24 @@ fall_semester_end = Date.new(2022, 1, 1)
 winter_semester_start = Date.new(2022, 1, 2)
 winter_semester_end	= Date.new(2023, 6, 30)
 
-fall_sem_21 = Semester.create(title: 'Fall 2021', start_date: fall_semester_start, end_date: fall_semester_end)
-winter_sem_22 = Semester.create(title: 'Winter 2022', start_date: winter_semester_start, end_date: winter_semester_end)
-fall_sem_22 = Semester.create(title: 'Fall 2022', start_date: fall_semester_start + 1.year,
+fall_sem_21 = Semester.create(title: 'Fall \'21', start_date: fall_semester_start, end_date: fall_semester_end)
+winter_sem_22 = Semester.create(title: 'Winter \'22', start_date: winter_semester_start, end_date: winter_semester_end)
+fall_sem_22 = Semester.create(title: 'Fall \'22', start_date: fall_semester_start + 1.year,
                               end_date: fall_semester_end + 1.year, current: true)
 
 #====================================================================================================
 # Cohorts
 #====================================================================================================
 
-cohort_1 = Cohort.create(name: '11-1')
+cohort_1 = Cohort.create(name: '11-1', teacher:)
 SemesterCohort.create(cohort: cohort_1, semester: fall_sem_21)
 SemesterCohort.create(cohort: cohort_1, semester: winter_sem_22)
 
-cohort_2 = Cohort.create(name: '11-2')
+cohort_2 = Cohort.create(name: '11-2', teacher:)
 SemesterCohort.create(cohort: cohort_2, semester: fall_sem_21)
 SemesterCohort.create(cohort: cohort_2, semester: winter_sem_22)
 
-cohort_3 = Cohort.create(name: '11-3')
+cohort_3 = Cohort.create(name: '11-3', teacher:)
 SemesterCohort.create(cohort: cohort_3, semester: fall_sem_21)
 SemesterCohort.create(cohort: cohort_3, semester: winter_sem_22)
 
@@ -100,7 +100,7 @@ unit_2_topics = [topic_2_1, topic_2_2]
 
 cohorts.each do |cohort|
   course = Course.create(cohort:, syllabus: econ_11,
-                         title: "#{econ_11.title} - #{cohort.name}", description: "This is the course for #{econ_11.title} for #{cohort.name}")
+                         title: "QCE Econ #{cohort.name}", description: "This is the course for #{econ_11.title} for #{cohort.name}", teacher:)
   SemesterCourse.create(course:, semester: fall_sem_21)
   SemesterCourse.create(course:, semester: winter_sem_22)
 end

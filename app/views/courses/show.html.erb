@@ -36,19 +36,13 @@
         <easy-table :headers='<%= @headers.to_json %>' :items='<%= @student_row_items.to_json %>' alternating></easy-table>
       </div>
     </div>
-    <div class="grid grid-cols-4 gap-6">
-      <% @course.assessments.each do |assessment| %>
-        <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-2">
-          <div>
-            <h3><%= link_to assessment.title, assessment %></h3>
-            <div class="ml-2 mt-2">
-              <p class="text-gray-500"><%= assessment.unit.title %> unit weight: <%=assessment.weight%></p>
-            </div>
-          </div>
-          <div class="flex mt-12">
-            <%= link_to "Add Grades", add_grades_to_assessment_path(@course, assessment) , class: 'btn btn-primary'%>
-          </div>
-        </div>
+    <div class="flex flex-col">
+      <h2>Course Outline</h2>
+      <% @course.syllabus.main_units.each.each do |unit| %>
+        <h3 class="mb-2"><%= unit.title %></h3>
+        <% unit.sections.each do |section| %>
+          <h4 class="ml-4 mb-2"><%= section.title %></h4>
+        <% end %>
       <% end %>
     </div>
   </div>

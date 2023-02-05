@@ -7,13 +7,25 @@
 #  name        :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  teacher_id  :bigint
+#
+# Indexes
+#
+#  index_cohorts_on_teacher_id  (teacher_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (teacher_id => users.id)
 #
 class Cohort < ApplicationRecord
+  belongs_to :teacher, class_name: 'User', foreign_key: 'teacher_id'
   has_many :courses
   has_many :enrollments, dependent: :destroy
   has_many :students, through: :enrollments, class_name: 'StudentProfile', foreign_key: 'student_id'
   has_many :semester_cohorts
   has_many :semesters, through: :semester_cohorts
+
+  accepts_nested_attributes_for :semester_cohorts, allow_destroy: true
 
   validates :name, presence: true
 

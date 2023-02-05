@@ -9,24 +9,27 @@
 #  updated_at  :datetime         not null
 #  cohort_id   :bigint           not null
 #  syllabus_id :bigint           not null
+#  teacher_id  :bigint
 #
 # Indexes
 #
 #  index_courses_on_cohort_id    (cohort_id)
 #  index_courses_on_syllabus_id  (syllabus_id)
+#  index_courses_on_teacher_id   (teacher_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (cohort_id => cohorts.id)
 #  fk_rails_...  (syllabus_id => syllabuses.id)
+#  fk_rails_...  (teacher_id => users.id)
 #
 class Course < ApplicationRecord
   belongs_to :cohort
   belongs_to :syllabus
+  belongs_to :teacher, class_name: 'User', foreign_key: 'teacher_id'
 
   has_many :semester_courses
   has_many :semesters, through: :semester_courses
-  has_one :teacher, through: :syllabus
   has_many :students, through: :cohort
   has_many :units, through: :syllabus
   has_many :assessments, through: :units
