@@ -1,7 +1,11 @@
 <div id="vue-chart">
-  <div class="my-4 py-4 px-4 ">
+  <div class="my-4 p-4 ">
     <div class="flex justify-between mb-10">
-      <h3 class><%=@course.title%></h3>
+      <div>
+        <h1 class="text-gray-800 text-4xl"><%=@course.title%></h1>
+        <p class= "text-gray-600 mt-2 ">Active Semesters: <%= @course.semesters.map {|sem| sem.title }.join(', ')%></p>
+        <p class= "text-gray-600"><%=pluralize(@course.students.count, 'student')%></p>
+      </div>
       <div class="">
         <drop-down :courses="<%= @courses.to_json %>" :current="<%= @courses.find_index({id: @course.id, title: @course.title})%>"></drop-down>
       </div>

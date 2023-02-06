@@ -26,7 +26,7 @@ class StudentProfilesController < ApplicationController
         color = colors.shift
         data_sets << {
           label: Course.find(course_id).title,
-          data: avgs_by_date.values.map { |avg| (avg * 100).round(2) },
+          data: avgs_by_date.values.map { |avg| avg.round(2) },
           backgroundColor: color,
           lineColor: color,
           borderColor: color,
@@ -39,12 +39,12 @@ class StudentProfilesController < ApplicationController
         datasets: data_sets
       }.to_json
     end
-    group_1 = Grade.where('student_id = ? AND score >= 0.85 ', @student_profile.id).count
-    group_2 = Grade.where('student_id = ? AND score < 0.85 AND score >= 0.7 ',
+    group_1 = Grade.where('student_id = ? AND score >= 85 ', @student_profile.id).count
+    group_2 = Grade.where('student_id = ? AND score < 85 AND score >= 70 ',
                           @student_profile.id).count
-    group_3 = Grade.where('student_id = ? AND score < 0.7 AND score >= 0.55 ',
+    group_3 = Grade.where('student_id = ? AND score < 70 AND score >= 55 ',
                           @student_profile.id).count
-    group_4 = Grade.where('student_id = ? AND score < 0.55 ', @student_profile.id).count
+    group_4 = Grade.where('student_id = ? AND score < 55 ', @student_profile.id).count
 
     group_data = [group_1, group_2, group_3, group_4]
 
@@ -52,7 +52,7 @@ class StudentProfilesController < ApplicationController
       {
         labels: ['+85', '70-85', '55-70', ' 0-55'],
         datasets: [{ backgroundColor: ['#5b21b6', '#7c3aed', '#a78bfa', '#ddd6fe'],
-                     label: 'Students',
+                     label: 'Assessments in this range',
                      data: group_data }]
       }.to_json
   end
