@@ -16,7 +16,32 @@ class AssessmentsController < ApplicationController
   end
 
   # GET /assessments/:id
-  def show; end
+  def show
+    @assessment = Assessment.find(params[:id])
+    @courses = []
+    @bar_chart_data = {}
+    @assessment.courses.each do |course|
+      @courses << { id: course.id, title: course.title }
+      @bar_chart_data[course.id] = { labels: course.cohort.student_names_f_last,
+                                     datasets: [{ label: "#{course.cohort.name} Grades",
+                                                  data: @assessment.cohort_grades(course.cohort),
+                                                  backgroundColor: ['#7c3aed'] }] }
+    end
+  end
+
+  def show_course_assessment
+    @course = Course.includes({ syllabus: { units: :assessments } }).find(params[:course_id])
+    @assessment = Assessment.find(params[:assessment_id])
+    @courses = []
+    @bar_chart_data = {}
+    @assessment.courses.each do |course|
+      @courses << { id: course.id, title: course.title }
+      @bar_chart_data[course.id] = { labels: course.cohort.student_names_f_last,
+                                     datasets: [{ label: "#{course.cohort.name} Grades",
+                                                  data: @assessment.cohort_grades(course.cohort),
+                                                  backgroundColor: ['#7c3aed'] }] }
+    end
+  end
 
   # GET /assessments/new
   def new
