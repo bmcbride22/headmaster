@@ -4,34 +4,39 @@
 #
 #  id          :bigint           not null, primary key
 #  description :text
-#  end_date    :date
-#  start_date  :date
 #  title       :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  cohort_id   :bigint           not null
 #  syllabus_id :bigint           not null
+#  teacher_id  :bigint
 #
 # Indexes
 #
 #  index_courses_on_cohort_id    (cohort_id)
 #  index_courses_on_syllabus_id  (syllabus_id)
+#  index_courses_on_teacher_id   (teacher_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (cohort_id => cohorts.id)
 #  fk_rails_...  (syllabus_id => syllabuses.id)
+#  fk_rails_...  (teacher_id => users.id)
 #
 class Course < ApplicationRecord
   belongs_to :cohort
   belongs_to :syllabus
+  belongs_to :teacher, class_name: 'User', foreign_key: 'teacher_id'
 
-  has_one :teacher, through: :syllabus
+  has_many :semester_courses
+  has_many :semesters, through: :semester_courses
   has_many :students, through: :cohort
   has_many :units, through: :syllabus
   has_many :assessments, through: :units
   has_many :grades, through: :assessments
   has_many :averages, through: :units
+
+  accepts_nested_attributes_for :semester_courses, allow_destroy: true
 
   validates :title, presence: true
   validates :title, uniqueness: { scope: %i[syllabus cohort] }

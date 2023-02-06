@@ -4,14 +4,23 @@
     <%= render "shared/error_messages", resource: f.object %>
     <%= f.input :title %>
     <%= f.input :description %>
-    <%= f.input :start_date%>
-    <%= f.input :end_date %>
-    <%= f.input :cohort_id do %>
-      <%= f.collection_select :cohort_id, Cohort.all, :id, :name, include_blank: true  %>
+    <div class="flex flex-col mb-4">
+      <label class="mb-2">Select semesters course will be active</label>
+      <%= fields_for :semester_courses do |sem_f| %>
+        <%= sem_f.collection_check_boxes :semester_ids, Semester.order(:start_date), :id, :title  do |b|%>
+          <div class="flex mb-2">
+            <%= b.check_box(class: 'focus:ring-2 focus:ring-violet-800 focus:ring-offset-1 h-4 w-4 !text-orange-500 border-gray-300 rounded mr-4') %>
+            <%= b.label(class: 'text-gray-600') %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <% if params[:cohort_id] %>
+      <%= f.hidden_field :cohort_id, value: params[:cohort_id] %>
+    <% else %>
+      <%= f.input :cohort_id, collection: Cohort.all%>
     <% end %>
-    <%= f.input :syllabus_id do %>
-      <%= f.collection_select :syllabus_id, Syllabus.all, :id, :title, include_blank: true  %>
-    <% end %>
+    <%= f.input :syllabus_id, collection: Syllabus.all %>
     <%= f.submit class: 'btn btn-primary' %>
   <% end %>
 </div>

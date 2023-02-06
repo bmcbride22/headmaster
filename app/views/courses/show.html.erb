@@ -8,7 +8,7 @@
     </div>
     <div  class="grid grid-cols-5 gap-2" >
       <div class="col-span-2 w-11/12 mx-auto">
-        <div class="mx-auto space-y-6 h-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
+        <div class="mx-auto  space-y-6 h-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
           <h4 class="font-bold text-lg -mb-2 ">Achievement Groups</h4>
           <% if @achievement_groups.empty? || @achievement_groups.nil?%>
             <doughnut-chart class="!-mt-0" ></doughnut-chart>
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <div class="col-span-3 w-full ">
+      <div class="col-span-3 ">
         <div class="bg-white  border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg px-8 pt-4 pb-8">
           <h4 class="font-bold text-lg mb-4 pb-2 border-gray-200"> Class Performance</h3>
           <% if @chart_data.empty? %>
@@ -36,18 +36,37 @@
         <easy-table :headers='<%= @headers.to_json %>' :items='<%= @student_row_items.to_json %>' alternating></easy-table>
       </div>
     </div>
-    <div class="grid grid-cols-4 gap-6">
-      <% @course.assessments.each do |assessment| %>
-        <div class="border border-gray-300 rounded-md mt-12 py-4 px-4 col-span-2">
-          <div>
-            <h3><%= link_to assessment.title, assessment %></h3>
-            <div class="ml-2 mt-2">
-              <p class="text-gray-500"><%= assessment.unit.title %> unit weight: <%=assessment.weight%></p>
+    <hr class="w-full my-10">
+    <div class="flex flex-col">
+      <div class="mb-4">
+        <h2 class="text-gray-800 " >Course Outline</h2>
+        <p class="ml-2 text-sm text-gray-500">Click on an assessment to view the assessment results for all classes, to add grades to an assessment for the first time click the 'Add grades' button, if you want to change grades, or add grades that were not input before select 'Edit grades'</p>
+      </div>
+      <% @course.syllabus.main_units.each.each do |unit| %>
+        <div class="ml-4 mb-6">
+          <h3 class="text-gray-800 mb-2"><%= unit.title %><span class="text-gray-400 text-sm align-text-top"><%= (unit.weight * 100).round %>%</span></h3>
+          <% unit.sections.each do |section| %>
+            <div class="ml-4 mb-6">
+              <h4 class="text-gray-800 mb-2"><%= section.title %><span class="text-gray-400 text-sm align-text-top"><%= (section.weight * 100).round %>%</span></h4>
+              <% section.assessments.each_with_index do |assessment, i| %>
+                <div class="h-28 p-2  ml-4 flex justify-between <%= i.even? ? 'bg-violet-50 hover:bg-violet-100' : 'hover:bg-gray-100'  %> ">
+                  <%= link_to assessment_path(assessment) do %>
+                    <div >
+                      <p class="text-orange-500 text-sm font-semibold mb-1"><%= assessment.assessment_type %></p>
+                      <h5 class="text-gray-800 text-base font-semibold"><%= assessment.title.truncate(50) %> <span class="text-gray-400 text-xs align-text-top"><%= (assessment.weight * 100).round %>%</span></h5>
+                      <p class="ml-2 text-sm text-gray-600"><%= assessment.description.truncate(120) %></p>
+                    </div>
+                  <% end %>
+                  <div class="ml-40 min-w-max flex flex-col justify-center">
+                    <div class="flex">
+                      <%= link_to "Add grades", add_grades_to_assessment_path(@course, assessment), class: "btn btn-primary mr-2 "  %>
+                      <%= link_to "Edit grades", edit_assessment_grades_path(@course, assessment), class: "btn btn-secondary "  %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             </div>
-          </div>
-          <div class="flex mt-12">
-            <%= link_to "Add Grades", add_grades_to_assessment_path(@course, assessment) , class: 'btn btn-primary'%>
-          </div>
+          <% end %>
         </div>
       <% end %>
     </div>

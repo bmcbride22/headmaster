@@ -1,13 +1,17 @@
 require 'faker'
 puts 'Clearing DB'
-Grade.destroy_all
+Grade.delete_all
 Average.destroy_all
+SemesterCohort.destroy_all
+SemesterCourse.destroy_all
+Semester.destroy_all
 Course.destroy_all
-User.destroy_all
 Cohort.destroy_all
+User.destroy_all
 StudentProfile.destroy_all
 Subject.destroy_all
 puts 'All records deleted'
+
 teacher = User.create!(email: 'brendan@test.com', first_name: 'Brendan', last_name: 'McBride', password: 'password',
                        password_confirmation: 'password', role: 1)
 #====================================================================================================
@@ -30,18 +34,31 @@ end
 # Dates
 #====================================================================================================
 
-fall_semester_start = Date.new(2022, 9, 1)
-fall_semester_end = Date.new(2022, 12, 14)
-winter_semester_start = Date.new(2022, 12, 15)
+fall_semester_start = Date.new(2021, 9, 1)
+fall_semester_end = Date.new(2022, 1, 1)
+winter_semester_start = Date.new(2022, 1, 2)
 winter_semester_end	= Date.new(2023, 6, 30)
+
+fall_sem_21 = Semester.create(title: 'Fall \'21', start_date: fall_semester_start, end_date: fall_semester_end)
+winter_sem_22 = Semester.create(title: 'Winter \'22', start_date: winter_semester_start, end_date: winter_semester_end)
+fall_sem_22 = Semester.create(title: 'Fall \'22', start_date: fall_semester_start + 1.year,
+                              end_date: fall_semester_end + 1.year, current: true)
 
 #====================================================================================================
 # Cohorts
 #====================================================================================================
 
-cohort_1 = Cohort.create(name: '11-1', start_date: winter_semester_start, end_date: fall_semester_end)
-cohort_2 = Cohort.create(name: '11-2', start_date: winter_semester_start, end_date: fall_semester_end)
-cohort_3 = Cohort.create(name: '11-3', start_date: winter_semester_start, end_date: fall_semester_end)
+cohort_1 = Cohort.create(name: '11-1', teacher:)
+SemesterCohort.create(cohort: cohort_1, semester: fall_sem_21)
+SemesterCohort.create(cohort: cohort_1, semester: winter_sem_22)
+
+cohort_2 = Cohort.create(name: '11-2', teacher:)
+SemesterCohort.create(cohort: cohort_2, semester: fall_sem_21)
+SemesterCohort.create(cohort: cohort_2, semester: winter_sem_22)
+
+cohort_3 = Cohort.create(name: '11-3', teacher:)
+SemesterCohort.create(cohort: cohort_3, semester: fall_sem_21)
+SemesterCohort.create(cohort: cohort_3, semester: winter_sem_22)
 
 cohorts = [cohort_1, cohort_2, cohort_3]
 
@@ -82,8 +99,10 @@ unit_2_final_exam = Unit.create(title: 'Unit 2 Final Exam', weight: 0.25, parent
 unit_2_topics = [topic_2_1, topic_2_2]
 
 cohorts.each do |cohort|
-  Course.create(cohort:, syllabus: econ_11, start_date: winter_semester_start, end_date: fall_semester_end,
-                title: "#{econ_11.title} - #{cohort.name}", description: "This is the course for #{econ_11.title} for #{cohort.name}")
+  course = Course.create(cohort:, syllabus: econ_11,
+                         title: "QCE Econ #{cohort.name}", description: "This is the course for #{econ_11.title} for #{cohort.name}", teacher:)
+  SemesterCourse.create(course:, semester: fall_sem_21)
+  SemesterCourse.create(course:, semester: winter_sem_22)
 end
 
 def assessment_weight(assessment_type)
@@ -317,7 +336,7 @@ courses.each_with_index do |course, _i|
           puts ass_count
           puts score
           puts ass_date
-          Grade.create(student:, assessment:, course:, score: score.round(2), date: ass_date)
+          Grade.create(student:, assessment:, course:, score: (score * 100).round(2), date: ass_date)
         end
       end
     end

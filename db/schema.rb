@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_03_043901) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_05_015641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -84,22 +84,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_043901) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "start_date"
-    t.date "end_date"
     t.text "description"
+    t.bigint "teacher_id"
+    t.index ["teacher_id"], name: "index_cohorts_on_teacher_id"
   end
 
   create_table "courses", force: :cascade do |t|
     t.bigint "cohort_id", null: false
     t.bigint "syllabus_id", null: false
-    t.date "start_date"
-    t.date "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "title", null: false
+    t.bigint "teacher_id"
     t.index ["cohort_id"], name: "index_courses_on_cohort_id"
     t.index ["syllabus_id"], name: "index_courses_on_syllabus_id"
+    t.index ["teacher_id"], name: "index_courses_on_teacher_id"
   end
 
   create_table "enrollments", force: :cascade do |t|
@@ -142,6 +142,33 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_043901) do
     t.datetime "updated_at", null: false
     t.index ["chatroom_id"], name: "index_participants_on_chatroom_id"
     t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
+  create_table "semester_cohorts", force: :cascade do |t|
+    t.bigint "cohort_id", null: false
+    t.bigint "semester_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cohort_id"], name: "index_semester_cohorts_on_cohort_id"
+    t.index ["semester_id"], name: "index_semester_cohorts_on_semester_id"
+  end
+
+  create_table "semester_courses", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "semester_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_semester_courses_on_course_id"
+    t.index ["semester_id"], name: "index_semester_courses_on_semester_id"
+  end
+
+  create_table "semesters", force: :cascade do |t|
+    t.string "title"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "current", default: false
   end
 
   create_table "student_profiles", force: :cascade do |t|
@@ -209,8 +236,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_043901) do
   add_foreign_key "averages", "courses"
   add_foreign_key "averages", "student_profiles", column: "student_id"
   add_foreign_key "averages", "units"
+  add_foreign_key "cohorts", "users", column: "teacher_id"
   add_foreign_key "courses", "cohorts"
   add_foreign_key "courses", "syllabuses"
+  add_foreign_key "courses", "users", column: "teacher_id"
   add_foreign_key "enrollments", "cohorts"
   add_foreign_key "enrollments", "student_profiles", column: "student_id"
   add_foreign_key "grades", "assessments"
@@ -220,6 +249,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_043901) do
   add_foreign_key "messages", "users"
   add_foreign_key "participants", "chatrooms"
   add_foreign_key "participants", "users"
+  add_foreign_key "semester_cohorts", "cohorts"
+  add_foreign_key "semester_cohorts", "semesters"
+  add_foreign_key "semester_courses", "courses"
+  add_foreign_key "semester_courses", "semesters"
   add_foreign_key "student_profiles", "users", column: "student_id"
   add_foreign_key "subjects", "subjects", column: "discipline_id"
   add_foreign_key "syllabuses", "subjects"

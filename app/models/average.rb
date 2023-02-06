@@ -34,7 +34,7 @@ class Average < ApplicationRecord
 
   validates :student, presence: true
   validates :course, presence: true
-  validates :average, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :average, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :date, presence: true
   validates :unit, presence: true, unless: :course_avg
   validates :unit, absence: true, if: :course_avg

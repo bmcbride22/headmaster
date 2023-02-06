@@ -26,16 +26,16 @@
 #
 class Grade < ApplicationRecord
   after_save :create_section_average
-  after_update :create_section_average
+  after_destroy :create_section_average, prepend: true
 
   belongs_to :assessment
   has_one :unit, through: :assessment
   has_one :parent_unit, through: :unit
 
   belongs_to :course
-  belongs_to :student, class_name: 'StudentProfile'
+  belongs_to :student, class_name: 'StudentProfile', foreign_key: 'student_id'
 
-  validates :score, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :score, presence: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :date, presence: true
   validates :student, uniqueness: { scope: %i[assessment course] }
   validates :student, presence: true

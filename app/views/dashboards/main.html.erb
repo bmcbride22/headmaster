@@ -18,17 +18,16 @@
   </div>
   <hr class="col-span-5 my-4">
   <div class="col-span-2 w-11/12 mx-auto">
-    <div class="mx-auto space-y-2 p-4 h-auto border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
-      <h4 class="font-bold text-lg ">Achievement Groups</h4>
-      <hr class="!mt-2">
+    <div class="mx-auto space-y-6 h-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
+      <h4 class="font-bold text-lg -mb-2 ">Achievement Groups</h4>
       <% if @achievement_groups.empty? || @achievement_groups.nil?%>
-        <doughnut-chart ></doughnut-chart>
+        <doughnut-chart class="!-mt-0" ></doughnut-chart>
       <% else %>
-        <doughnut-chart :prop-data= "<%= @achievement_groups %>"></doughnut-chart>
+        <doughnut-chart class="!-mt-0" :prop-data= "<%= @achievement_groups %>"></doughnut-chart>
       <% end %>
       <hr class="!mt-2">
-      <div class="flex flex-row-reverse pt-4">
-        <%= link_to 'View all stats',  "#", class: "btn btn-secondary" %>
+      <div class="flex flex-row-reverse ">
+        <%= link_to "View all data", '#course-data-table', class:"btn btn-secondary" %>
       </div>
     </div>
   </div>
