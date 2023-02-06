@@ -7,6 +7,12 @@ class AssessmentsController < ApplicationController
   def index
     # set the @assessments variable to all assessments
     @assessments = Assessment.all.where(teacher: current_user)
+
+    @quizzes = @assessments.where(assessment_type: 'Quiz')
+    @tests = @assessments.where(assessment_type: 'Test')
+    @exams = @assessments.where(assessment_type: 'Exam')
+    @projects = @assessments.where(assessment_type: 'Project')
+    @essays = @assessments.where(assessment_type: 'Essay')
   end
 
   # GET /assessments/:id
