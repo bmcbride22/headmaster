@@ -10,7 +10,7 @@
       <%= fields_for :semester_cohorts do |sem_f| %>
         <%= sem_f.collection_check_boxes :semester_ids, Semester.order(:start_date), :id, :title  do |b|%>
           <div class="flex mb-2">
-            <%= b.check_box(class: 'focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 h-4 w-4 text-orange-500 border-gray-300 rounded mr-4') %>
+            <%= b.check_box(class: 'focus:ring-2  focus:ring-blue-700 focus:ring-offset-1 h-4 w-4 text-orange-500 border-gray-300 rounded mr-4') %>
             <%= b.label(class: 'text-gray-600') %>
           </div>
         <% end %>

@@ -26,7 +26,7 @@
 #
 class Grade < ApplicationRecord
   after_save :create_section_average
-  after_update :create_section_average
+  after_destroy :create_section_average, prepend: true
 
   belongs_to :assessment
   has_one :unit, through: :assessment

@@ -107,7 +107,7 @@ SimpleForm.setup do |config|
     b.wrapper tag: 'div', class: 'inline-flex space-x-1' do |ba|
       # ba.use :input, class: 'flex w-auto w-auto text-gray-500 text-sm border-gray-300 rounded p-2', error_class: 'text-red-500', valid_class: 'text-green-400'
       ba.use :input,
-             class: 'flex w-auto w-auto shadow appearance-none border border-gray-300 rounded w-full p-2 bg-white focus:outline-none focus:border-violet-500 text-gray-400 leading-4 transition-colors duration-200 ease-in-out'
+             class: 'flex w-auto shadow appearance-none border border-gray-300 rounded w-full p-2 pr-4 bg-white focus:outline-none focus:border-violet-500 text-gray-400 leading-4 transition-colors duration-200 ease-in-out'
     end
     b.use :full_error, wrap_with: { tag: 'p', class: 'mt-2 text-red-500 text-xs italic' }
     b.use :hint, wrap_with: { tag: 'p', class: 'mt-2 text-grey-700 text-xs italic' }
@@ -139,7 +139,6 @@ SimpleForm.setup do |config|
     check_boxes: :vertical_collection,
     date: :vertical_multi_select,
     datetime: :vertical_multi_select,
-    select: :vertical_multi_select,
     file: :vertical_file,
     radio_buttons: :vertical_collection,
     range: :vertical_range,

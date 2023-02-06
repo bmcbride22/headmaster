@@ -1,13 +1,13 @@
 require 'faker'
 puts 'Clearing DB'
-Grade.destroy_all
+Grade.delete_all
 Average.destroy_all
 SemesterCohort.destroy_all
 SemesterCourse.destroy_all
 Semester.destroy_all
 Course.destroy_all
-User.destroy_all
 Cohort.destroy_all
+User.destroy_all
 StudentProfile.destroy_all
 Subject.destroy_all
 puts 'All records deleted'

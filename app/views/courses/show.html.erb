@@ -39,10 +39,27 @@
     <div class="flex flex-col">
       <h2>Course Outline</h2>
       <% @course.syllabus.main_units.each.each do |unit| %>
-        <h3 class="mb-2"><%= unit.title %></h3>
-        <% unit.sections.each do |section| %>
-          <h4 class="ml-4 mb-2"><%= section.title %></h4>
-        <% end %>
+        <div class="ml-4 mb-6">
+          <h3 class="mb-2"><%= unit.title %><span class="text-gray-400 text-sm align-text-top">(<%= (unit.weight * 100).round %>%)</span></h3>
+          <% unit.sections.each do |section| %>
+            <div class="ml-4 mb-6">
+              <h4 class="mb-2"><%= section.title %><span class="text-gray-400 text-sm align-text-top">(<%= (section.weight * 100).round %>%)</span></h4>
+              <% section.assessments.each_with_index do |assessment, i| %>
+                <div class="h-20 p-2  ml-4 flex justify-between <%= i.even? ? 'bg-violet-50 hover:bg-violet-100' : 'hover:bg-gray-100'  %> ">
+                  <%= link_to assessment_path do %>
+                    <div >
+                      <h5 class="text-base font-semibold"><%= assessment.title %> <span class="text-gray-400 text-xs align-text-top">(<%= (assessment.weight * 100).round %>%)</span></h5>
+                      <p class="ml-2 text-sm text-gray-600"><%= assessment.description.truncate(120) %></p>
+                    </div>
+                  <% end %>
+                  <div class="ml-40 min-w-max flex flex-col justify-center">
+                    <%= link_to "Add grades", add_grades_to_assessment_path(@course, assessment), class: "btn btn-secondary "  %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>

@@ -1,18 +1,25 @@
-<%# Simple edit page for the assessment %>
-<h1>Edit Instrument</h1>
+<%# Simple edit page for the grades %>
 <div class="mx-auto">
-  <h1 class='mb-12'>Add a new Assessment</h1>
-  <%= simple_form_for @assessment do |f| %>
-    <%= render "shared/error_messages", resource: f.object %>
-    <%= f.input :title %>
-    <%= f.input :description %>
-    <%= f.input :assessment_type, collection: %w[Quiz Test Exam Project Essay], include_blank: true, hint: 'Select assessment type'  %>
-    <%= f.input :date, as: :date %>
-    <%= f.input :subject_id, collection: Subject.all%>
-    <%= f.input :unit_id, collection: Unit.all  %>
-    <%= f.hint 'Select a weight between 0 and 1 (calculated as percentage of unit total)' %>
-    <%= f.input :weight, as: :decimal %>
-    <%= f.input :teacher_id, as: :hidden, value: current_user.id %>
-    <%= f.submit class: 'btn btn-primary' %>
+  <h1 class='mb-12'>Edit assessment grades</h1>
+  <%= form_with url: create_assessment_grades_path do |form|%>
+    <% if @assessment.nil? %>
+      <%= form.grouped_collection_select :assessment_id, @course.sections, :assessments,:title, :id, :title %>
+    <% else %>
+      <%= form.hidden_field :assessment_id, value: @assessment.id %>
+    <% end %>
+    <%= simple_fields_for "date" do |f| %>
+      <%= f.input :date, as: :date, label: "Assessment Date" %>
+    <% end %>
+    <% @grades.each_with_index do |grade, i| %>
+      <% student = @course.cohort.students[i] %>
+      <h4><%= student.full_name %></h4>
+      <%= simple_fields_for "grades[]", grade do |f| %>
+        <%= f.hidden_field :course_id, value: @course.id %>
+        <%= f.hidden_field :student_id, value: student.id %>
+        <%= f.hidden_field :date, value: Date.new %>
+        <%= f.input :score, as: :float %>
+      <% end %>
+    <% end %>
+    <button type=submit class="btn btn-primary w-full mt-8">Add Grades</button>
   <% end %>
 </div>
