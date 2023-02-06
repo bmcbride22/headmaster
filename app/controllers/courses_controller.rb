@@ -83,7 +83,7 @@ class CoursesController < ApplicationController
                                grades: course_grades.deep_dup }
         end
         new_student_hash[:grades]["unit_#{grade.assessment.unit.parent_unit_id}_grades".to_sym]["section_#{grade.assessment.unit.id}_grades".to_sym]["assessment_#{grade.assessment_id}_grade".to_sym] =
-          (grade.score * 100).round(2)
+          grade.score.round(2)
       end
 
     end
@@ -94,22 +94,22 @@ class CoursesController < ApplicationController
       @course.syllabus.units.each do |unit|
         if unit.main_unit?
 
-          student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym] = (@averages.find_by(
+          student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym] = @averages.find_by(
             student_id: student[:student_id], unit_id: unit.id, course_id: @course.id, current: true
-          )&.average&.* 100)&.round(2)
+          )&.average&.round(2)
           if student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym].nil?
             student[:grades]["unit_#{unit.id}_grades".to_sym]['unit_total_grade'.to_sym] =
               '-'
           end
         else
-          student[:grades]["unit_#{unit.parent_unit_id}_grades".to_sym]["section_#{unit.id}_grades".to_sym]["section_#{unit.id}_total_grade".to_sym] = (@averages.find_by(
+          student[:grades]["unit_#{unit.parent_unit_id}_grades".to_sym]["section_#{unit.id}_grades".to_sym]["section_#{unit.id}_total_grade".to_sym] = @averages.find_by(
             student_id: student[:student_id], unit_id: unit.id, course_id: @course.id, current: true
-          )&.average&.* 100)&.round(2)
+          )&.average&.round(2)
         end
       end
       student[:grades][:course_total_grade] =
-        (@averages.find_by(course_avg: true, course: @course, student: student[:student_id],
-                           current: true)&.average&.* 100)&.round(2)
+        @averages.find_by(course_avg: true, course: @course, student: student[:student_id],
+                          current: true)&.average&.round(2)
     end
     course_avgs_by_date = @averages.group(:course_id, :date).order(:date).average(:average)
                                    .each_with_object({}) do |((course_id, date), average_average), m|
@@ -125,7 +125,7 @@ class CoursesController < ApplicationController
         color = colors.shift
         data_sets << {
           label: Course.find(course_id).title,
-          data: avgs_by_date.values.map { |avg| (avg * 100).round(2) },
+          data: avgs_by_date.values.map { |avg| avg.round(1) },
           backgroundColor: color,
           lineColor: color,
           borderColor: color,
@@ -139,15 +139,15 @@ class CoursesController < ApplicationController
       }.to_json
     end
 
-    group_1 = Average.where('course_avg = true AND course_id = ? AND average >= 0.85 AND current = true',
+    group_1 = Average.where('course_avg = true AND course_id = ? AND average >= 85 AND current = true',
                             @course.id).count
     group_2 = Average.where(
-      'course_avg = true AND course_id = ? AND average < 0.85 AND average >= 0.7 AND current = true', @course.id
+      'course_avg = true AND course_id = ? AND average < 85 AND average >= 70 AND current = true', @course.id
     ).count
     group_3 = Average.where(
-      'course_avg = true AND course_id = ? AND average < 0.7 AND average >= 0.55 AND current = true', @course.id
+      'course_avg = true AND course_id = ? AND average < 70 AND average >= 55 AND current = true', @course.id
     ).count
-    group_4 = Average.where('course_avg = true AND course_id = ? AND average < 0.55 AND current = true',
+    group_4 = Average.where('course_avg = true AND course_id = ? AND average < 55 AND current = true',
                             @course.id).count
 
     group_data = [group_1, group_2, group_3, group_4]

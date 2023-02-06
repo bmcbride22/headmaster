@@ -10,14 +10,14 @@ class CohortsController < ApplicationController
     @achievement_groups = []
 
     @cohorts.each do |cohort|
-      group_1 = Average.where(average: (0.85..1.0), course_avg: true, current: true,
+      group_1 = Average.where(average: (85..100), course_avg: true, current: true,
                               student_id: cohort.students.ids).count
-      group_2 = Average.where(average: (0.7..0.85), course_avg: true, current: true,
+      group_2 = Average.where(average: (70..85), course_avg: true, current: true,
                               student_id: cohort.students.ids).count
 
-      group_3 =  Average.where(average: (0.55..0.7), course_avg: true, current: true,
+      group_3 =  Average.where(average: (55..70), course_avg: true, current: true,
                                student_id: cohort.students.ids).count
-      group_4 =  Average.where(average: (0.0..0.55), course_avg: true, current: true,
+      group_4 =  Average.where(average: (0..55), course_avg: true, current: true,
                                student_id: cohort.students.ids).count
       group_data = [group_1, group_2, group_3, group_4]
 

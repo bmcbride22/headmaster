@@ -336,7 +336,7 @@ courses.each_with_index do |course, _i|
           puts ass_count
           puts score
           puts ass_date
-          Grade.create(student:, assessment:, course:, score: score.round(2), date: ass_date)
+          Grade.create(student:, assessment:, course:, score: (score * 100).round(2), date: ass_date)
         end
       end
     end

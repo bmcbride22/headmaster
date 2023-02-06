@@ -36,24 +36,32 @@
         <easy-table :headers='<%= @headers.to_json %>' :items='<%= @student_row_items.to_json %>' alternating></easy-table>
       </div>
     </div>
+    <hr class="w-full my-10">
     <div class="flex flex-col">
-      <h2>Course Outline</h2>
+      <div class="mb-4">
+        <h2 class="text-gray-800 " >Course Outline</h2>
+        <p class="ml-2 text-sm text-gray-500">Click on an assessment to view the assessment results for all classes, to add grades to an assessment for the first time click the 'Add grades' button, if you want to change grades, or add grades that were not input before select 'Edit grades'</p>
+      </div>
       <% @course.syllabus.main_units.each.each do |unit| %>
         <div class="ml-4 mb-6">
-          <h3 class="mb-2"><%= unit.title %><span class="text-gray-400 text-sm align-text-top">(<%= (unit.weight * 100).round %>%)</span></h3>
+          <h3 class="text-gray-800 mb-2"><%= unit.title %><span class="text-gray-400 text-sm align-text-top"><%= (unit.weight * 100).round %>%</span></h3>
           <% unit.sections.each do |section| %>
             <div class="ml-4 mb-6">
-              <h4 class="mb-2"><%= section.title %><span class="text-gray-400 text-sm align-text-top">(<%= (section.weight * 100).round %>%)</span></h4>
+              <h4 class="text-gray-800 mb-2"><%= section.title %><span class="text-gray-400 text-sm align-text-top"><%= (section.weight * 100).round %>%</span></h4>
               <% section.assessments.each_with_index do |assessment, i| %>
-                <div class="h-20 p-2  ml-4 flex justify-between <%= i.even? ? 'bg-violet-50 hover:bg-violet-100' : 'hover:bg-gray-100'  %> ">
-                  <%= link_to assessment_path do %>
+                <div class="h-28 p-2  ml-4 flex justify-between <%= i.even? ? 'bg-violet-50 hover:bg-violet-100' : 'hover:bg-gray-100'  %> ">
+                  <%= link_to assessment_path(assessment) do %>
                     <div >
-                      <h5 class="text-base font-semibold"><%= assessment.title %> <span class="text-gray-400 text-xs align-text-top">(<%= (assessment.weight * 100).round %>%)</span></h5>
+                      <p class="text-orange-500 text-sm font-semibold mb-1"><%= assessment.assessment_type %></p>
+                      <h5 class="text-gray-800 text-base font-semibold"><%= assessment.title.truncate(50) %> <span class="text-gray-400 text-xs align-text-top"><%= (assessment.weight * 100).round %>%</span></h5>
                       <p class="ml-2 text-sm text-gray-600"><%= assessment.description.truncate(120) %></p>
                     </div>
                   <% end %>
                   <div class="ml-40 min-w-max flex flex-col justify-center">
-                    <%= link_to "Add grades", add_grades_to_assessment_path(@course, assessment), class: "btn btn-secondary "  %>
+                    <div class="flex">
+                      <%= link_to "Add grades", add_grades_to_assessment_path(@course, assessment), class: "btn btn-primary mr-2 "  %>
+                      <%= link_to "Edit grades", edit_assessment_grades_path(@course, assessment), class: "btn btn-secondary "  %>
+                    </div>
                   </div>
                 </div>
               <% end %>

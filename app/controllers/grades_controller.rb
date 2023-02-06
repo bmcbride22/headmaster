@@ -37,7 +37,7 @@ class GradesController < ApplicationController
     date = Date.new(date_input['date(1i)'].to_i, date_input['date(2i)'].to_i, date_input['date(3i)'].to_i)
     @grades = []
     params[:grades].each do |grade_attrs|
-      grade = Grade.new(student_id: grade_attrs[:student_id], score: (grade_attrs[:score].to_f / 100.0),
+      grade = Grade.new(student_id: grade_attrs[:student_id], score: grade_attrs[:score].to_f,
                         course_id: grade_attrs[:course_id], date:, assessment_id: assessment.id)
       if grade.invalid?
         render :new_assessment_grades, status: :unprocessable_entity
@@ -62,6 +62,36 @@ class GradesController < ApplicationController
 
   # GET /grades/:id/edit
   def edit; end
+
+  def edit_assessment_grades
+    @course = Course.includes({ cohort: :students },
+                              { syllabus: { units: { assessments: :grades } } }).find_by(id: params[:course_id])
+    @assessment = Assessment.find_by(id: params[:assessment_id]) if params[:assessment_id]
+    grades = Grade.where(assessment_id: @assessment.id, course_id: @course.id)
+
+    @grades = []
+    @course.students.each do |student|
+      @grades << grades.find { |grade| grade.student_id == student.id } || Grade.new
+    end
+  end
+
+  def update_assessment_grades
+    params[:grades].keys.each do |grade_id|
+      grade = Grade.find_by(id: grade_id)
+      if grade.score != params[:grades][grade_id][:score].to_f
+        grade.score = (params[:grades][grade_id][:score].to_f)
+
+        if grade.invalid?
+          render :edit_assessment_grades, status: :unprocessable_entity
+        else
+          grade.save
+        end
+      else
+        next
+      end
+    end
+    redirect_to course_path(Course.find_by(id: params[:course_id])), notice: 'Grades were successfully updated.'
+  end
 
   # PATCH /grades/:id
   def update

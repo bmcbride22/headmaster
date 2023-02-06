@@ -1,12 +1,9 @@
 <%# Simple edit page for the grades %>
 <div class="mx-auto">
   <h1 class='mb-12'>Edit assessment grades</h1>
-  <%= form_with url: create_assessment_grades_path do |form|%>
-    <% if @assessment.nil? %>
-      <%= form.grouped_collection_select :assessment_id, @course.sections, :assessments,:title, :id, :title %>
-    <% else %>
-      <%= form.hidden_field :assessment_id, value: @assessment.id %>
-    <% end %>
+  <%= form_with url: update_assessment_grades_path do |form|%>
+    <%= form.hidden_field :assessment_id, value: @assessment.id %>
+    <%= form.hidden_field :course_id, value: @course.id %>
     <%= simple_fields_for "date" do |f| %>
       <%= f.input :date, as: :date, label: "Assessment Date" %>
     <% end %>
@@ -14,9 +11,7 @@
       <% student = @course.cohort.students[i] %>
       <h4><%= student.full_name %></h4>
       <%= simple_fields_for "grades[]", grade do |f| %>
-        <%= f.hidden_field :course_id, value: @course.id %>
         <%= f.hidden_field :student_id, value: student.id %>
-        <%= f.hidden_field :date, value: Date.new %>
         <%= f.input :score, as: :float %>
       <% end %>
     <% end %>

@@ -19,7 +19,7 @@ class DashboardsController < ApplicationController
         color = colors.shift
         data_sets << {
           label: Course.find(course_id).title,
-          data: avgs_by_date.values.map { |avg| (avg * 100).round(2) },
+          data: avgs_by_date.values.map { |avg| avg.round(1) },
           backgroundColor: color,
           lineColor: color,
           borderColor: color,
@@ -33,10 +33,10 @@ class DashboardsController < ApplicationController
       }.to_json
     end
 
-    group_1 = Average.where('course_avg = true AND average >= 0.85 AND current = true').count
-    group_2 = Average.where('course_avg = true AND average < 0.85 AND average >= 0.7 AND current = true').count
-    group_3 = Average.where('course_avg = true AND average < 0.7 AND average >= 0.55 AND current = true').count
-    group_4 = Average.where('course_avg = true AND average < 0.55 AND current = true').count
+    group_1 = Average.where('course_avg = true AND average >= 85 AND current = true').count
+    group_2 = Average.where('course_avg = true AND average < 85 AND average >= 70 AND current = true').count
+    group_3 = Average.where('course_avg = true AND average < 70 AND average >= 55 AND current = true').count
+    group_4 = Average.where('course_avg = true AND average < 55 AND current = true').count
 
     group_data = [group_1, group_2, group_3, group_4]
 
