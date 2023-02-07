@@ -41,6 +41,7 @@ class User < ApplicationRecord
 
   has_many :syllabuses, foreign_key: 'teacher_id', dependent: :destroy
   has_many :courses, through: :syllabuses
+  has_many :semesters, through: :courses
 
   has_many :messages, dependent: :destroy
   has_many :participants, dependent: :destroy

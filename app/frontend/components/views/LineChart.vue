@@ -5,9 +5,7 @@
 <script>
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js";
 import { Line } from "vue-chartjs";
-
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
 export default {
   name: "LineChart",
   // eslint-disable-next-line vue/no-reserved-component-names
@@ -59,7 +57,6 @@ export default {
         aspectRatio: 1.7,
         pointHitRadius: 10,
         pointHoverRadius: 6,
-
         hoverBackgroundColor: "#f97316",
         hoverBorderColor: "#f97316",
         plugins: {
@@ -91,9 +88,7 @@ export default {
                 this.height += 100;
               };
             },
-
             position: "top",
-
             onClick: (event, legendItem, legend) => {
               const index = legendItem.datasetIndex;
               console.log(legend.chart.data.datasets[index].originalColor);
@@ -104,21 +99,18 @@ export default {
                   data.lineColor = data.originalColor;
                 }
               });
-
               if (legend.chart.data.datasets[index].backgroundColor === "#f97316") {
                 legend.chart.data.datasets[index].backgroundColor = legend.chart.data.datasets[index].originalColor;
                 legend.chart.data.datasets[index].borderColor = legend.chart.data.datasets[index].originalColor;
                 legend.chart.data.datasets[index].lineColor = legend.chart.data.datasets[index].originalColor;
               } else {
                 legend.chart.data.datasets[index].originalColor = legend.chart.data.datasets[index].backgroundColor;
-
                 legend.chart.data.datasets[index].backgroundColor = "#f97316";
                 legend.chart.data.datasets[index].borderColor = "#f97316";
                 legend.chart.data.datasets[index].lineColor = "#f97316";
               }
               legend.chart.update();
             },
-
             labels: {
               pointStyleWidth: 24,
               usePointStyle: true,
@@ -130,7 +122,6 @@ export default {
             }
           }
         },
-
         responsive: true
       }
     };
