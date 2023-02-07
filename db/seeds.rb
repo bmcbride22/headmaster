@@ -37,12 +37,14 @@ end
 fall_semester_start = Date.new(2021, 9, 1)
 fall_semester_end = Date.new(2022, 1, 1)
 winter_semester_start = Date.new(2022, 1, 2)
-winter_semester_end	= Date.new(2023, 6, 30)
+winter_semester_end	= Date.new(2022, 6, 30)
 
 fall_sem_21 = Semester.create(title: 'Fall \'21', start_date: fall_semester_start, end_date: fall_semester_end)
 winter_sem_22 = Semester.create(title: 'Winter \'22', start_date: winter_semester_start, end_date: winter_semester_end)
 fall_sem_22 = Semester.create(title: 'Fall \'22', start_date: fall_semester_start + 1.year,
                               end_date: fall_semester_end + 1.year, current: true)
+winter_sem_23 = Semester.create(title: 'Winter \'23', start_date: winter_semester_start + 1.year,
+                                end_date: winter_semester_end + 1.year)
 
 #====================================================================================================
 # Cohorts
