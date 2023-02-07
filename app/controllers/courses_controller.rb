@@ -173,7 +173,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
     @course.teacher = current_user
     if @course.save
-      params[:course][:semester_courses][:semester_ids].each do |semester_id|
+      params[:semester_courses][:semester_ids].each do |semester_id|
         SemesterCourse.create(semester_id:, course_id: @course.id)
       end
       redirect_to @course, notice: "#{@course.title ||= 'Course'} was successfully created."

@@ -1,0 +1,5 @@
+meta_product_name: "HeadMaster"
+meta_title: "HeadMaster - Student Data Management and Visualization"
+meta_description: "Headmaster is a student data management and visualization platform. Teachers can create custom syllabuses to structure their course grades, and Headmaster takes care of tracking and displaying grades in meaningful ways to give teachers insight on student performance"
+meta_image: "cover.png" # should exist in `app/assets/images/`
+twitter_account: "@Mcbride_Codes"   # required for Twitter Cards

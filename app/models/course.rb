@@ -33,8 +33,8 @@ class Course < ApplicationRecord
   has_many :students, through: :cohort
   has_many :units, through: :syllabus
   has_many :assessments, through: :units
-  has_many :grades, through: :assessments
-  has_many :averages, through: :units
+  has_many :grades, through: :assessments, dependent: :destroy
+  has_many :averages, through: :units, dependent: :destroy
 
   accepts_nested_attributes_for :semester_courses, allow_destroy: true
 

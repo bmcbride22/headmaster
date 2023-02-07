@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def default_url_options
+    { host: ENV['DOMAIN'] || 'localhost:3000' }
+  end
+
   protected
 
   def configure_permitted_parameters
