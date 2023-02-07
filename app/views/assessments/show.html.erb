@@ -34,7 +34,11 @@
       <hr class="col-span-5 my-6">
       <div class="px-8 mt-8 col-span-5">
         <h2 class=>Assessment performance by course</h2>
-        <bar-chart :prop-data="<%= @bar_chart_data.to_json %>" :courses="<%= @courses.to_json %>" :current="<%= @courses.last[:id] %>"></bar-chart>
+        <% if @bar_chart_data.nil? %>
+          <h3>This assessment has no grade data yet</h3>
+        <% else %>
+          <bar-chart :prop-data="<%= @bar_chart_data.to_json %>" :courses="<%= @courses.to_json %>" :current="<%= @courses.last[:id] %>"></bar-chart>
+        <% end %>
       </div>
     </div>
   </div>

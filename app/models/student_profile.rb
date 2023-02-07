@@ -24,6 +24,7 @@ class StudentProfile < ApplicationRecord
   has_many :enrollments, dependent: :destroy, foreign_key: 'student_id'
   has_many :cohorts, through: :enrollments
   has_many :courses, through: :cohorts
+  has_many :semesters, through: :courses
   has_many :syllabuses, through: :courses
 
   def full_name
