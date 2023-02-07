@@ -55,6 +55,6 @@ export default {
 }
 
 .calendar-day--today > span {
-  @apply text-white bg-orange-500 rounded-full px-2 py-1.5;
+  @apply text-white bg-orange-500 rounded-full py-0.5 px-2;
 }
 </style>

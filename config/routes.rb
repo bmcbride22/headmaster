@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       to: 'grades#edit_assessment_grades', as: 'edit_assessment_grades'
   post 'grades/update_assessment_grades', to: 'grades#update_assessment_grades', as: 'update_assessment_grades'
   root to: 'pages#landing_page'
+
   get 'pages/home'
   get 'dashboard', to: 'dashboards#main'
 end

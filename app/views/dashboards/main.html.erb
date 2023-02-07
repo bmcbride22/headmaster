@@ -1,10 +1,10 @@
 <div>
-  <h3>Main Dashboard</h3>
+  <h1 class="text-gray-800 text-3xl">Main Dashboard</h1>
 </div>
 <div id="vue-chart" class=" w-full grid grid-cols-5 gap-2 mt-8">
   <div class="col-span-3 h-full">
     <div class="bg-white  border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg px-8 pt-6 pb-8">
-      <h4 class="font-bold text-lg  pb-3 border-gray-200"> Classes Overview</h3>
+      <h2 class="text-gray-800 font-bold text-lg pb-3 border-gray-200"> Classes Overview</h3>
       <% if @chart_data.empty? %>
         <line-chart ></line-chart>
       <% else %>
@@ -13,13 +13,13 @@
     </div>
   </div>
   <div class="px-12 col-span-2 flex flex-col">
-    <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Calendar</h4>
+    <h2 class="text-gray-800 font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Calendar</h2>
     <calendar-month></calendar-month>
   </div>
   <hr class="col-span-5 my-4">
   <div class="col-span-2 w-11/12 mx-auto">
     <div class="mx-auto space-y-6 h-auto p-4 border-2 shadow-md shadow-gray-300 border-gray-200 rounded-lg">
-      <h4 class="font-bold text-lg -mb-2 ">Achievement Groups</h4>
+      <h2 class="text-gray-800 font-bold text-lg -mb-2 ">Achievement Groups</h2>
       <% if @achievement_groups.empty? || @achievement_groups.nil?%>
         <doughnut-chart class="!-mt-0" ></doughnut-chart>
       <% else %>
@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="col-span-3 col-start-3 flex flex-col pl-4">
-    <h4 class="font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Start adding data </h4>
+    <h2 class="text-gray-800 font-bold text-lg mb-4 border-b-2 pb-3 border-gray-200"> Start adding data </h2>
     <div class="space-x-1">
       <%= link_to grades_set_course_path do%>
         <div class="border-2 border-gray drop-shadow-sm flex px-4 py-6 rounded-md">
@@ -82,6 +82,19 @@
             <div class="self-center">
               <p class="font-semibold text-gray-800">Create new cohort</p>
               <p class="text-xs font-semibold tracking-wide text-gray-500">Add new or existing students to a new cohort</p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to new_syllabus_path do%>
+        <div class="border-2 border-gray drop-shadow-sm flex px-4 py-6 rounded-md">
+          <div class="bg-violet-100 h-12 w-12 rounded-full flex">
+            <%= render_svg 'icons/layers-three', styles: "text-violet-700 h-6 w-6 m-3" %>
+          </div>
+          <div class="ml-4 flex">
+            <div class="self-center">
+              <p class="font-semibold text-gray-800">Create new syllabus</p>
+              <p class="text-xs font-semibold tracking-wide text-gray-500">Create a new syllabus to structure course grade data</p>
             </div>
           </div>
         </div>
