@@ -80,7 +80,7 @@ export default {
 
 /* Table container */
 .vue3-easy-data-table__main {
-  @apply overflow-x-auto;
+  @apply overflow-x-scroll;
 }
 
 /* Scrollbar styles */
@@ -118,7 +118,17 @@ export default {
 
 /* Table header th tag */
 .vue3-easy-data-table__header tr th {
+  @apply text-center p-4 font-medium capitalize text-sm relative whitespace-nowrap select-none;
+}
+.vue3-easy-data-table__header tr .shadow {
   @apply text-left p-4 font-medium capitalize text-sm relative whitespace-nowrap select-none;
+}
+
+.vue3-easy-data-table__header tr th .direction-left {
+  @apply pl-4;
+}
+.vue3-easy-data-table__header tr .shadow .direction-left {
+  @apply pl-0;
 }
 
 /* Fixed header */
@@ -150,10 +160,10 @@ transition  cursor-pointer;
 
 /* Table body td tag */
 .vue3-easy-data-table__body tr td {
-  @apply border-b;
+  @apply border-b text-center;
 }
 .vue3-easy-data-table__body tr .shadow {
-  @apply font-semibold;
+  @apply font-semibold text-left ml-4;
 }
 .vue3-easy-data-table__body tr td {
   @apply p-4 py-5 text-sm font-light;

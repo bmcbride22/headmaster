@@ -4,7 +4,8 @@ class DashboardsController < ApplicationController
 
   def main
     @cohorts = Cohort.where(teacher: current_user)
-    @semesters = current_user.semesters.order(:id).uniq
+    @semesters = current_user.semesters.order(:start_date).uniq
+    @current_semester = Semester.find_by(current: true)
     @averages = Average.includes(:unit, { course: :cohort }).where(course_id: current_user.courses, course_avg: true)
     @semester_avgs = {}
     @dropdown_semesters = @semesters.map { |semester| { id: semester.id, title: semester.title } }

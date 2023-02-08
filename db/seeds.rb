@@ -42,9 +42,12 @@ winter_semester_end	= Date.new(2022, 6, 30)
 fall_sem_21 = Semester.create(title: 'Fall \'21', start_date: fall_semester_start, end_date: fall_semester_end)
 winter_sem_22 = Semester.create(title: 'Winter \'22', start_date: winter_semester_start, end_date: winter_semester_end)
 fall_sem_22 = Semester.create(title: 'Fall \'22', start_date: fall_semester_start + 1.year,
-                              end_date: fall_semester_end + 1.year, current: true)
+                              end_date: fall_semester_end + 1.year)
 winter_sem_23 = Semester.create(title: 'Winter \'23', start_date: winter_semester_start + 1.year,
-                                end_date: winter_semester_end + 1.year)
+                                end_date: winter_semester_end + 1.year, current: true)
+
+fall_sem_23 = Semester.create(title: 'Fall \'23', start_date: fall_semester_start + 2.years,
+                              end_date: fall_semester_end + 2.years)
 
 #====================================================================================================
 # Cohorts
@@ -342,5 +345,54 @@ courses.each_with_index do |course, _i|
         end
       end
     end
+  end
+end
+
+# Demo  Data
+#====================================================================================================
+cohort_4 = Cohort.create(name: '11-4', teacher:)
+SemesterCohort.create(cohort: cohort_4, semester: winter_sem_23)
+SemesterCohort.create(cohort: cohort_4, semester: fall_sem_23)
+
+bart = StudentProfile.create(first_name: 'Bart', last_name: 'Simpson')
+lisa = StudentProfile.create(first_name: 'Lisa', last_name: 'Simpson')
+milhouse = StudentProfile.create(first_name: 'Milhouse', last_name: 'Van Houten')
+
+Enrollment.create(student: bart, cohort: cohort_4)
+Enrollment.create(student: lisa, cohort: cohort_4)
+Enrollment.create(student: milhouse, cohort: cohort_4)
+
+course = Course.create(cohort: cohort_4, syllabus: econ_11,
+                       title: "QCE Econ #{cohort_4.name}", description: "This is the course for #{econ_11.title} for #{cohort_4.name}", teacher:)
+SemesterCourse.create(course:, semester: winter_sem_23)
+SemesterCourse.create(course:, semester: fall_sem_23)
+
+course.cohort.students.each do |student|
+  ass_date = Date.new(2023, 1, 4)
+  ranges = [1, 2, 2, 2, 3, 3, 3, 4]
+  range = ranges.sample
+  mean = case range
+         when 1
+           rand(0.85..0.94)
+         when 2
+           rand(0.72..0.85)
+         when 3
+           rand(0.54..0.7)
+         else
+           rand(0.48..0.56)
+
+         end
+  sd = rand(0.04..0.06)
+  gen = Rubystats::NormalDistribution.new(mean, sd)
+  unit = course.syllabus.main_units.first
+  section = unit.sections.first
+  section.assessments.each_with_index do |assessment, i|
+    ass_difficulty_modifier = rand(-0.06..0.06)
+
+    ass_date += 9.days
+    score = gen.rng + ass_difficulty_modifier + (i * 0.004)
+
+    score = 1.0 - rand(0.05) if score > 1.0
+    Grade.create(student:, assessment:, course:, score: (score * 100).round(2), date: ass_date)
   end
 end
