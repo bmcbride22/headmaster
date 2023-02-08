@@ -8,7 +8,7 @@
       <% if @chart_data.empty? %>
         <line-chart ></line-chart>
       <% else %>
-        <dashboard-line-chart :prop-data= "<%= @chart_data %>" :semesters="<%= @dropdown_semesters.to_json %>" :current="<%= @semesters.last.id %>"></dashboard-line-chart>
+        <dashboard-line-chart :prop-data= "<%= @chart_data %>" :semesters="<%= @dropdown_semesters.to_json %>" :current="<%= @current_semester.id %>"></dashboard-line-chart>
       <% end %>
     </div>
   </div>

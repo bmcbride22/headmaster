@@ -22,7 +22,7 @@ class CoursesController < ApplicationController
     # TODO: Memoize the table headers in the course model and update them when a new assessment is added
 
     @headers = [
-      { text: 'Name', value: 'student_name', fixed: true, width: 150 }
+      { text: 'Name', value: 'student_name', fixed: true, width: 200 }
     ]
     course_grades = {}
 
@@ -40,10 +40,10 @@ class CoursesController < ApplicationController
           course_grades["unit_#{unit.id}_grades".to_sym]["section_#{section.id}_grades".to_sym]["assessment_#{assessment.id}_grade".to_sym] =
             '-'
           @headers << { text: assessment.assessment_type,
-                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true, width: 50 }
+                        value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.assessment_#{assessment.id}_grade", sortable: true }
         end
         @headers << { text: section.title,
-                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true, width: 100 }
+                      value: "grades.unit_#{unit.id}_grades.section_#{section.id}_grades.section_#{section.id}_total_grade", sortable: true }
       end
       @headers << { text: unit.title, value: "grades.unit_#{unit.id}_grades.unit_total_grade", sortable: true,
                     width: 150 }
