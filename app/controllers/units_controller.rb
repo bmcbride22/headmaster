@@ -21,7 +21,7 @@ class UnitsController < ApplicationController
   # POST /units
   def create
     @unit = Unit.new(unit_params)
-    @syllabus = Syllabus.find_by(id: params[syllabus_id])
+    @syllabus = Syllabus.find_by(id: params[:unit][:syllabus_id])
     if @unit.save
       redirect_to @syllabus, notice: "#{@unit.title} was successfully created."
     else
