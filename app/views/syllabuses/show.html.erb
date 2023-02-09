@@ -22,41 +22,43 @@
     </div>
   </div>
 </div>
-<div class="flex justify-between">
-  <h2 class="my-4">Syllabus Outline</h2>
-  <div class="flex space-x-5">
-    <p class="text-sm font-bold underline">Topic <br>
-      weight</p>
-    <p class="text-sm font-bold underline">Unit <br>
-      weight</p>
-    <p class="text-sm font-bold underline">Syllabus <br>
-      weight</p>
+<div class="flex flex-col mt-11" >
+  <div class="mb-4">
+    <h2 class="text-gray-800 " >Syllabus Outline</h2>
+    <p class="ml-2 text-sm text-gray-500">Click on an assessment to view the assessment results for all classes, to add grades to an assessment for the first time click the 'Add grades' button, if you want to change grades, or add grades that were not input before select 'Edit grades'</p>
   </div>
-</div>
-<% @syllabus.main_units.each do |main_unit| %>
-  <div class="space-y-2">
-    <div class="flex justify-between mb-4">
-      <%= link_to unit_path(main_unit) do %>
-        <h2><%=main_unit.title%></h2>
+  <% @syllabus.main_units.each do |unit| %>
+    <div class="ml-4 mb-6">
+      <%= link_to unit_path(unit) do %>
+        <h3 class="text-gray-800 mb-2"><%= unit.title %><span class="text-gray-400 text-sm align-text-top"><%= (unit.weight * 100).round %>%</span></h3>
       <% end %>
-      <span class="text-gray-500">(<%= (main_unit.weight * 100).round %>%)</span>
-    </div>
-    <% main_unit.sections.each do |section| %>
-      <div class="flex justify-between">
-        <%= link_to unit_path(section) do %>
-          <h3 class="ml-4 text-gray-600 font-semibold"><%=section.title %></h3>
-        <% end %>
-        <span class="text-gray-500 mr-16">(<%= (section.weight * 100).round(1) %>%)</span>
-      </div>
-      <% section.assessments.each do |assessment| %>
-        <div class="flex justify-between">
-          <%= link_to assessment_path(assessment) do %>
-            <h4 class="ml-8 text-gray-500 font-semibold"><%=assessment.title %></h4>
+      <% unit.sections.each do |section| %>
+        <div class="ml-4 mb-6">
+          <%= link_to unit_path(section) do %>
+            <h4 class="text-gray-800 mb-2"><%= section.title %><span class="text-gray-400 text-sm align-text-top"><%= (section.weight * 100).round %>%</span></h4>
           <% end %>
-          <span class="text-gray-500 mr-32">(<%= (assessment.weight * 100).round(1) %>%)</span>
+          <% section.assessments.each_with_index do |assessment, i| %>
+            <div class="h-28 p-2  ml-4 flex justify-between <%= i.even? ? 'bg-violet-50 hover:bg-violet-100' : 'hover:bg-gray-100'  %> ">
+              <%= link_to assessment_path(assessment) do %>
+                <div >
+                  <p class="text-orange-500 text-sm font-semibold mb-1"><%= assessment.assessment_type %></p>
+                  <h5 class="text-gray-800 text-base font-semibold"><%= assessment.title.truncate(50) %> <span class="text-gray-400 text-xs align-text-top"><%= (assessment.weight * 100).round %>%</span></h5>
+                  <p class="ml-2 text-sm text-gray-600"><%= assessment.description.truncate(120) %></p>
+                </div>
+              <% end %>
+              <div class="ml-40 min-w-max flex flex-col justify-center">
+                <div class="flex">
+                  <%= link_to "Add grades", add_grades_to_assessment_path(@course, assessment), class: "btn btn-primary mr-2 "  %>
+                  <%= link_to "Edit grades", edit_assessment_grades_path(@course, assessment), class: "btn btn-secondary "  %>
+                </div>
+              </div>
+            </div>
+          <% end %>
         </div>
       <% end %>
-    <% end %>
-  </div>
-<% end %>
-<%= link_to 'Add unit', new_syllabus_unit_path(@syllabus), class: "btn btn-primary mt-12" %>
+    </div>
+  <% end %>
+</div>
+<div class="flex flex-row-reverse">
+  <%= link_to 'Add unit', new_syllabus_unit_path(@syllabus), class: "btn btn-primary" %>
+</div>
