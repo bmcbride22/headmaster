@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_05_015641) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_08_094120) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,7 +69,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_015641) do
     t.boolean "section_avg", default: false
     t.boolean "unit_avg", default: false
     t.boolean "course_avg", default: false
+    t.bigint "previous_average_id"
+    t.bigint "grade_id", null: false
     t.index ["course_id"], name: "index_averages_on_course_id"
+    t.index ["grade_id"], name: "index_averages_on_grade_id"
+    t.index ["previous_average_id"], name: "index_averages_on_previous_average_id"
     t.index ["student_id"], name: "index_averages_on_student_id"
     t.index ["unit_id"], name: "index_averages_on_unit_id"
   end
@@ -233,7 +237,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_05_015641) do
   add_foreign_key "assessments", "subjects"
   add_foreign_key "assessments", "units"
   add_foreign_key "assessments", "users", column: "teacher_id"
+  add_foreign_key "averages", "averages", column: "previous_average_id"
   add_foreign_key "averages", "courses"
+  add_foreign_key "averages", "grades"
   add_foreign_key "averages", "student_profiles", column: "student_id"
   add_foreign_key "averages", "units"
   add_foreign_key "cohorts", "users", column: "teacher_id"

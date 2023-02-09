@@ -1,7 +1,7 @@
 require 'faker'
 puts 'Clearing DB'
-Grade.delete_all
 Average.destroy_all
+Grade.delete_all
 SemesterCohort.destroy_all
 SemesterCourse.destroy_all
 Semester.destroy_all
