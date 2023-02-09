@@ -201,7 +201,7 @@ class Grade < ApplicationRecord
       unit.parent_unit.sections.each do |section|
         section_avg = Average.includes(:unit).find_by(student:, unit: section, section_avg: true, course:)
 
-        next if section_avg.date > date
+        next if section_avg.nil? || section_avg.date > average.date
 
         puts '#'
         puts '#'
@@ -288,7 +288,7 @@ class Grade < ApplicationRecord
 
       course.main_units.each do |unit|
         unit_avg = Average.find_by(student:, course:, unit:, unit_avg: true)
-        next if unit_avg.date > date
+        next if unit_avg.nil? || unit_avg.date > average.date
 
         puts '#'
         puts '#'
