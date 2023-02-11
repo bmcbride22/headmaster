@@ -57,15 +57,15 @@
           <%= render_svg 'icons/chart', styles: "mr-4 h-6 w-6 flex-shrink-0 text-violet-300"   %>
           Dashboard
         <% end %>
-        <%= link_to cohorts_path, id: 'cohorts-link', class: "#{ current_page?(cohorts_path) ? 'text-violet-100 bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md' : 'text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md'}" do %>
+        <%= link_to cohorts_path, id: 'cohorts-link', class: "#{ active_page?('cohorts') ? 'text-violet-100 bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md' : 'text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md'}" do %>
           <%= render_svg 'icons/users', styles: "mr-4 h-6 w-6 flex-shrink-0 text-violet-300" %>
           Classes
         <% end %>
-        <%= link_to course_path(Course.last), id: 'courses-link', class: "#{ current_page?(courses_path) ? 'text-violet-100 bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md' : 'text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md'}" do %>
+        <%= link_to course_path(Course.last), id: 'courses-link', class: "#{ active_page?('courses') ? 'text-violet-100 bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md' : 'text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md'}" do %>
           <%= render_svg 'icons/book', styles: "mr-4 h-6 w-6 flex-shrink-0 text-violet-300" %>
           Courses
         <% end %>
-        <%= link_to assessments_path , id: 'assessments-link', class: "#{ current_page?(assessments_path) ? 'text-violet-100 bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md' : 'text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md'}" do %>
+        <%= link_to assessments_path , id: 'assessments-link', class: "#{ active_page?('assessments') ? 'text-violet-100 bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md' : 'text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md'}" do %>
           <%= render_svg 'icons/task', styles: "mr-4 h-6 w-6 flex-shrink-0 text-violet-300" %>
           Assessments
         <% end %>

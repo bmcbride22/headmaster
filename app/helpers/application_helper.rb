@@ -16,4 +16,8 @@ module ApplicationHelper
       'text-violet-100 hover:bg-violet-800 group flex items-center px-2 py-2 text-base font-medium rounded-md'
     end
   end
+
+  def active_page?(page_name)
+    controller_name == page_name
+  end
 end
