@@ -79,13 +79,7 @@ class GradesController < ApplicationController
     params[:grades].keys.each do |grade_id|
       grade = Grade.find_by(id: grade_id)
       if grade.score != params[:grades][grade_id][:score].to_f
-        grade.score = (params[:grades][grade_id][:score].to_f)
-
-        if grade.invalid?
-          render :edit_assessment_grades, status: :unprocessable_entity
-        else
-          grade.save
-        end
+        grade.update(score: params[:grades][grade_id][:score].to_f)
       else
         next
       end
