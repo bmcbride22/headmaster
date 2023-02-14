@@ -6,5 +6,6 @@ class PagesController < ApplicationController
 
   def landing_page
     redirect_to dashboard_path if user_signed_in?
+		@demo_user = User.first
   end
 end
